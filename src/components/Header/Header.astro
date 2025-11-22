@@ -1,0 +1,44 @@
+---
+import { IconSettings, IconAdd, IconMenu, IconNotifications } from '../Icons'
+import { SearchBar } from './SearchBar'
+---
+
+<header class='fixed top-0 z-10 flex items-center w-full h-14 backdrop-blur-2xl bg-base/80'>
+  <section class='flex flex-1 items-center justify-start gap-4 xs:px-4 p-2 h-14 w-full'>
+    <label
+      id='label-for-checkbox'
+      role='button'
+      class='h-full aspect-square rounded-full hover:bg-neutral-700/70 justify-center items-center flex cursor-pointer border border-transparent transition-colors'
+    >
+      <div class='h-6 w-6'>
+        <IconMenu />
+      </div>
+    </label>
+    <a href='/' class='flex items-center h-full w-fit px-4 rounded-md transition-colors hover:bg-neutral-700/70'>
+      <h1 class='font-bold'>Monado</h1>
+    </a>
+  </section>
+  <SearchBar client:load />
+  <section class='flex flex-1 w-full h-14 items-center justify-end xs:px-4 px-2'>
+    <a href='#' class='h-10 max-h-full aspect-square flex items-center justify-center rounded-full hover:bg-neutral-800 transition-colors'>
+      <div class='size-6 flex items-center justify-center overflow-hidden'>
+        <IconAdd />
+      </div>
+    </a>
+    <a href='#' class='h-10 max-h-full aspect-square flex items-center justify-center rounded-full hover:bg-neutral-800 transition-colors'>
+      <div class='size-6 flex items-center justify-center overflow-hidden'>
+        <IconNotifications notifications='outline' />
+      </div>
+    </a>
+    <a href='#' class='h-10 max-h-full aspect-square flex items-center justify-center rounded-full hover:bg-neutral-800 transition-colors'>
+      <div class='size-6 flex items-center justify-center overflow-hidden'>
+        <IconSettings />
+      </div>
+    </a>
+    <a href='#' class='h-10 max-h-full aspect-square flex items-center justify-center rounded-full transition-colors bg-neutral-800'>
+      <div class='size-6 flex items-center justify-center overflow-hidden'>
+        {/* <user.Icon /> */}
+      </div>
+    </a>
+  </section>
+</header>
