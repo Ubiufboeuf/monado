@@ -8,12 +8,12 @@
 }
 
 @theme {
-  --color-base: white;
-  --color-base-dark: #111111;
+  /* --color-base: white; */
+  --color-base: #111111;
 }
 
 :root {
-  color-scheme: dark light;
+  color-scheme: dark;
   font-family: 'Inter', Inter, system-ui;
 }
 

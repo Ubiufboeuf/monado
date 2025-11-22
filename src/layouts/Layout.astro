@@ -15,7 +15,7 @@ const { title } = Astro.props
 		<meta name='viewport' content='width=device-width' />
 		<title>{title ? `${title} - Monado` : 'Monado'}</title>
 	</head>
-	<body class='bg-base dark:bg-base-dark'>
+	<body class='flex flex-col bg-base'>
 		<slot />
 	</body>
 </html>
