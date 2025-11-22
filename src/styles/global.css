@@ -1,0 +1,20 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: Inter;
+  src:
+    local('Inter'),
+    url('/Inter.woff2');
+}
+
+:root {
+  color-scheme: dark light;
+  font-family: 'Inter', Inter, system-ui;
+}
+
+html,
+body {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
