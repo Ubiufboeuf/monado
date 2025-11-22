@@ -7,6 +7,11 @@
     url('/Inter.woff2');
 }
 
+@theme {
+  --color-base: white;
+  --color-base-dark: #111111;
+}
+
 :root {
   color-scheme: dark light;
   font-family: 'Inter', Inter, system-ui;
