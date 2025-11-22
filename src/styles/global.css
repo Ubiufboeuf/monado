@@ -23,3 +23,15 @@ body {
   width: 100%;
   margin: 0;
 }
+
+html {
+  scrollbar-gutter: stable;
+}
+
+h1 {
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
