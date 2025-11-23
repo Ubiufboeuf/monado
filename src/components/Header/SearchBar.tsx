@@ -8,15 +8,6 @@ export function SearchBar () {
   const clearInputRef = useRef<HTMLButtonElement>(null)
   const paramSearchRef = useRef('')
 
-  useEffect(() => {
-    const params = new URLSearchParams(location.search)
-    const search = params.get('search')
-    if (search?.trim() === '' || search == null) {
-      return
-    }
-    updateSearch(encodeURIComponent(search))
-  }, [])
-
   function updateSearch (newValue?: string | null) {
     const value = newValue ?? ''
     if (inputRef.current && inputRef.current.value !== value) {
@@ -56,39 +47,48 @@ export function SearchBar () {
     location.href = `/results?search=${encodeURIComponent(searchValueRef.current)}`
   }
 
+  useEffect(() => {
+    const params = new URLSearchParams(location.search)
+    const search = params.get('search')
+    if (search?.trim() === '' || search == null) {
+      return
+    }
+    updateSearch(encodeURIComponent(search))
+  }, [])
+
   return (
-    <section class='sm:flex hidden flex-1 items-center h-full justify-center min-w-fit max-w-full w-full gap-4 overflow-hidden'>
+    <section class='sm:flex hidden flex-1 items-center h-full justify-center min-w-fit max-w-full w-full gap-4'>
       <div class='flex w-full max-w-xl relative h-10'>
         <form
+          class='h-full max-w-full w-full rounded-full border border-[#6666] bg-[#121212] text-white align-middle focus-within:border-[#1C62B9] focus:outline-0 cursor-text flex items-center justify-between relative hover:transition-colors [&:focus-within>#searchIconLeft]:flex'
           onSubmit={handleSubmit}
-          class='h-full max-w-full w-full rounded-full border-px border-[#6666] bg-[#121212] overflow-hidden text-base align-middle focus-within:border-[#1C62B9] focus:outline-0 cursor-text flex items-center justify-between relative hover:transition-colors [&:focus-within>#searchIconLeft]:flex'
         >
           <div class='h-full aspect-[1.4/1] flex items-center justify-center'>
-            <div class='size-6 flex items-center justify-center opacity-50'>
+            <div class='size-6 flex items-center justify-center text-white/50'>
               <IconSearch />
             </div>
           </div>
           <input
-            id='search-bar'
             ref={inputRef}
+            id='search-bar'
             placeholder='Buscar'
+            autoComplete='off'
             class='h-full w-full max-w-full px-1 bg-transparent focus:outline-0 placeholder:text-neutral-500 placeholder:select-none'
             onInput={handleInput}
           />
           <button
+            ref={clearInputRef}
             id='clear-input-btn'
             class='h-full hover:bg-[#6666] cursor-pointer transition-colors flex items-center justify-center rounded-full aspect-square'
-            ref={clearInputRef}
-            hidden
             onClick={clearInput}
-            type='button'
+            hidden
           >
-            <div class='size-6 flex items-center justify-center opacity-50'>
+            <div class='size-6 flex items-center justify-center text-white/50'>
               <IconClose />
             </div>
           </button>
           <button id='search-by-voice' class='rounded-full h-full cursor-pointer hover:bg-[#6666] transition-colors aspect-[1.4/1] flex items-center justify-center'>
-            <div class='size-6 flex items-center justify-center opacity-50'>
+            <div class='size-6 flex items-center justify-center text-white/50'>
               <IconMic />
             </div>
           </button>
