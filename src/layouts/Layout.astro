@@ -21,7 +21,7 @@ const { title } = Astro.props
 	<body class='flex flex-col bg-base'>
 		<input id='checkbox-menu-state' type='checkbox' hidden />
 		<Header />
-		<main class='pt-14'>
+		<main class='h-full w-full min-h-fit max-h-full pt-14'>
 			<Menu client:load />
 			<MenuMini />
 			<slot />
