@@ -1,6 +1,7 @@
 import type { TargetedEvent } from 'preact'
 import { useEffect, useRef } from 'preact/compat'
 import { IconMic, IconSearch, IconClose } from '@/components/Icons'
+import { Icon } from '../Icon'
 
 export function SearchBar () {
   const searchValueRef = useRef('')
@@ -57,16 +58,16 @@ export function SearchBar () {
   }, [])
 
   return (
-    <section class='sm:flex hidden flex-1 items-center h-full justify-center min-w-fit max-w-full w-full gap-4'>
-      <div class='flex w-full max-w-xl relative h-10'>
+    <section class='hidden md:flex flex-1 items-center justify-center gap-4 h-full w-full min-w-fit max-w-full'>
+      <div class='relative flex h-10 w-full max-w-xl'>
         <form
-          class='h-full max-w-full w-full rounded-full border border-neutral-700/70 bg-base text-white align-middle focus-within:border-focus focus:outline-0 cursor-text flex items-center justify-between relative hover:transition-colors [&:focus-within>#searchIconLeft]:flex'
+          class='relative flex items-center justify-between h-full max-w-full w-full rounded-full border align-middle cursor-text focus:outline-0 transition-colors border-neutral-700/70 bg-base text-white focus-within:border-focus'
           onSubmit={handleSubmit}
         >
-          <div class='h-full aspect-[1.4/1] flex items-center justify-center'>
-            <div class='size-6 flex items-center justify-center text-white/50'>
+          <div class='flex items-center justify-center h-full aspect-[1.4/1]'>
+            <Icon class='size-6 text-white/50'>
               <IconSearch />
-            </div>
+            </Icon>
           </div>
           <input
             ref={inputRef}
@@ -79,18 +80,21 @@ export function SearchBar () {
           <button
             ref={clearInputRef}
             id='clear-input-btn'
-            class='h-full hover:bg-neutral-700/70 cursor-pointer transition-colors flex items-center justify-center rounded-full aspect-square'
+            class='flex items-center justify-center h-full rounded-full aspect-square cursor-pointer transition-colors hover:bg-neutral-700/70'
             onClick={clearInput}
             hidden
           >
-            <div class='size-6 flex items-center justify-center text-white/50'>
+            <Icon class='size-6 text-white/50'>
               <IconClose />
-            </div>
+            </Icon>
           </button>
-          <button id='search-by-voice' class='rounded-full h-full cursor-pointer hover:bg-neutral-700/70 transition-colors aspect-[1.4/1] flex items-center justify-center'>
-            <div class='size-6 flex items-center justify-center text-white/50'>
+          <button
+            id='search-by-voice'
+            class='flex items-center justify-center h-full rounded-full aspect-[1.4/1] cursor-pointer transition-colors hover:bg-neutral-700/70'
+          >
+            <Icon class='size-6 text-white/50'>
               <IconMic />
-            </div>
+            </Icon>
           </button>
         </form>
       </div>
