@@ -13,7 +13,8 @@
     "@tailwindcss/vite": "^4.1.17",
     "astro": "5.16.0",
     "preact": "^10.27.2",
-    "tailwindcss": "^4.1.17"
+    "tailwindcss": "^4.1.17",
+    "uuid": "13.0.0"
   },
   "devDependencies": {
     "@eslint/css": "0.14.1",
