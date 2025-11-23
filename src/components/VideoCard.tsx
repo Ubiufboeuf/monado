@@ -1,6 +1,7 @@
 import type { Video } from '@/types/videoTypes'
 import type { TargetedMouseEvent } from 'preact'
 import { IconDots } from './Icons'
+import { parseDuration, parseViews } from '@/lib/parsers'
 
 export function VideoCard ({ video }: { video: Video }) {
   const { id, title, duration, views, assets } = video
@@ -31,7 +32,7 @@ export function VideoCard ({ video }: { video: Video }) {
             { assets.minThumbnail && <img className='h-full w-full object-contain flex pointer-events-none select-none blur' src={assets.minThumbnail} /> }
             { assets.thumbnail && <img className='absolute left-0 top-0 h-full w-full object-contain flex pointer-events-none select-none' src={assets.thumbnail} alt={title} /> }
           </div>
-          <time className='absolute bottom-2 right-2 bg-[#000a] rounded font-semibold text-xs px-1 py-[2px]'>{duration}</time>
+          <time className='absolute bottom-2 right-2 bg-[#000a] rounded font-semibold text-xs px-1 py-[2px]'>{parseDuration(duration)}</time>
           <div className='w-full h-1 absolute bottom-0 bg-[#666a]' /* style={{display: userVideoInfo?.timeSeen ? 'block' : 'none'}} */>
             <div className='bg-[#DC2626] h-full rounded-full' style={{
               // width: userVideoInfo?.timeSeen ? `calc(100%/(${duration}/${userVideoInfo.timeSeen}))` : '0px'
@@ -52,7 +53,7 @@ export function VideoCard ({ video }: { video: Video }) {
                   </div>
                 )
               } */}
-              { views && <span>{views} vistas </span> }
+              <span hidden={!views}>{parseViews(views)} vistas </span>
               {/* { parsedPublicationDate && (
                 <>
                   <span>•</span>
