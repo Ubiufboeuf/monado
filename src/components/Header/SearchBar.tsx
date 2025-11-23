@@ -60,7 +60,7 @@ export function SearchBar () {
     <section class='sm:flex hidden flex-1 items-center h-full justify-center min-w-fit max-w-full w-full gap-4'>
       <div class='flex w-full max-w-xl relative h-10'>
         <form
-          class='h-full max-w-full w-full rounded-full border border-[#6666] bg-[#121212] text-white align-middle focus-within:border-[#1C62B9] focus:outline-0 cursor-text flex items-center justify-between relative hover:transition-colors [&:focus-within>#searchIconLeft]:flex'
+          class='h-full max-w-full w-full rounded-full border border-neutral-700/70 bg-base text-white align-middle focus-within:border-focus focus:outline-0 cursor-text flex items-center justify-between relative hover:transition-colors [&:focus-within>#searchIconLeft]:flex'
           onSubmit={handleSubmit}
         >
           <div class='h-full aspect-[1.4/1] flex items-center justify-center'>
@@ -79,7 +79,7 @@ export function SearchBar () {
           <button
             ref={clearInputRef}
             id='clear-input-btn'
-            class='h-full hover:bg-[#6666] cursor-pointer transition-colors flex items-center justify-center rounded-full aspect-square'
+            class='h-full hover:bg-neutral-700/70 cursor-pointer transition-colors flex items-center justify-center rounded-full aspect-square'
             onClick={clearInput}
             hidden
           >
@@ -87,7 +87,7 @@ export function SearchBar () {
               <IconClose />
             </div>
           </button>
-          <button id='search-by-voice' class='rounded-full h-full cursor-pointer hover:bg-[#6666] transition-colors aspect-[1.4/1] flex items-center justify-center'>
+          <button id='search-by-voice' class='rounded-full h-full cursor-pointer hover:bg-neutral-700/70 transition-colors aspect-[1.4/1] flex items-center justify-center'>
             <div class='size-6 flex items-center justify-center text-white/50'>
               <IconMic />
             </div>

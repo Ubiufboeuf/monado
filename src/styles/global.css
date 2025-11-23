@@ -8,8 +8,9 @@
 }
 
 @theme {
-  /* --color-base: white; */
+  /* colores */
   --color-base: #111111;
+  --color-focus: #1C62B9;
 
   /* breakpoints */
   --breakpoint-xs: 412px;
