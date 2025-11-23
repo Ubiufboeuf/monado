@@ -17,6 +17,12 @@
   --breakpoint-xs: 412px;
 }
 
+@custom-variant menu-open {
+  &:where(:has(#checkbox-menu-state:checked) *) {
+    @slot;
+  }
+}
+
 :root {
   color-scheme: dark;
   font-family: 'Inter', Inter, system-ui;
@@ -31,6 +37,7 @@ body {
 
 html {
   scrollbar-gutter: stable;
+  scrollbar-color: darkgray transparent;
 }
 
 h1 {
@@ -39,4 +46,8 @@ h1 {
 
 p {
   text-wrap: pretty;
+}
+
+.gutter-stable {
+  scrollbar-gutter: stable;
 }
