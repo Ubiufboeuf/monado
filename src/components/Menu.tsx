@@ -36,27 +36,24 @@ export function Menu () {
     >
       <div class='h-full w-full max-h-full flex flex-col items-center gutter-stable px-3 pr-1 pb-2 overflow-y-auto [scrollbar-width:thin]'>
         { itemsAside.map((item) => (
-          <section key={useId()} class='w-full h-fit text-sm flex flex-col border-b border-neutral-700 py-3'>
-            { item.map((el) => {
-              const { Icon, name } = el
-              if (el.type === 'expand') {
-                return (
-                  <MenuExpandableLink
-                    key={useId()}
-                    item={el}
-                    path={path}
-                    asideMenuRef={asideMenuRef}
-                  />
-                )
-              }
-              return (
+          <section key={useId()} class='flex flex-col w-full h-fit py-3 text-sm border-b border-neutral-700'>
+            { item.map((item) => {
+              const { Icon, name, type, path: link } = item
+              return (type === 'expand') ? (
+                <MenuExpandableLink
+                  key={useId()}
+                  item={item}
+                  path={path}
+                  asideMenuRef={asideMenuRef}
+                />
+              ) : (
                 <MenuLink
                   key={useId()}
                   name={name}
-                  link={el.path}
+                  link={link}
                   path={path}
                 >
-                  <Icon active={el.path === path} />
+                  <Icon active={link === path} />
                 </MenuLink>
               )
             }) }
