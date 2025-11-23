@@ -10,6 +10,9 @@
 @theme {
   /* --color-base: white; */
   --color-base: #111111;
+
+  /* breakpoints */
+  --breakpoint-xs: 412px;
 }
 
 :root {
