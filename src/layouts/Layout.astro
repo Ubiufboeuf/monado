@@ -17,6 +17,28 @@ const { title } = Astro.props
 		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
 		<meta name='viewport' content='width=device-width' />
 		<title>{title ? `${title} - Monado` : 'Monado'}</title>
+		<script>
+			// Leer cookie del estado del menú
+			(function() {
+				const isMenuOpen = document.cookie
+					.split('; ')
+					.find(c => c.startsWith('monado-is-menu-open='))
+					?.split('=')[1] || 'false'
+				const input = document.querySelector('#checkbox-menu-state') as HTMLInputElement
+				if (input) input.checked = (isMenuOpen === 'true')
+			})()
+		</script>
+		<script>
+			// Añadir listener para cambiar el estado del menú en la cookie
+			(function() {
+				const input = document.querySelector('#checkbox-menu-state') as HTMLInputElement
+				if (!input) return
+
+				input.addEventListener('input', () => {
+					document.cookie = `monado-is-menu-open=${input.checked}; path=/; Secure; SameSite=Strict`
+				})
+			})()
+		</script>
 	</head>
 	<body class='flex flex-col bg-base'>
 		<input id='checkbox-menu-state' type='checkbox' hidden />
