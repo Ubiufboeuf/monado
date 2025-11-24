@@ -34,7 +34,7 @@ const Svg = ({ children, gradient = false, stroke, strokeWidth, strokeLinecap, s
     strokeWidth={strokeWidth}
     strokeLinejoin={strokeLinejoin}
     strokeLinecap={strokeLinecap}
-    className='h-full w-full'
+    className='h-full w-full pointer-events-none'
   >
     {gradient && <Gradients />}
     {children}
