@@ -33,16 +33,16 @@ export function VideoCard ({ video }: { video: Video }) {
             { assets.thumbnail && <img className='absolute left-0 top-0 h-full w-full object-contain flex pointer-events-none select-none' src={assets.thumbnail} alt={title} /> }
           </div>
           <time className='absolute bottom-2 right-2 bg-[#000a] rounded font-semibold text-xs px-1 py-[2px]'>{parseDuration(duration)}</time>
-          <div className='w-full h-1 absolute bottom-0 bg-[#666a]' /* style={{display: userVideoInfo?.timeSeen ? 'block' : 'none'}} */>
+          <div className='w-full h-1 absolute bottom-0 bg-[#666a]' hidden/* ={userVideoInfo?.timeSeen} */>
             <div className='bg-[#DC2626] h-full rounded-full' style={{
-              // width: userVideoInfo?.timeSeen ? `calc(100%/(${duration}/${userVideoInfo.timeSeen}))` : '0px'
+              width: /* userVideoInfo?.timeSeen ? `calc(100%/(${duration}/${userVideoInfo.timeSeen}))` :  */ '0px'
             }} />
           </div>
         </section>
-        <section className='w-full h-26 ms:h-29 text-sm relative grid ms:grid-cols-[48px_1fr_36px] grid-cols-[64px_1fr]'>
+        <section className='w-full h-26 ms:h-29 text-sm relative grid grid-cols-[48px_1fr_36px]'>
           <div />
           <div className='flex-1 text-neutral-400 pt-3 flex flex-col items-start'>
-            <h1 className='xs:text-base text-[min(3.2vw,16px)] font-medium text-start leading-[22px] line-clamp-2 text-white'>{title}</h1>
+            <h1 className='text-[min(3.2vw,16px)] font-medium text-start leading-[22px] line-clamp-2 text-neutral-100'>{title}</h1>
             <div className='text-[min(3vw,14px)] ms:block flex items-center gap-1'>
               {/* {
                 creator?.name && (
