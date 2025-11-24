@@ -15,9 +15,8 @@ export function errorHandler (err: unknown, baseMessage?: string | null, canShow
     errorToShow = err
   }
 
-  if ((canShow === 'dev' && DEV) || (canShow === true)) {
-    console.error(errorToShow)
-  }
+  if (canShow === 'dev' && DEV) console.error(`[dev] ${errorToShow}`)
+  else if (canShow) console.error(errorToShow)
 
   return errorToShow
 }
