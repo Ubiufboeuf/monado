@@ -42,7 +42,7 @@ export function HomeNav () {
   return (
     <nav
       id='homeNav'
-      class='fixed z-90 right-0 top-14 flex items-end h-10 xs:h-14 min-h-fit w-[calc(100%-72px)] py-2 px-2 xs:px-4 sm:px-6 bg-base transition-all'
+      class='fixed z-90 right-0 top-14 flex items-end h-10 xs:h-14 min-h-fit w-[calc(100%-72px)] menu-open:w-navbar py-2 px-2 xs:px-4 sm:px-6 bg-base transition-all'
     >
       <div class='max-w-full w-full gap-3 flex items-center h-7 xs:h-9 overflow-x-auto [scrollbar-width:none] xs:py-0.5'>
         <button class='h-full min-w-fit flex items-center justify-center cursor-pointer xs:px-3 px-2.5 bg-neutral-700 xs:rounded-lg rounded-md focus-visible:outline-0'>
