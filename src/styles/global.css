@@ -13,6 +13,16 @@
   --color-focus: #1C62B9;
   --color-selected: #FFAABB24;
 
+  /* gradiente normal */
+  --color-gradient-start: #FF0033;
+  --color-gradient-end: #F50057;
+  --color-gradient: linear-gradient(to right, var(--color-gradient-start), var(--color-gradient-end));
+  
+  /* gradiente rosada */
+  --color-pink-start: color-mix(in srgb, white 30%, #FF0033);
+  --color-pink-end: color-mix(in srgb, white 30%, #F50057);
+  --color-pink-gradient: linear-gradient(to right, var(--color-pink-start), var(--color-pink-end));
+
   /* dimensiones */
   --container-aside: 240px;
   --container-navbar: calc(100% - var(--container-aside));
