@@ -4,7 +4,7 @@ import { VideoCard } from '../VideoCard'
 
 export function HomeVideos ({ videos }: { videos: Video[] }) {
   return (
-    <div class='grid justify-center items-start ms:gap-4 grid-cols-[repeat(auto-fill,minmax(312px,1fr))] h-fit w-full max-h-fit max-w-full pt-6 sm:p-6'>
+    <div class='grid justify-center items-start gap-4 grid-cols-[repeat(auto-fill,minmax(312px,1fr))] h-fit w-full max-h-fit max-w-full pt-6 sm:p-6'>
       { videos.map((video) => <VideoCard key={uuidv4()} video={video} />) }
     </div>
   )

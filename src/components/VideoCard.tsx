@@ -27,7 +27,7 @@ export function VideoCard ({ video }: { video: Video }) {
         onClick={changeVideo}
         title={title}
       >
-        <section className='w-full aspect-video bg-black xs:rounded-xl flex items-end justify-center relative overflow-hidden'>
+        <section className='w-full aspect-video bg-black sm:rounded-xl flex items-end justify-center relative overflow-hidden'>
           <div className='h-full w-full bg-neutral-700 relative'>
             { assets.minThumbnail && <img className='h-full w-full object-contain flex pointer-events-none select-none blur' src={assets.minThumbnail} /> }
             { assets.thumbnail && <img className='absolute left-0 top-0 h-full w-full object-contain flex pointer-events-none select-none' src={assets.thumbnail} alt={title} /> }
