@@ -8,6 +8,7 @@ const checkboxName = 'checkbox-menu-items'
 
 export function MenuExpandableLink ({ item: { Icon: IconItem, name, path }, path: pathname, asideMenuRef }: { item: ItemAside, path: string, asideMenuRef: RefObject<HTMLElement | null> }) {
   const [subItems, setSubItems] = useState<MenuSubItem[]>()
+  const [isChecked, setIsChecked] = useState(false)
 
   useEffect(() => {
     getSubItems(name)
@@ -36,6 +37,7 @@ export function MenuExpandableLink ({ item: { Icon: IconItem, name, path }, path
       })
     }
     input.checked = savedCheck
+    setIsChecked(input.checked)
   }
 
   return (
@@ -68,16 +70,18 @@ export function MenuExpandableLink ({ item: { Icon: IconItem, name, path }, path
         </label>
       </div>
       <div class='dropDown w-full rounded-lg [transition:height_250ms_ease] [interpolate-size:allow-keywords] h-0 peer-checked:h-fit overflow-hidden'>
-        {
-          subItems?.map(sub => (
-            <a key={useId()} href={sub.link} class='w-full h-10 flex items-center px-3 pl-6 gap-4 hover:bg-neutral-800 rounded-lg'>
-              <Icon class='size-6 max-h-full aspect-square'>
-                { sub.Icon && <IconItem /> }
-              </Icon>
-              <span>{sub.name}</span>
-            </a>
-          ))
-        }
+        <div class={`${isChecked ? 'checked' : ''} sub-items-container hidden [&.checked]:flex flex-col h-fit w-full [transition:all_300ms_ease_allow-discrete]`}>
+          {
+            subItems?.map(sub => (
+              <a key={useId()} href={sub.link} class='w-full h-10 flex items-center px-3 pl-6 gap-4 hover:bg-neutral-800 rounded-lg'>
+                <Icon class='size-6 max-h-full aspect-square'>
+                  { sub.Icon && <IconItem /> }
+                </Icon>
+                <span>{sub.name}</span>
+              </a>
+            ))
+          }
+        </div>
       </div>
     </article>
   )
