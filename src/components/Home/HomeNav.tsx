@@ -42,11 +42,11 @@ export function HomeNav () {
   return (
     <nav
       id='homeNav'
-      class='fixed z-90 right-0 top-14 flex items-end h-10 xs:h-14 min-h-fit w-full sm:w-[calc(100%-72px)] menu-open:w-navbar py-2 px-2 xs:px-4 sm:px-6 bg-base transition-all'
+      class='fixed z-90 right-0 top-14 flex items-end h-10 xs:h-14 min-h-fit w-full sm:w-[calc(100%-72px)] menu-open:w-navbar py-2 px-4 sm:px-6 bg-base transition-all'
     >
-      <div class='max-w-full w-full gap-3 flex items-center h-7 xs:h-9 overflow-x-auto [scrollbar-width:none] xs:py-0.5'>
-        <button class='h-full min-w-fit flex items-center justify-center cursor-pointer xs:px-3 px-2.5 bg-neutral-700 xs:rounded-lg rounded-md focus-visible:outline-0'>
-          <div class='xs:size-6 size-4 flex items-center justify-center overflow-hidden'>
+      <div class='max-w-full w-full gap-3 flex items-center h-8 xs:h-9 overflow-x-auto [scrollbar-width:none] xs:py-0.5'>
+        <button class='h-full min-w-fit flex items-center justify-center cursor-pointer px-3.5 xs:px-3 bg-neutral-700 xs:rounded-lg rounded-md focus-visible:outline-0'>
+          <div class='size-5 xs:size-6 flex items-center justify-center overflow-hidden'>
             <IconMagicFeed />
           </div>
         </button>
@@ -62,10 +62,11 @@ export function HomeNav () {
                   type='checkbox'
                   defaultChecked={tag.filter === TAG_FILTERS.ALL}
                   hidden
+                  class='peer'
                   data-filter={tag.filter}
                   onChange={handleChange}
                 />
-                <span class='flex flex-nowrap min-w-fit h-full w-fit text-nowrap items-center justify-center xs:text-sm text-xs font-semibold opacity-95'>
+                <span class='flex flex-nowrap min-w-fit h-full w-fit text-nowrap items-center justify-center text-sm font-semibold opacity-95 peer-checked:font-bold'>
                   {tag.name}
                 </span>
               </label>
