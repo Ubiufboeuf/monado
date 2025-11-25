@@ -20,6 +20,11 @@ export default defineConfig({
       https: {
         cert,
         key
+      },
+      hmr: {
+        host: 'monado.dev.local', // Usar el dominio proxyado
+        clientPort: 443, // Usar el puerto de entrada de Apache
+        protocol: 'wss' // Usar protocolo seguro
       }
     }
   },
