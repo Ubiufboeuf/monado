@@ -31,6 +31,7 @@
   --breakpoint-ml: 792px;
   --breakpoint-ms: 703px;
   --breakpoint-xs: 412px;
+  --breakpoint-mtb: 355px; /* min tab bar */
 }
 
 @custom-variant menu-open {
