@@ -2,7 +2,7 @@ export function HomeGuest () {
   return (
     <div class='flex flex-col items-center justify-center h-full w-full'>
       <div className='flex flex-col items-center justify-between gap-8 h-fit w-124 p-6 border bg-neutral-800 border-neutral-600 rounded-xl'>
-        <h1 className='text-2xl font-bold text-center'>¡Bienvenido a YouTube!</h1>
+        <h1 className='text-2xl font-bold text-center'>¡Bienvenido a Monado!</h1>
         <p className='-mt-2 text-center'>Acá podrás encontrar
           <strong> videos </strong>y<strong> shorts </strong>
           de todo tipo, y si no sabes qué buscar, el&nbsp;
