@@ -5,12 +5,23 @@ import preact from '@astrojs/preact'
 import tailwindcss from '@tailwindcss/vite'
 import cloudflare from '@astrojs/cloudflare'
 
+import { readFileSync } from 'node:fs'
+
+const cert = readFileSync('.cert/server.crt')
+const key = readFileSync('.cert/server.key')
+
 // https://astro.build/config
 export default defineConfig({
   integrations: [preact()],
 
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    server: {
+      https: {
+        cert,
+        key
+      }
+    }
   },
 
   server: {
