@@ -13,6 +13,12 @@ export default defineConfig({
     plugins: [tailwindcss()]
   },
 
+  server: {
+    allowedHosts: [
+      'monado.dev.local'
+    ]
+  },
+
   output: 'server',
   adapter: cloudflare({
     imageService: 'passthrough'
