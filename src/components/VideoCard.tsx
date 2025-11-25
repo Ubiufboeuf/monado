@@ -41,7 +41,7 @@ export function VideoCard ({ video }: { video: Video }) {
         </section>
         <section className='w-full h-26 ms:h-29 text-sm relative grid grid-cols-[48px_1fr_36px]'>
           <div />
-          <div className='flex-1 text-neutral-400 pt-3 flex flex-col items-start'>
+          <div className='flex-1 text-neutral-400 pt-3 flex flex-col items-start not-ms:pl-3'>
             <h1 className='text-[min(3.2vw,16px)] font-medium text-start leading-[22px] line-clamp-2 text-neutral-100'>{title}</h1>
             <div className='text-[min(3vw,14px)] ms:block flex items-center gap-1'>
               {/* {
