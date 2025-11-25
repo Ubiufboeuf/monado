@@ -9,7 +9,7 @@ export const MenuLink = ({ name, link, path, children }: { name: string, link: s
       <div class='h-6 aspect-square'>
         {children}
       </div>
-      <span class='text-sm text-nowrap overflow-ellipsis overflow-hidden'>{name}</span>
+      <span class='text-sm text-nowrap overflow-ellipsis'>{name}</span>
     </a>
   )
 }

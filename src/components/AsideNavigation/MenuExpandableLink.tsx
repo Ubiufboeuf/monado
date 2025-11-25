@@ -39,7 +39,7 @@ export function MenuExpandableLink ({ item: { Icon: IconItem, name, path }, path
   }
 
   return (
-    <article class='expandableLink flex relative min-h-10'>
+    <article class='expandableLink flex flex-col min-h-10'>
       <input
         id={`checkbox-menu-${name}`}
         type='checkbox'
@@ -48,7 +48,7 @@ export function MenuExpandableLink ({ item: { Icon: IconItem, name, path }, path
         class='peer'
         onInput={handleInput}
       />
-      <div class='absolute w-full h-10 flex justify-between gap-2 items-center peer-checked:[&>label>div]:rotate-180'>
+      <div class='w-full h-10 flex justify-between gap-2 items-center peer-checked:[&>label>div]:rotate-180'>
         <a
           href={path}
           class={`${path === pathname ? 'actualPath bg-selected font-medium' : 'hover:bg-neutral-800'}
@@ -67,8 +67,7 @@ export function MenuExpandableLink ({ item: { Icon: IconItem, name, path }, path
           </Icon>
         </label>
       </div>
-      <div class='dropDown w-full overflow-hidden rounded-lg [transition:height_250ms_ease] [interpolate-size:allow-keywords] h-10 peer-checked:h-fit'>
-        <div class='w-full h-10' />
+      <div class='dropDown w-full rounded-lg [transition:height_250ms_ease] [interpolate-size:allow-keywords] h-0 peer-checked:h-fit overflow-hidden'>
         {
           subItems?.map(sub => (
             <a key={useId()} href={sub.link} class='w-full h-10 flex items-center px-3 pl-6 gap-4 hover:bg-neutral-800 rounded-lg'>
