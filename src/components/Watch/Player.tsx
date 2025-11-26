@@ -16,7 +16,7 @@ const playerSettings: MediaPlayerSettingClass = {
   }
 }
 
-export function Player ({ class: className, style }: { class?: string, style: CSSProperties }) {
+export function Player ({ class: className, style }: { class?: string, style?: CSSProperties }) {
   type DashJS = typeof import('/home/mango/Dev/monado/node_modules/dashjs/index')
 
   const [dashjs, setDashjs] = useState<DashJS>()
