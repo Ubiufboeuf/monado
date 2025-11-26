@@ -81,7 +81,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
   return (
     <video
       ref={videoRef}
-      class={`${className} w-160 h-90`}
+      class={className}
       style={style}
     />
   )
