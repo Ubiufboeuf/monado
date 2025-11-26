@@ -3,6 +3,8 @@ const SERVER_URL = import.meta.env.PUBLIC_SERVER_URL
 
 export const ENDPOINTS = {
   VIDEOS: `${SERVER_URL}/data/videos?range=0_2`,
+  VIDEO: `${SERVER_URL}/data/video`,
+  VIDEO_STREAM: `${SERVER_URL}/video`,
   THUMBNAIL: `${SERVER_URL}/poster/`
 } as const
 
