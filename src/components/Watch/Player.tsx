@@ -24,6 +24,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
   const videoRef = useRef<HTMLVideoElement | null>(null)
 
   const video = usePlayerStore((state) => state.video)
+  const setPlayer = usePlayerStore((state) => state.setPlayer)
 
   async function importDashjs () {
     return import('dashjs')
@@ -69,6 +70,11 @@ export function Player ({ class: className, style }: { class?: string, style?: C
 
   useEffect(() => {    
     importDashjs()
+
+    const video = videoRef.current
+    if (!video) return
+
+    setPlayer(video)
   }, [])
 
   useEffect(() => {
