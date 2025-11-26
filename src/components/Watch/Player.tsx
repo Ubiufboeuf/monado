@@ -20,6 +20,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
   type DashJS = typeof import('/home/mango/Dev/monado/node_modules/dashjs/index')
 
   const [dashjs, setDashjs] = useState<DashJS>()
+  const [playerInitialized, setPlayerInitialized] = useState(false)
   const playerRef = useRef<MediaPlayerClass>()
   const videoRef = useRef<HTMLVideoElement | null>(null)
 
@@ -51,7 +52,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
   }
 
   function initPlayer (player: MediaPlayerClass | undefined) {
-    if (!player) return
+    if (!player || playerInitialized) return
 
     const videoElement = videoRef.current
     const mpdPath = video?.source
@@ -63,6 +64,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
     player.updateSettings(playerSettings)
     try {
       player.initialize(videoElement, mpdPath, autoPlay, timeSeen)
+      setPlayerInitialized(true)
     } catch (err) {
       errorHandler(err, 'Error inicializando el reproductor')
     }
