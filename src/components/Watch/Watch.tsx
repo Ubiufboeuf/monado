@@ -3,6 +3,7 @@ import { useEffect } from 'preact/hooks'
 import { getVideo } from '@/services/videoService'
 import { errorHandler } from '@/lib/errors'
 import { Player } from './Player'
+import { playerKeyboardActions, validKeys } from '@/lib/keyboardActions'
 
 export function Watch ({ id }: { id: string }) {
   const setVideo = usePlayerStore((state) => state.setVideo)
@@ -19,9 +20,25 @@ export function Watch ({ id }: { id: string }) {
 
     setVideo(video)
   }
+
+  function handleKeyDown (event: KeyboardEvent) {
+    const key = event.key.toLowerCase()
+    if (!validKeys.includes(key)) return
+
+    const action = playerKeyboardActions.find(({ key: k }) => k === key)?.action
+    if (!action) return
+
+    action()
+  }
   
   useEffect(() => {
     loadVideo()
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
   }, [])
 
   return (
@@ -31,13 +48,13 @@ export function Watch ({ id }: { id: string }) {
       lg:grid-rows-[400px_1fr]
 
       [grid-template-areas:"player""detalles""sugeridos"]
-      grid-rows-[min(80%,480px)_1fr]
+      grid-rows-[min(100dvw,80%,480px)_1fr_1fr]
     '>
       <div class='[grid-area:player] w-full desktop:min-w-160 h-full max-h-full lg:max-h-100 lg:rounded-xl mobile:max-h-dvw mobile:lg:max-h-[calc(9*100dvw/16)] bg-black'>
         <Player class='w-full h-full max-w-full max-h-full' />
       </div>
-      <div class='[grid-area:sugeridos] min-w-85'>sugeridos (derecha)</div>
-      <div class='[grid-area:detalles]'>detalles (abajo izquierda)</div>
+      <div class='[grid-area:detalles] h-60'>detalles (abajo izquierda)</div>
+      <div class='[grid-area:sugeridos] min-w-85 h-300'>sugeridos (derecha)</div>
     </section>
   )
 }
