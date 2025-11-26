@@ -6,6 +6,7 @@ export interface Video {
   likes: number
   assets: VideoAssets
   formats: VideoFormat[]
+  source: string
   release_timestamp: number
 }
 
