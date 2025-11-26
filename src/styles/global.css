@@ -27,6 +27,8 @@
   --container-aside: 240px;
   --container-navbar: calc(100% - var(--container-aside));
   
+  --spacing-tbh: calc(var(--spacing) * 18); /* tab bar height */
+  
   /* breakpoints */
   --breakpoint-ml: 792px;
   --breakpoint-ms: 703px;
