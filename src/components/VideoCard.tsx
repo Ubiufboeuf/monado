@@ -20,14 +20,14 @@ export function VideoCard ({ video }: { video: Video }) {
   }
   
   return (
-    <article className='cardWrapper relative'>
+    <article className='cardWrapper relative flex justify-center'>
       <a
         href={`/watch?v=${id}`}
-        className='videoCard h-fit w-full cursor-pointer items-start flex flex-col focus:outline-0 [&:not(:has(.dots:active)):active]:bg-neutral-600/20 rounded-xl transition-colors active:duration-200'
+        className='videoCard h-fit w-full xs:not-sm:w-[max(80%,var(--breakpoint-xs))] sm:not-md:w-[min(100%,500px)] cursor-pointer items-start flex flex-col focus:outline-0 [&:not(:has(.dots:active)):active]:bg-neutral-600/20 rounded-xl transition-colors active:duration-200'
         onClick={changeVideo}
         title={title}
       >
-        <section className='w-full aspect-video bg-black sm:rounded-xl flex items-end justify-center relative overflow-hidden'>
+        <section className='w-full aspect-video bg-black xs:rounded-xl flex items-end justify-center relative overflow-hidden'>
           <div className='h-full w-full bg-neutral-700 relative'>
             { assets.minThumbnail && <img className='h-full w-full object-contain flex pointer-events-none select-none blur' src={assets.minThumbnail} /> }
             { assets.thumbnail && <img className='absolute left-0 top-0 h-full w-full object-contain flex pointer-events-none select-none' src={assets.thumbnail} alt={title} /> }
@@ -40,9 +40,24 @@ export function VideoCard ({ video }: { video: Video }) {
           </div>
         </section>
         <section className='w-full h-26 ms:h-29 text-sm relative grid grid-cols-[48px_1fr_36px]'>
-          <div />
-          <div className='flex-1 text-neutral-400 pt-3 flex flex-col items-start not-ms:pl-3'>
-            <h1 className='text-[min(3.2vw,16px)] font-medium text-start leading-[22px] line-clamp-2 text-neutral-100'>{title}</h1>
+          <div class='h-fulll w-full flex pt-3'>
+            <button
+              className='size-10 aspect-square flex items-center justify-start pointer-events-auto cursor-pointer'
+              // onClick={() => {
+              //   navigate('/channel?id=ooo0eve0ooo')
+              // }}
+            >
+              <div className='xs:size-9 size-10 aspect-square object-contain max-h-full max-w-full rounded-full overflow-hidden bg-neutral-700'>
+                {/* { video?.uploader_id && <img
+                    src={`http://localhost:1234/avatar/${uploader_id}`} alt={'a'}
+                    className='size-full'
+                  />
+                } */}
+              </div>
+            </button>
+          </div>
+          <div className='flex-1 text-neutral-400 pt-3 flex flex-col items-start not-xs:pl-3'>
+            <h1 className='text-sm sm:text-base font-medium text-start line-clamp-2 text-neutral-100'>{title}</h1>
             <div className='text-[min(3vw,14px)] ms:block flex items-center gap-1'>
               {/* {
                 creator?.name && (
@@ -74,32 +89,6 @@ export function VideoCard ({ video }: { video: Video }) {
           </div>
         </section>
       </a>
-      <article
-        className='absolute top-0 left-0 h-full w-full flex flex-col pointer-events-none'
-        // title={uploader ?? ''}
-      >
-        <section className='w-full aspect-video rounded-xl' />
-        <section className='w-full flex min-h-[116px] h-full pt-3 gap-2 flex-1 relative'>
-          <button
-            className='absolute top-0 ms:left-0 left-3 size-10 aspect-square flex items-center justify-start mt-3 pointer-events-auto cursor-pointer'
-            // onClick={() => {
-            //   navigate('/channel?id=ooo0eve0ooo')
-            // }}
-          >
-            <div className='ms:size-9 xs:size-10 size-[min(40px,9vw)] aspect-square object-contain max-h-full max-w-full rounded-full overflow-hidden bg-neutral-700'>
-              {/* { video?.uploader_id && <img
-                  src={`http://localhost:1234/avatar/${uploader_id}`} alt={'a'}
-                  className='size-full'
-                />
-              } */}
-            </div>
-          </button>
-          <div className='flex-1 h-fit'>
-            <div className='w-[90%] h-4 rounded mb-3' />
-            <div className='w-[60%] h-4 rounded' />
-          </div>
-        </section>
-      </article>
     </article>
   )
 }
