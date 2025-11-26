@@ -2,6 +2,7 @@
 import { errorHandler } from '@/lib/errors'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import type { MediaPlayerClass, MediaPlayerSettingClass } from 'dashjs'
+import type { CSSProperties } from 'preact'
 import { useEffect, useRef, useState } from 'preact/hooks'
 
 const playerSettings: MediaPlayerSettingClass = {
@@ -15,7 +16,7 @@ const playerSettings: MediaPlayerSettingClass = {
   }
 }
 
-export function Player () {
+export function Player ({ class: className, style }: { class?: string, style: CSSProperties }) {
   type DashJS = typeof import('/home/mango/Dev/monado/node_modules/dashjs/index')
 
   const [dashjs, setDashjs] = useState<DashJS>()
@@ -80,7 +81,8 @@ export function Player () {
   return (
     <video
       ref={videoRef}
-      class='w-160 h-90 bg-neutral-600'
+      class={`${className} w-160 h-90`}
+      style={style}
     />
   )
 }
