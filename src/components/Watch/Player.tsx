@@ -87,10 +87,18 @@ export function Player ({ class: className, style }: { class?: string, style?: C
   }, [dashjs, video])
   
   return (
-    <video
-      ref={videoRef}
-      class={className}
+    <div
+      class={`${className} relative`}
       style={style}
-    />
+    >
+      <video
+        ref={videoRef}
+        class='w-full h-full'
+      />
+      {/* controles */}
+      <div class='absolute left-0 top-0 h-full w-full'>
+        
+      </div>
+    </div>
   )
 }
