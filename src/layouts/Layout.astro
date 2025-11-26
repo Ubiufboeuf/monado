@@ -65,7 +65,6 @@ const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
         }
         
         const newDeviceType = devices[newDeviceCode as keyof typeof devices];
-				console.log({ newDeviceType, currentDeviceType, newDeviceCode })
         
         // --- Optimización: Solo actualizar si hay discrepancia ---
         if (currentDeviceType !== newDeviceType) {
