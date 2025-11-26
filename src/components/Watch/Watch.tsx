@@ -25,7 +25,7 @@ export function Watch ({ id }: { id: string }) {
   }, [])
 
   return (
-    <section class='absolute top-14 top:top-17 right-0 grid gap-4 h-[calc(100%-68px)] w-full ml:menu-open:w-navbar lg:px-6 [transition:width_250ms_ease]
+    <section class='absolute top-14 lg:top-17 right-0 grid gap-4 h-[calc(100%-68px)] w-full ml:menu-open:w-navbar lg:px-6 [transition:width_250ms_ease]
       lg:[grid-template-areas:"player_sugeridos""detalles_sugeridos"]
       lg:grid-cols-[max(1fr_min-content)_340px]
       lg:grid-rows-[400px_1fr]
