@@ -60,6 +60,12 @@
   }
 }
 
+@custom-variant full-screen {
+  &:where([data-is-full-screen='true'] *) {
+    @slot;
+  }
+}
+
 :root {
   color-scheme: dark;
   font-family: 'Roboto', Roboto, system-ui;
