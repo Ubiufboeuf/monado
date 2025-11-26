@@ -43,8 +43,10 @@ export function Watch ({ id }: { id: string }) {
 
   return (
     <section class='absolute top-14 lg:top-17 right-0 grid gap-4 h-[calc(100%-68px)] w-full ml:menu-open:w-navbar lg:px-6 [transition:width_250ms_ease]
+      2xl:w-full 2xl:max-w-screen-2xl 2xl:left-1/2 2xl:right-[unset] 2xl:-translate-x-1/2
+    
       lg:[grid-template-areas:"player_sugeridos""detalles_sugeridos"]
-      lg:grid-cols-[max(1fr_min-content)_340px]
+      lg:grid-cols-[minmax(min-content,2520px)_340px]
       lg:grid-rows-[400px_1fr]
 
       [grid-template-areas:"player""detalles""sugeridos"]
