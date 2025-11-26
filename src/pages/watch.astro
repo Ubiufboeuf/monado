@@ -1,0 +1,15 @@
+---
+import Layout from '@/layouts/Layout.astro'
+import { Watch as WatchCentralizedComponent } from '@/components/Watch/Watch'
+
+export const prerender = false
+
+const id = Astro.url.searchParams.get('v')
+if (!id) {
+  return Astro.redirect('/')
+}
+---
+
+<Layout>
+  <WatchCentralizedComponent id={id} client:load />
+</Layout>
