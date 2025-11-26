@@ -40,6 +40,24 @@
   }
 }
 
+@custom-variant mobile {
+  &:where([data-device-type='mobile'] *) {
+    @slot;
+  }
+}
+
+@custom-variant tablet {
+  &:where([data-device-type='tablet'] *) {
+    @slot;
+  }
+}
+
+@custom-variant desktop {
+  &:where([data-device-type='desktop'] *) {
+    @slot;
+  }
+}
+
 :root {
   color-scheme: dark;
   font-family: 'Roboto', Roboto, system-ui;
