@@ -8,7 +8,7 @@ export function MenuMini () {
   return (
     <aside
       id='menu-mini'
-      class='fixed left-0 z-98 hidden sm:flex flex-col items-center gap-2 w-18 h-[calc(100%-56px)] px-2 overflow-y-auto [scrollbar-width:none] bg-base'
+      class='fixed left-0 z-98 hidden sm:flex flex-col items-center gap-2 w-18 h-[calc(100%-56px)] px-2 overflow-y-auto [scrollbar-width:none] bg-base-dark'
     >
       <div class='min-h-fit w-fit h-full pb-1'>
         { itemsAside.map(item => (

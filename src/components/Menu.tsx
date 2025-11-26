@@ -11,7 +11,7 @@ export function Menu () {
     <aside
       ref={asideMenuRef}
       id='asideMenu'
-      class='group fixed top-14 -left-60 menu-open:left-0 [transition:left_250ms_ease] z-100 w-60 h-[calc(100dvh-56px)] bg-base'
+      class='group fixed top-14 -left-60 menu-open:left-0 [transition:left_250ms_ease] z-100 w-60 h-[calc(100dvh-56px)] bg-base-dark'
     >
       <div class='h-full w-full max-h-full flex flex-col items-center gutter-stable px-3 pr-1 pb-2 overflow-y-scroll [scrollbar-width:thin] not-hover:[scrollbar-color:transparent_transparent]'>
         { itemsAside.map((item) => (
