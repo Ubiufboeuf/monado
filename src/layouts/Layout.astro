@@ -10,14 +10,73 @@ interface Props {
 }
 
 const { title } = Astro.props
+
+const deviceCodeCookie = Astro.cookies.get('monado-device-type')
+const deviceCode = deviceCodeCookie?.value
+
+const devices = { 
+  'M': 'mobile', 
+  'T': 'tablet', 
+  'D': 'desktop'
+}
+
+const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
 ---
 
-<html lang='es'>
+<html lang='es' data-device-type={deviceType}>
 	<head>
 		<meta charset='utf-8' />
 		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
 		<meta name='viewport' content='width=device-width' />
 		<title>{title ? `${title} - Monado` : 'Monado'}</title>
+    <script>
+      (function() {
+        const htmlElement = document.documentElement;
+        
+        // El servidor ya puso un valor (ej: 'is-desktop-ua').
+        const currentDeviceType = htmlElement.dataset.deviceType; 
+        
+        // Función auxiliar para establecer cookies
+        function setCookie(name: string, value: string, days: number) {
+          const date = new Date();
+          date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+          const expires = `; expires=${date.toUTCString()}`;
+          document.cookie = `${name}=${value}${expires}; path=/; SameSite=Lax`;
+        }
+        
+        // Mapeo inverso de la clase CSS al código de 1 byte
+        const devices = { 
+					'M': 'mobile',
+					'T': 'tablet',
+					'D': 'desktop'
+        };
+        
+        // --- Lógica de detección del dispositivo en base al user agent ---
+        const ua = navigator.userAgent;
+        const mobileRegex = /(Mobi|Android(?!.*Nexus 7)|iPhone|iPod|Windows Phone|BlackBerry|Symbian|IEMobile|Opera Mini|Fennec|webOS|hpwos|avantgo|bada|blazer|compal|elaine|hiptop|kindle|lge|maemo|midp|mmp|netfront|palm|phone|plucker|pocket|psp|series60|treo|up\.browser|up\.link|vodafone|wap|windows ce|xda|xiino)/i;
+        const tabletRegex = /(iPad|Android(?!.*mobile)|Kindle|Playbook|Silk|Tablet|hpw|webos|Nexus 7)/i;
+        
+        let newDeviceCode = 'D'; // Por defecto: Desktop
+
+        if (mobileRegex.test(ua) && !/iPad/i.test(ua)) {
+          newDeviceCode = 'M'; // Mobile
+        } else if (tabletRegex.test(ua)) {
+          newDeviceCode = 'T'; // Tablet
+        }
+        
+        const newDeviceType = devices[newDeviceCode as keyof typeof devices];
+				console.log({ newDeviceType, currentDeviceType, newDeviceCode })
+        
+        // --- Optimización: Solo actualizar si hay discrepancia ---
+        if (currentDeviceType !== newDeviceType) {
+					// Aplicar el cambio en el DOM para evitar flasheo
+					htmlElement.dataset.deviceType = newDeviceType;
+
+					// Guardar la cookie para que el servidor la use en la próxima carga
+					setCookie('monado-device-type', newDeviceCode, 30);
+        }
+      })()
+    </script>
 		<script>
 			// Leer cookie del estado del menú
 			(function() {
