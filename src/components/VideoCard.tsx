@@ -2,6 +2,7 @@ import type { Video } from '@/types/videoTypes'
 import type { TargetedMouseEvent } from 'preact'
 import { IconDots } from './Icons'
 import { parseDuration, parseViews } from '@/lib/parsers'
+import { navigate } from 'astro:transitions/client'
 
 export function VideoCard ({ video }: { video: Video }) {
   const { id, title, duration, views, assets } = video
@@ -9,7 +10,7 @@ export function VideoCard ({ video }: { video: Video }) {
   function changeVideo (event: TargetedMouseEvent<HTMLElement>) {
     event.preventDefault()
     
-    console.log('change video')
+    navigate(`/watch?v=${video.id}`)
   }
 
   function showOptions (event: TargetedMouseEvent<HTMLButtonElement>) {
