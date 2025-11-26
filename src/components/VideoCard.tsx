@@ -39,15 +39,15 @@ export function VideoCard ({ video }: { video: Video }) {
             }} />
           </div>
         </section>
-        <section class='w-full h-26 ms:h-29 text-sm relative grid grid-cols-[48px_1fr_36px]'>
-          <div class='h-fulll w-full flex pt-3'>
+        <section class='w-full h-26 ms:h-29 text-sm relative grid grid-cols-[48px_1fr_36px] not-xs:pl-3'>
+          <div class='h-fulll w-full flex items-start justify-start pt-3'>
             <button
               class='size-10 aspect-square flex items-center justify-start pointer-events-auto cursor-pointer'
               // onClick={() => {
               //   navigate('/channel?id=ooo0eve0ooo')
               // }}
             >
-              <div class='xs:size-9 size-10 aspect-square object-contain max-h-full max-w-full rounded-full overflow-hidden bg-neutral-700'>
+              <div class='size-9 aspect-square object-contain max-h-full max-w-full rounded-full overflow-hidden bg-neutral-700'>
                 {/* { video?.uploader_id && <img
                     src={`http://localhost:1234/avatar/${uploader_id}`} alt={'a'}
                     class='size-full'
@@ -56,7 +56,7 @@ export function VideoCard ({ video }: { video: Video }) {
               </div>
             </button>
           </div>
-          <div class='flex-1 text-neutral-400 pt-3 flex flex-col items-start not-xs:pl-3'>
+          <div class='flex-1 text-neutral-400 pt-3 flex flex-col items-start'>
             <h1 class='text-sm sm:text-base font-medium text-start line-clamp-2 text-neutral-100'>{title}</h1>
             <div class='text-[min(3vw,14px)] ms:block flex items-center gap-1'>
               {/* {
