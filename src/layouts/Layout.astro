@@ -6,10 +6,11 @@ import { MenuMini } from '@/components/MenuMini'
 import { TabBar } from '@/components/TabBar'
 
 interface Props {
-  title?: string  
+  title?: string
+	hideMenuMini?: boolean 
 }
 
-const { title } = Astro.props
+const { title, hideMenuMini } = Astro.props
 
 const deviceCodeCookie = Astro.cookies.get('monado-device-type')
 const deviceCode = deviceCodeCookie?.value
@@ -104,7 +105,7 @@ const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
 		<Header />
 		<main class='h-full w-full min-h-fit max-h-full pt-14'>
 			<Menu client:load />
-			<MenuMini />
+			<MenuMini hidden={hideMenuMini} />
 			<slot />
 		</main>
 		<TabBar />
