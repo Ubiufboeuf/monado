@@ -25,7 +25,7 @@ export function Watch ({ id }: { id: string }) {
   }, [])
 
   return (
-    <section class='absolute top-26 xs:top-14 right-0 flex flex-col h-[calc(100%-56px)] min-h-fit w-full sm:w-[calc(100%-72px)] ml:menu-open:w-navbar [transition:width_250ms_ease]'>
+    <section class='absolute top-17 right-0 flex flex-col h-[calc(100%-56px)] min-h-fit w-full sm:w-[calc(100%-72px)] ml:menu-open:w-navbar [transition:width_250ms_ease]'>
       <Player />
     </section>
   )
