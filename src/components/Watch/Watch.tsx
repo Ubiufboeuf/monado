@@ -30,13 +30,14 @@ export function Watch ({ id }: { id: string }) {
       lg:grid-cols-[max(1fr_min-content)_340px]
       lg:grid-rows-[400px_1fr]
 
+      [grid-template-areas:"player""detalles""sugeridos"]
       grid-rows-[min(80%,480px)_1fr]
     '>
-      <div class='w-full min-w-160 h-full max-h-full lg:max-h-100 lg:rounded-xl bg-black'>
+      <div class='[grid-area:player] w-full desktop:min-w-160 h-full max-h-full lg:max-h-100 lg:rounded-xl mobile:max-h-dvw mobile:lg:max-h-[calc(9*100dvw/16)] bg-black'>
         <Player class='w-full h-full max-w-full max-h-full' />
       </div>
-      <div class='min-w-85'>sugeridos (derecha)</div>
-      <div>detalles (abajo izquierda)</div>
+      <div class='[grid-area:sugeridos] min-w-85'>sugeridos (derecha)</div>
+      <div class='[grid-area:detalles]'>detalles (abajo izquierda)</div>
     </section>
   )
 }
