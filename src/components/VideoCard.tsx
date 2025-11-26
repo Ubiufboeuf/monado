@@ -39,8 +39,8 @@ export function VideoCard ({ video }: { video: Video }) {
             }} />
           </div>
         </section>
-        <section class='w-full h-26 ms:h-29 text-sm relative grid grid-cols-[48px_1fr_36px] not-xs:pl-3'>
-          <div class='h-fulll w-full flex items-start justify-start pt-3'>
+        <section class='w-full h-26 ms:h-29 text-sm relative grid grid-cols-[48px_1fr_36px] not-xs:px-3 pt-3'>
+          <div class='h-fulll w-full flex items-start justify-start'>
             <button
               class='size-10 aspect-square flex items-center justify-start pointer-events-auto cursor-pointer'
               // onClick={() => {
@@ -56,7 +56,7 @@ export function VideoCard ({ video }: { video: Video }) {
               </div>
             </button>
           </div>
-          <div class='flex-1 text-neutral-400 pt-3 flex flex-col items-start'>
+          <div class='flex-1 text-neutral-400 flex flex-col items-start'>
             <h1 class='text-sm sm:text-base font-medium text-start line-clamp-2 text-neutral-100'>{title}</h1>
             <div class='text-[min(3vw,14px)] ms:block flex items-center gap-1'>
               {/* {
@@ -77,9 +77,9 @@ export function VideoCard ({ video }: { video: Video }) {
               )} */}
             </div>
           </div>
-          <div class='h-full w-full flex-1 pt-3'>
+          <div class='h-full w-full flex-1'>
             <button
-              class='dots absolute right-0 hover:bg-neutral-800 cursor-pointer rounded-full aspect-square size-9 flex items-center justify-center'
+              class='dots hover:bg-neutral-800 cursor-pointer rounded-full aspect-square size-9 flex items-center justify-center'
               onClick={showOptions}
             >
               <div class='size-5 overflow-hidden flex items-center justify-center pointer-events-none'>
