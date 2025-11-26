@@ -1,0 +1,86 @@
+/* eslint-disable @typescript-eslint/consistent-type-imports */
+import { errorHandler } from '@/lib/errors'
+import { usePlayerStore } from '@/stores/usePlayerStore'
+import type { MediaPlayerClass, MediaPlayerSettingClass } from 'dashjs'
+import { useEffect, useRef, useState } from 'preact/hooks'
+
+const playerSettings: MediaPlayerSettingClass = {
+  streaming: {
+    abr: {
+      autoSwitchBitrate: {
+        audio: false,
+        video: false
+      }
+    }
+  }
+}
+
+export function Player () {
+  type DashJS = typeof import('/home/mango/Dev/monado/node_modules/dashjs/index')
+
+  const [dashjs, setDashjs] = useState<DashJS>()
+  const playerRef = useRef<MediaPlayerClass>()
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
+  const video = usePlayerStore((state) => state.video)
+
+  async function importDashjs () {
+    return import('dashjs')
+      .then((dashjs) => {
+        setDashjs(dashjs)
+        return dashjs
+      })
+  }
+
+  async function createPlayer () {
+    let player = playerRef.current
+    if (player) return player
+    
+    if (!dashjs) return
+    // No importo dashjs si no tiene valor para evitar un bucle por cómo se ejecuta esto
+
+    player = dashjs?.MediaPlayer().create()
+    if (player) {
+      playerRef.current = player
+      return player
+    }
+
+    console.error('Error creando el reproductor')
+  }
+
+  function initPlayer (player: MediaPlayerClass | undefined) {
+    if (!player) return
+
+    const videoElement = videoRef.current
+    const mpdPath = video?.source
+    const autoPlay = false
+    const timeSeen = 0
+    
+    if (!videoElement || !mpdPath) return
+
+    player.updateSettings(playerSettings)
+    try {
+      player.initialize(videoElement, mpdPath, autoPlay, timeSeen)
+    } catch (err) {
+      errorHandler(err, 'Error inicializando el reproductor')
+    }
+  }
+
+  useEffect(() => {    
+    importDashjs()
+  }, [])
+
+  useEffect(() => {
+    if (!dashjs || !video) return
+
+    createPlayer()
+      .then((player) => initPlayer(player))
+  }, [dashjs, video])
+  
+  return (
+    <video
+      ref={videoRef}
+      class='w-160 h-90 bg-neutral-600'
+    />
+  )
+}
