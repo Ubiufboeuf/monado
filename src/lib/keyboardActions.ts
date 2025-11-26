@@ -13,6 +13,7 @@ function toggleFullScreen () {
   if (!player || !document.fullscreenEnabled) return
 
   const isFullScreen = document.fullscreenElement
+  document.documentElement.dataset.fullScreen = `${Boolean(isFullScreen)}`
 
   if (isFullScreen) document.exitFullscreen()
   else player.requestFullscreen()
