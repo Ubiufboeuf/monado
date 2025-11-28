@@ -61,7 +61,7 @@
 }
 
 @custom-variant full-screen {
-  &:where([data-is-full-screen='true'] *) {
+  &:where([data-is-full-screen] *) {
     @slot;
   }
 }
