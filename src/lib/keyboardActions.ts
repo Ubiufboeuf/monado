@@ -12,9 +12,15 @@ function toggleFullScreen () {
   const player = usePlayerStore.getState().player
   if (!player || !document.fullscreenEnabled) return
 
-  const isFullScreen = document.fullscreenElement
-  document.documentElement.dataset.fullScreen = `${Boolean(isFullScreen)}`
+  const isFullScreen = Boolean(document.fullscreenElement)
 
-  if (isFullScreen) document.exitFullscreen()
-  else player.requestFullscreen()
+  const promise = isFullScreen ? document.exitFullscreen : player.parentElement?.requestFullscreen
+  const thisArg = isFullScreen ? document : player.parentElement
+
+  promise?.call(thisArg)
+    .then(() => {
+      const newState = Boolean(document.fullscreenElement)
+      if (newState) document.documentElement.dataset.isFullScreen = ''
+      else delete document.documentElement.dataset.isFullScreen
+    })
 }
