@@ -251,8 +251,8 @@ export function Player ({ class: className, style }: { class?: string, style?: C
             /* El eventListener del mouseUp se maneja desde un effect */
           >
             <div class='absolute flex items-center h-1 group-hover:h-1.5 w-full cursor-pointer rounded-full transition-all duration-300 bg-gray-900/60' /> {/* track */}
-            <div ref={timeseenRef} class='absolute h-1 group-hover:h-1.5 rounded-full transition-all duration-300 [background:var(--color-gradient)]' /> {/* tiempo visto */}
-            <div ref={timelineThumbRef} class='absolute left-0 top-1/2 -translate-1/2 size-3 group-hover:size-5 transition-all duration-300 rounded-full [background:var(--color-gradient)] shadow-2xl' /> {/* thumb */}
+            <div ref={timeseenRef} class='absolute h-1 group-hover:h-1.5 rounded-full [transition:height_300ms_eease] [background:var(--color-gradient)]' /> {/* tiempo visto */}
+            <div ref={timelineThumbRef} class='absolute left-0 top-1/2 -translate-1/2 size-3 group-hover:size-5 rounded-full [transition:height_300ms_eease] [background:var(--color-gradient)] shadow-2xl' /> {/* thumb */}
           </div>
           {/* botones */}
           <div class='flex h-13 justify-between px-1'>
