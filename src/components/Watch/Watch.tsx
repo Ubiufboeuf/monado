@@ -50,10 +50,10 @@ export function Watch ({ id }: { id: string }) {
       lg:grid-rows-[400px_1fr]
 
       [grid-template-areas:"player""detalles""sugeridos"]
-      grid-rows-[min(100dvw,80%,480px)_1fr_1fr]
+      grid-rows-[min(100dvw,80%,1fr)_1fr_1fr]
     '>
-      <div class='[grid-area:player] w-full desktop:min-w-160 h-full max-h-full lg:max-h-100 lg:rounded-xl mobile:max-h-dvw mobile:lg:max-h-[calc(9*100dvw/16)] bg-black'>
-        <Player class='w-full h-full max-w-full max-h-full' />
+      <div class='[grid-area:player] w-full desktop:min-w-160 h-fit lg:h-full max-h-full lg:max-h-100 lg:rounded-xl mobile:max-h-dvw mobile:lg:max-h-[calc(9*100dvw/16)] bg-black'>
+        <Player class='w-full h-full max-w-full max-h-full select-none' />
       </div>
       <div class='[grid-area:detalles] h-60'>detalles (abajo izquierda)</div>
       <div class='[grid-area:sugeridos] min-w-85 h-300'>sugeridos (derecha)</div>
