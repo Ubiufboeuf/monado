@@ -25,7 +25,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
 
   const [dashjs, setDashjs] = useState<DashJS>()
   const [playerInitialized, setPlayerInitialized] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(false)
+  const [isPlaying, setIsPlaying] = useState(true)
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
   const playerRef = useRef<MediaPlayerClass>()
   const videoRef = useRef<HTMLVideoElement | null>(null)
@@ -127,8 +127,8 @@ export function Player ({ class: className, style }: { class?: string, style?: C
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
-
-    if (isPlaying) {
+    
+    if (!isPlaying) {
       video.pause()
       return
     }
@@ -185,11 +185,11 @@ export function Player ({ class: className, style }: { class?: string, style?: C
               >
                 <div class='flex items-center justify-center size-full rounded-full pointer-events-none transition-colors group-hover:bg-white/10'>
                   { isPlaying
-                    ? <Icon class='size-10 shrink-0 filter-[drop-shadow(0px_0px_1px_black)]'>
-                        <IconPlay />
-                      </Icon>
-                    : <Icon class='size-8 shrink-0 filter-[drop-shadow(0px_0px_1px_black)]'>
+                    ? <Icon class='size-8 shrink-0 filter-[drop-shadow(0px_0px_1px_black)]'>
                         <IconPause />
+                      </Icon>
+                    : <Icon class='size-10 shrink-0 filter-[drop-shadow(0px_0px_1px_black)]'>
+                        <IconPlay />
                       </Icon>
                   }
                 </div>
