@@ -19,17 +19,19 @@ const playerSettings: MediaPlayerSettingClass = {
   }
 }
 
+const AUTO_PLAY = true
+
 let isMouseDown = false
 let pausedForDragging = false
 let pausedForError = false
-let playAfterDrag = true
+let playAfterDrag = AUTO_PLAY
 
 export function Player ({ class: className, style }: { class?: string, style?: CSSProperties }) {
   type DashJS = typeof import('/home/mango/Dev/monado/node_modules/dashjs/index')
 
   const [dashjs, setDashjs] = useState<DashJS>()
   const [playerInitialized, setPlayerInitialized] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(true)
+  const [isPlaying, setIsPlaying] = useState(AUTO_PLAY)
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
