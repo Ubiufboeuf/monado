@@ -6,6 +6,7 @@ import type { CSSProperties } from 'preact'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { Icon } from '../Icon'
 import { IconNext, IconPause, IconPlay } from '../Icons'
+import { parseDuration } from '@/lib/parsers'
 
 const playerSettings: MediaPlayerSettingClass = {
   streaming: {
@@ -27,8 +28,12 @@ export function Player ({ class: className, style }: { class?: string, style?: C
   const [playerInitialized, setPlayerInitialized] = useState(false)
   const [isPlaying, setIsPlaying] = useState(true)
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
   const playerRef = useRef<MediaPlayerClass>()
   const videoRef = useRef<HTMLVideoElement | null>(null)
+  const timeseenRef = useRef<HTMLDivElement | null>(null)
+  const timelineThumbRef = useRef<HTMLDivElement | null>(null)
 
   const video = usePlayerStore((state) => state.video)
   const setPlayer = usePlayerStore((state) => state.setPlayer)
@@ -98,6 +103,19 @@ export function Player ({ class: className, style }: { class?: string, style?: C
     window.removeEventListener('mousemove', handleDragTimeline)
   }
 
+  function handleTimeUpdate () {
+    const video = videoRef.current
+    if (!video) return
+
+    const { currentTime } = video
+    setCurrentTime(currentTime)
+    
+    const currentTimePercent = `${currentTime * 100 / duration}%`
+
+    if (timeseenRef.current) timeseenRef.current.style.width = currentTimePercent
+    if (timelineThumbRef.current) timelineThumbRef.current.style.left = currentTimePercent
+  }
+
   const play = () => setIsPlaying(true)
   const pause = () => setIsPlaying(false)
   const togglePlayerState = isPlaying ? pause : play
@@ -123,6 +141,11 @@ export function Player ({ class: className, style }: { class?: string, style?: C
     createPlayer()
       .then((player) => initPlayer(player))
   }, [dashjs, video])
+
+  useEffect(() => {
+    if (!video) return
+    setDuration(video.duration)
+  }, [video])
 
   useEffect(() => {
     const video = videoRef.current
@@ -153,7 +176,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
     window.addEventListener('click', handleClick)
     return () => window.removeEventListener('click', handleClick)
   }, [autoplayBlocked])
-  
+
   return (
     <div
       class={`${className} relative`}
@@ -162,6 +185,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
       <video
         ref={videoRef}
         class='w-full max-h-[calc(100cqw*9/16)] lg:max-h-auto lg:h-full'
+        onTimeUpdate={handleTimeUpdate}
       />
       {/* controles */}
       <div class='absolute left-0 top-0 h-full w-full'>
@@ -174,8 +198,8 @@ export function Player ({ class: className, style }: { class?: string, style?: C
             /* El eventListener del mouseUp se maneja desde un effect */
           >
             <div class='absolute flex items-center h-1 group-hover:h-1.5 w-full cursor-pointer rounded-full transition-all duration-300 bg-gray-900/60' /> {/* track */}
-            <div class='absolute h-1 group-hover:h-1.5 w-30 rounded-full transition-all duration-300 [background:var(--color-gradient)]' /> {/* tiempo visto */}
-            <div class='absolute left-30 top-1/2 -translate-1/2 size-3 group-hover:size-5 transition-all duration-300 rounded-full [background:var(--color-gradient)] shadow-2xl' /> {/* thumb */}
+            <div ref={timeseenRef} class='absolute h-1 group-hover:h-1.5 rounded-full transition-all duration-300 [background:var(--color-gradient)]' /> {/* tiempo visto */}
+            <div ref={timelineThumbRef} class='absolute left-0 top-1/2 -translate-1/2 size-3 group-hover:size-5 transition-all duration-300 rounded-full [background:var(--color-gradient)] shadow-2xl' /> {/* thumb */}
           </div>
           {/* botones */}
           <div class='flex h-13 justify-between px-1'>
@@ -216,9 +240,9 @@ export function Player ({ class: className, style }: { class?: string, style?: C
               </div> */}
               <div class='flex items-center justify-center h-10 w-fit p-1 rounded-full bg-black/30'>
                 <div class='flex items-center justify-center h-full w-full px-3 rounded-full text-sm'>
-                  <span>0:00</span>
+                  <span>{parseDuration(currentTime)}</span>
                   &nbsp;<span class='text-sm'>/</span>&nbsp;
-                  <span>3:12</span>
+                  <span>{parseDuration(duration)}</span>
                 </div>
               </div>
             </section>
