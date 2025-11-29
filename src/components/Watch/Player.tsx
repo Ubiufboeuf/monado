@@ -141,6 +141,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
       .catch((err) => {
         errorHandler(err, 'Error reproduciendo el video', 'dev')
         setAutoplayBlocked(true)
+        setIsPlaying(false)
       })
   }, [isPlaying])
 
