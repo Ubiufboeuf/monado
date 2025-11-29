@@ -8,6 +8,7 @@ type SVGProps = {
   strokeWidth?: string,
   strokeLinecap?: SVGAttributes<SVGSVGElement>['strokeLinecap'],
   strokeLinejoin?: SVGAttributes<SVGSVGElement>['strokeLinejoin']
+  hidden?: boolean
 }
 
 const Gradients = () => (
@@ -23,7 +24,7 @@ const Gradients = () => (
   </defs>
 )
 
-const Svg = ({ children, gradient = false, stroke, strokeWidth, strokeLinecap, strokeLinejoin }: SVGProps) => (
+const Svg = ({ children, gradient = false, stroke, strokeWidth, strokeLinecap, strokeLinejoin, hidden }: SVGProps) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
     viewBox='0 0 24 24'
@@ -34,6 +35,7 @@ const Svg = ({ children, gradient = false, stroke, strokeWidth, strokeLinecap, s
     strokeWidth={strokeWidth}
     strokeLinejoin={strokeLinejoin}
     strokeLinecap={strokeLinecap}
+    hidden={hidden}
     class='h-full w-full pointer-events-none'
   >
     {gradient && <Gradients />}
