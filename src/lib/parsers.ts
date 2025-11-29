@@ -10,8 +10,7 @@ export function parseDuration (duration: number) {
   s = Math.floor(duration % 60)
 
   if (h) return `${h}:${padStart(m, 2, '0')}:${padStart(s, 2, '0')}`
-  if (m) return `${m}:${padStart(s, 2, '0')}`
-  return s
+  return `${m}:${padStart(s, 2, '0')}`
 }
 
 export function parseViews (views: number) {
