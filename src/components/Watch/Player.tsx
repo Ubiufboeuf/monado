@@ -20,6 +20,9 @@ const playerSettings: MediaPlayerSettingClass = {
 }
 
 let isMouseDown = false
+let pausedForDragging = false
+let pausedForError = false
+let playAfterDrag = true
 
 export function Player ({ class: className, style }: { class?: string, style?: CSSProperties }) {
   type DashJS = typeof import('/home/mango/Dev/monado/node_modules/dashjs/index')
@@ -30,8 +33,10 @@ export function Player ({ class: className, style }: { class?: string, style?: C
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  
   const playerRef = useRef<MediaPlayerClass>()
   const videoRef = useRef<HTMLVideoElement | null>(null)
+  const timelineRef = useRef<HTMLDivElement | null>(null)
   const timeseenRef = useRef<HTMLDivElement | null>(null)
   const timelineThumbRef = useRef<HTMLDivElement | null>(null)
 
@@ -82,23 +87,63 @@ export function Player ({ class: className, style }: { class?: string, style?: C
     }
   }
 
-  function handlePressTimeline () {
+  function handlePressTimeline (event: MouseEvent) {
     // console.log('press', isMouseDown && 'mouse down')
     // if (isMouseDown) return
     isMouseDown = true
     
+    if (!pausedForError) {
+      pause()
+      pausedForDragging = true
+    }
+
+    if (timelineRef.current) {
+      const { x } = event
+      const { left, width } = timelineRef.current.getBoundingClientRect()
+      const start = left
+      const end = width
+      const percent = (x - start) / (end) // <- solo para el tiempo
+      
+      const time = Math.max(0, Math.min(percent * duration, duration))
+      const position = Math.max(0, Math.min(x - start, end))
+      if (videoRef.current) videoRef.current.currentTime = time
+      setCurrentTime(time)
+      
+      if (timeseenRef.current) timeseenRef.current.style.width = `${position}px`
+      if (timelineThumbRef.current) timelineThumbRef.current.style.left = `${position}px`
+    }
+    
     window.addEventListener('mousemove', handleDragTimeline)
   }
 
-  function handleDragTimeline () {
+  function handleDragTimeline (event: MouseEvent) {
     if (!isMouseDown) return
     
-    // console.log('mouse move', isMouseDown ? 'yes' : 'no', event.x, event.y)
+    if (!timelineRef.current) return
+
+    const { x } = event
+    const { left, width } = timelineRef.current.getBoundingClientRect()
+    const start = left
+    const end = width
+    const percent = (x - start) / (end) // <- solo para el tiempo
+
+    const time = Math.max(0, Math.min(percent * duration, duration))
+    const position = Math.max(0, Math.min(x - start, end))
+    if (videoRef.current) videoRef.current.currentTime = time
+    setCurrentTime(time)
+
+    if (timeseenRef.current) timeseenRef.current.style.width = `${position}px`
+    if (timelineThumbRef.current) timelineThumbRef.current.style.left = `${position}px`
   }
 
   function handleMouseUp () {
     // console.log('mouse up')
     isMouseDown = false
+
+    if (pausedForDragging && playAfterDrag) {
+      play()
+      pausedForDragging = false
+    }
 
     window.removeEventListener('mousemove', handleDragTimeline)
   }
@@ -118,7 +163,10 @@ export function Player ({ class: className, style }: { class?: string, style?: C
 
   const play = () => setIsPlaying(true)
   const pause = () => setIsPlaying(false)
-  const togglePlayerState = isPlaying ? pause : play
+  function togglePlayerState () {
+    playAfterDrag = false
+    return isPlaying ? pause() : play()
+  }
 
   useEffect(() => {    
     importDashjs()
@@ -160,11 +208,15 @@ export function Player ({ class: className, style }: { class?: string, style?: C
       .then(() => {
         // console.log('playing')
         setAutoplayBlocked(false)
+        pausedForError = false
+        playAfterDrag = true
       })
       .catch((err) => {
         errorHandler(err, 'Error reproduciendo el video', 'dev')
         setAutoplayBlocked(true)
         setIsPlaying(false)
+        pausedForError = true
+        pausedForDragging = false
       })
   }, [isPlaying])
 
@@ -193,6 +245,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
         <section class='absolute bottom-0 w-full h-fit px-2'>
           {/* línea de tiempo */}
           <div
+            ref={timelineRef}
             class='group relative flex items-center h-2.5 w-[calc(100%-8px)] mx-auto cursor-pointer'
             onMouseDown={handlePressTimeline}
             /* El eventListener del mouseUp se maneja desde un effect */
