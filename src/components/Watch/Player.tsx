@@ -169,7 +169,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
         <section class='absolute bottom-0 w-full h-fit px-2'>
           {/* línea de tiempo */}
           <div
-            class='group relative flex items-center h-2.5 w-full cursor-pointer'
+            class='group relative flex items-center h-2.5 w-[calc(100%-8px)] mx-auto cursor-pointer'
             onMouseDown={handlePressTimeline}
             /* El eventListener del mouseUp se maneja desde un effect */
           >
