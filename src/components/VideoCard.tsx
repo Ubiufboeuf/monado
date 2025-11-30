@@ -1,12 +1,14 @@
 import type { Video } from '@/types/videoTypes'
-import type { TargetedMouseEvent } from 'preact'
+import type { TargetedEvent, TargetedMouseEvent } from 'preact'
 import { IconDots } from './Icons'
 import { parseDuration, parseViews } from '@/lib/parsers'
 import { navigate } from 'astro:transitions/client'
+import { useState } from 'preact/hooks'
 
 export function VideoCard ({ video }: { video: Video }) {
   const { id, title, duration, views, assets } = video
-  
+  const [isSquare, setIsSquare] = useState(false)
+
   function changeVideo (event: TargetedMouseEvent<HTMLElement>) {
     event.preventDefault()
     
@@ -19,6 +21,18 @@ export function VideoCard ({ video }: { video: Video }) {
 
     console.log('show options')
   }
+
+  function handleLoadThumbnail (event: TargetedEvent<HTMLImageElement>) {
+    const image = event.currentTarget
+    const { naturalWidth, naturalHeight } = image
+    const aspectRatio = naturalWidth / naturalHeight
+
+    const threshold = 0.1
+    setIsSquare(((aspectRatio + threshold) <= 1.1) && ((aspectRatio - threshold) >= 0.9))
+
+    // Para evitar un "parpadeo" por el object fit inicial incorrecto
+    image.classList.remove('opacity-0')
+  }
   
   return (
     <article class='cardWrapper relative flex justify-center'>
@@ -30,8 +44,21 @@ export function VideoCard ({ video }: { video: Video }) {
       >
         <section class='w-full aspect-video bg-black xs:rounded-xl flex items-end justify-center relative overflow-hidden'>
           <div class='h-full w-full bg-neutral-700 relative'>
-            { assets.minThumbnail && <img class='h-full w-full object-contain flex pointer-events-none select-none blur' src={assets.minThumbnail} /> }
-            { assets.thumbnail && <img class='absolute left-0 top-0 h-full w-full object-contain flex pointer-events-none select-none' src={assets.thumbnail} alt={title} /> }
+            { assets.minThumbnail &&
+              <img
+                src={assets.minThumbnail}
+                class={`${isSquare ? 'isSquare' : ''} opacity-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none blur`}
+                onLoad={handleLoadThumbnail}
+              />
+            }
+            { assets.thumbnail &&
+              <img
+                src={assets.thumbnail}
+                class={`${isSquare ? 'isSquare' : ''} opacity-0 absolute left-0 top-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none`}
+                alt={title}
+                onLoad={handleLoadThumbnail}
+              />
+            }
           </div>
           <time class='absolute bottom-2 right-2 bg-[#000a] rounded font-semibold text-xs px-1 py-[2px]'>{parseDuration(duration)}</time>
           <div class='w-full h-1 absolute bottom-0 bg-[#666a]' hidden/* ={userVideoInfo?.timeSeen} */>
