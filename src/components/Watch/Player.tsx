@@ -238,7 +238,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
     >
       <video
         ref={videoRef}
-        class='w-full max-h-[calc(100cqw*9/16)] lg:max-h-auto lg:h-full'
+        class='w-full h-[min(70dvh,calc(100cqw*9/16))] lg:max-h-auto lg:h-full'
         onTimeUpdate={handleTimeUpdate}
       />
       {/* controles */}
