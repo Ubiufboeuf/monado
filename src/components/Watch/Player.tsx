@@ -248,7 +248,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
           {/* línea de tiempo */}
           <div
             ref={timelineRef}
-            class='group relative flex items-center h-2.5 w-[calc(100%-8px)] mx-auto cursor-pointer'
+            class='group absolute bottom-14.5 left-1/2 translate-y-1/2 -translate-x-1/2 flex items-center h-2.5 hover:h-5 w-[calc(100%-24px)] cursor-pointer'
             onMouseDown={handlePressTimeline}
             /* El eventListener del mouseUp se maneja desde un effect */
           >
