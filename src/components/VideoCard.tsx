@@ -1,6 +1,6 @@
 import type { Video } from '@/types/videoTypes'
 import type { TargetedEvent, TargetedMouseEvent } from 'preact'
-import { IconDots } from './Icons'
+import { IconDots, IconVerified } from './Icons'
 import { parseDuration, parseViews } from '@/lib/parsers'
 import { navigate } from 'astro:transitions/client'
 import { useState } from 'preact/hooks'
@@ -87,22 +87,11 @@ export function VideoCard ({ video }: { video: Video }) {
           <div class='flex-1 text-neutral-400 flex flex-col items-start'>
             <h1 class='text-sm sm:text-base font-medium text-start line-clamp-2 text-neutral-100'>{title}</h1>
             <div class='text-[min(3vw,14px)] ms:block flex items-center gap-1'>
-              {/* {
-                creator?.name && (
-                  <div class='flex items-center justify-start w-fit h-fit'>
-                    <span class='pr-1.5'>{creator?.name}</span>
-                    <span class='ms:hidden flex w-fit'>•</span>
-                    <div class='size-[14px] hidden ms:block aspect-square fill-neutral-400'>{creator?.verified ? <IconChannelVerified /> : ''}</div>
-                  </div>
-                )
-              } */}
-              <span hidden={!views}>{parseViews(views)} vistas </span>
-              {/* { parsedPublicationDate && (
-                <>
-                  <span>•</span>
-                  <span> hace {parsedPublicationDate}</span>
-                </>
-              )} */}
+              <span>mAngo</span>
+              &nbsp;<span>•</span>&nbsp;
+              <span hidden={!views}>{parseViews(views)} vistas</span>
+              &nbsp;<span>•</span>&nbsp;
+              <span>hace 20 días</span>
             </div>
           </div>
           <div class='h-full w-full flex-1'>
