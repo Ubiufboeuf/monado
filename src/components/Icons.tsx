@@ -3,6 +3,9 @@ import type { ReactNode } from 'preact/compat'
 
 type SVGProps = {
   children: ReactNode,
+  viewBox?: string,
+  width?: string,
+  height?: string,
   gradient?: boolean,
   stroke?: string,
   strokeWidth?: string,
@@ -24,12 +27,12 @@ const Gradients = () => (
   </defs>
 )
 
-const Svg = ({ children, gradient = false, stroke, strokeWidth, strokeLinecap, strokeLinejoin, hidden }: SVGProps) => (
+const Svg = ({ children, viewBox = '0 0 24 24', width = '24', height = '24', gradient = false, stroke, strokeWidth, strokeLinecap, strokeLinejoin, hidden }: SVGProps) => (
   <svg
     xmlns='http://www.w3.org/2000/svg'
-    viewBox='0 0 24 24'
-    width='24'
-    height='24'
+    viewBox={viewBox}
+    width={width}
+    height={height}
     fill={gradient ? 'url(#gradient)' : 'currentColor'}
     stroke={stroke}
     strokeWidth={strokeWidth}
