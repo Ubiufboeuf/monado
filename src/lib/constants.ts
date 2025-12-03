@@ -11,3 +11,5 @@ export const ENDPOINTS = {
 export {
   DEV
 }
+
+export const EMPTY = '(Vacío)' as const
