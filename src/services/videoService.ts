@@ -1,9 +1,10 @@
-import { ENDPOINTS } from '@/lib/constants'
+import { EMPTY, ENDPOINTS } from '@/lib/constants'
 import { errorHandler } from '@/lib/errors'
 import { responseHandler } from '@/lib/handlers'
-import type { Video, VideoAssets } from '@/types/videoTypes'
-import type { ServerResponse } from './apiTypes'
+import type { ResolutionsById, Video } from '@/types/videoTypes'
+import type { ServerResponse, VideoFromServer } from './apiTypes'
 import { isValidVideo } from '@/lib/validations'
+import { getMax, getMin } from '@/lib/utils'
 
 export async function getVideos (): Promise<Video[]> {
   let res
@@ -79,32 +80,14 @@ export function formVideos (data: ServerResponse): Video[] {
   const videos: Video[] = []
 
   for (const v of videosFromServer) {
-    if (!isValidVideo(v) || !v.id) continue
+    if (!isValidVideo(v)) continue
 
-    const assets: VideoAssets = {
-      minThumbnail: `${ENDPOINTS.THUMBNAIL}/${v.minimalThumbnail}`,
-      thumbnail: `${ENDPOINTS.THUMBNAIL}/${v.thumbnail}`,
-      thumbnails: v.thumbnails?.map((t) => ({
-        ...t,
-        url: `${ENDPOINTS.THUMBNAIL}/${t.url}`
-      })) || []
-    }
-    
-    const video: Video = {
-      id: v.id,
-      assets,
-      title: v.title || 'Título',
-      duration: v.duration || -1,
-      views: v.view_count || -1,
-      likes: v.like_count || -1,
-      formats: v.formats || [],
-      source: `${ENDPOINTS.VIDEO_STREAM}/${v.id}/manifest.mpd`,
-      release_timestamp: v.release_timestamp || -1
-    }
+    const video = parseVideoFromServer(v)
+    if (!video) continue
 
     videos.push(video)
   }
-  
+
   return videos
 }
 
@@ -115,28 +98,47 @@ export function formVideo (data: ServerResponse) {
     throw new Error('La variable de los datos del video es falsy')
   }
   
-  if (!isValidVideo(videoFromServer) || !videoFromServer.id) return
+  if (!isValidVideo(videoFromServer)) return
+  
+  const video = parseVideoFromServer(videoFromServer)
+  if (!video) return
 
-  const assets: VideoAssets = {
-    minThumbnail: `${ENDPOINTS.THUMBNAIL}/${videoFromServer.minimalThumbnail}`,
-    thumbnail: `${ENDPOINTS.THUMBNAIL}/${videoFromServer.thumbnail}`,
-    thumbnails: videoFromServer.thumbnails?.map((t) => ({
-      ...t,
-      url: `${ENDPOINTS.THUMBNAIL}/${t.url}`
-    })) || []
-  }
-  
-  const video: Video = {
-    id: videoFromServer.id,
-    assets,
-    title: videoFromServer.title || 'Título',
-    duration: videoFromServer.duration || -1,
-    views: videoFromServer.view_count || -1,
-    likes: videoFromServer.like_count || -1,
-    formats: videoFromServer.formats || [],
-    source: `${ENDPOINTS.VIDEO_STREAM}/${videoFromServer.id}/manifest.mpd`,
-    release_timestamp: videoFromServer.release_timestamp || -1
-  }
-  
   return video
+}
+
+function parseVideoFromServer (v: VideoFromServer): Video | undefined {
+  if (!v.id) return
+
+  const resolutionsById: ResolutionsById = {}
+
+  for (const res of v.videos) {
+    resolutionsById[res.id] = res
+  }
+
+  const min_resolution = getMin(v.videos, 'last').id
+  const max_resolution = getMax(v.videos, 'last').id
+  
+  return {
+    id: v.id,
+    source: `${ENDPOINTS.VIDEO_STREAM}/${v.id}/manifest.mpd`,
+    title: v.title ?? EMPTY,
+    uploader: v.uploader ?? EMPTY,
+    uploader_id: v.uploader_id ?? EMPTY,
+    channel_follower_count: v.channel_follower_count ?? 0,
+    channel_is_verified: v.channel_is_verified ?? false,
+    duration: v.duration ?? 0,
+    width: v.width ?? -1,
+    height: v.height ?? -1,
+    mixed_size: v.mixed_size ?? -1,
+    aspect_ratio: v.aspect_ratio ?? '-1:-1',
+    audios: [v.audio],
+    resolutions: v.videos,
+    resolutionsById,
+    min_resolution,
+    max_resolution,
+    thumbnails: v.thumbnails,
+    min_thumbnail: v.min_thumbnail ?? '',
+    max_thumbnail: v.max_thumbnail ?? '',
+    release_timestamp: v.release_timestamp ?? -10
+  }
 }
