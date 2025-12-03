@@ -1,5 +1,3 @@
-import type { Thumbnail, VideoFormat } from '@/types/videoTypes'
-
 export interface ServerResponse {
   success: boolean
   status: number
@@ -8,29 +6,58 @@ export interface ServerResponse {
   [key: string]: unknown
 }
 
-export interface VideoFromServer {
-  id?: string
-  title?: string
-  description?: string
-  channel_id?: string
-  channel_url?: string
-  duration?: number
-  view_count?: number
-  webpage_url?: string
-  categories?: string[]
-  tags?: string[]
-  like_count?: number
-  is_live?: boolean
-  was_live?: boolean
-  release_datestring?: string
-  availability?: string
-  uploader?: string
-  uploader_id?: `@${string}`
-  uploader_url?: `${string}@${string}`
-  language?: string
-  thumbnails?: Thumbnail[]
-  thumbnail?: string
-  minimalThumbnail: string
-  formats?: VideoFormat[]
-  release_timestamp?: number
+export type VideoFromServer = {
+	id: string | undefined
+	title: string | undefined
+	uploader: string | undefined
+	uploader_id: string | undefined
+	channel_follower_count: number | undefined
+	channel_is_verified: boolean | undefined
+	upload_date: string | undefined
+	duration: number | undefined
+	width: number | undefined
+	height: number | undefined
+	mixed_size: number | undefined
+	aspect_ratio: string | undefined
+	audio: AudioMetadata | null
+	videos: ResolutionMetadata[]
+	min_video_resolution: string | undefined
+	max_video_resolution: string | undefined
+	thumbnails: Thumbnail[]
+	min_thumbnail: string | undefined
+	max_thumbnail: string | undefined
+	release_timestamp: number
+}
+
+export type AudioMetadata = {
+	codec: string
+	codec_long_name: string
+	channel_layout: string | undefined
+	channels: number | undefined
+	bit_rate: number
+	bit_rate_kbps: number
+	duration: number
+	sample_rate: number | undefined
+	size: number | undefined
+}
+
+export type ResolutionMetadata = {
+	id: string
+	codec: string
+	codec_long_name: string
+	bit_rate: number
+	bit_rate_kbps: number
+	duration: number
+	size: number | undefined
+	height: number
+	width: number
+	aspect_ratio: string | undefined
+	fps: number | undefined
+}
+
+export type Thumbnail = {
+  id: string
+  height: number
+  width: number
+  url: string | null
 }
