@@ -6,14 +6,18 @@ type PlayerStore = {
   video: Video | null
   player: HTMLVideoElement | null
   playerActions: typeof playerKeyboardActions
+  isPlaying: boolean
   setVideo: (video: Video) => void
   setPlayer: (player: HTMLVideoElement) => void
+  setIsPlaying: (isPlaying: boolean) => void
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
   video: null,
   player: null,
   playerActions: playerKeyboardActions,
+  isPlaying: false,
   setVideo: (video) => set({ video }),
-  setPlayer: (player) => set({ player })
+  setPlayer: (player) => set({ player }),
+  setIsPlaying: (isPlaying) => set({ isPlaying })
 }))
