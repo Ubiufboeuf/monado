@@ -1,5 +1,6 @@
 {
   "conventionalCommits.scopes": [
-    "watch"
+    "watch",
+    "player"
   ]
 }
