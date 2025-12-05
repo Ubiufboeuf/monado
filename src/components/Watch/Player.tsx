@@ -40,7 +40,7 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
   const timelineRef = useRef<HTMLDivElement | null>(null)
   const timeseenRef = useRef<HTMLDivElement | null>(null)
   const timelineThumbRef = useRef<HTMLDivElement | null>(null)
-  const canHideControlsRef = useRef(false)
+  const canHideControlsRef = useRef(true)
   
   const video = usePlayerStore((state) => state.video)
   const setPlayer = usePlayerStore((state) => state.setPlayer)
@@ -233,16 +233,14 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
     const video = videoRef.current
     if (!video) return
 
-    setPlayer(video)
     resetControlsTimeout()
+    setPlayer(video)
 
     window.addEventListener('mouseup', handleMouseUp)
-    window.addEventListener('mousemove', handleMouseMove)
 
     return () => {
       resetControlsTimeout()
       window.removeEventListener('mouseup', handleMouseUp)
-      window.removeEventListener('mousemove', handleMouseMove)
     }
   }, [])
 
@@ -296,6 +294,7 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
     <div
       class={`${className} relative`}
       style={style}
+      onMouseMove={handleMouseMove}
     >
       <video
         ref={videoRef}
