@@ -26,19 +26,22 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
   const pausedForDraggingRef = useRef(false)
   const pausedForErrorRef = useRef(false)
   const playAfterDragRef = useRef(autoplay)
+  const controlsTimeoutId = useRef<NodeJS.Timeout | null>(null)
 
   const [dashjs, setDashjs] = useState<DashJS>()
   const [playerInitialized, setPlayerInitialized] = useState(false)
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [controlsVisible, setControlsVisible] = useState(false)
   
   const playerRef = useRef<MediaPlayerClass>()
   const videoRef = useRef<HTMLVideoElement | null>(null)
   const timelineRef = useRef<HTMLDivElement | null>(null)
   const timeseenRef = useRef<HTMLDivElement | null>(null)
   const timelineThumbRef = useRef<HTMLDivElement | null>(null)
-
+  const canHideControlsRef = useRef(false)
+  
   const video = usePlayerStore((state) => state.video)
   const setPlayer = usePlayerStore((state) => state.setPlayer)
   const isPlaying = usePlayerStore((state) => state.isPlaying)
@@ -165,6 +168,7 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
   const play = () => setIsPlaying(true)
   const pause = () => setIsPlaying(false)
   function togglePlayerState () {
+    showControls()
     playAfterDragRef.current = false
     return isPlaying ? pause() : play()
   }
@@ -184,6 +188,45 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
     player.setRepresentationForTypeById('video', representation.id, true)
   }
 
+  function resetControlsTimeout () {
+    if (controlsTimeoutId.current) {
+      clearTimeout(controlsTimeoutId.current)
+      controlsTimeoutId.current = null
+    }
+
+    if (!canHideControlsRef.current) return
+
+    const id = setTimeout(() => {
+      setControlsVisible(false)
+      controlsTimeoutId.current = null
+    }, 2000)
+
+    controlsTimeoutId.current = id
+  }
+
+  function showControls () {
+    setControlsVisible(true)
+    resetControlsTimeout()
+  }
+
+  function handleMouseMove () {
+    showControls()
+  }
+
+  function handleHoverControls () {
+    canHideControlsRef.current = false
+    
+    if (controlsTimeoutId.current) {
+      clearTimeout(controlsTimeoutId.current)
+      controlsTimeoutId.current = null
+    }
+  }
+
+  function handleLeaveControls () {
+    canHideControlsRef.current = true
+    resetControlsTimeout()
+  }
+
   useEffect(() => {    
     importDashjs()
 
@@ -191,11 +234,15 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
     if (!video) return
 
     setPlayer(video)
+    resetControlsTimeout()
 
     window.addEventListener('mouseup', handleMouseUp)
+    window.addEventListener('mousemove', handleMouseMove)
 
     return () => {
+      resetControlsTimeout()
       window.removeEventListener('mouseup', handleMouseUp)
+      window.removeEventListener('mousemove', handleMouseMove)
     }
   }, [])
 
@@ -257,14 +304,18 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
         onTimeUpdate={handleTimeUpdate}
       />
       {/* controles */}
-      <div class='absolute left-0 top-0 flex flex-col justify-between h-full w-full'>
+      <div class={`${controlsVisible ? '' : 'hide'} absolute left-0 top-0 flex flex-col justify-between h-full w-full [.hide]:opacity-0 transition-opacity`}>
         <section
           class='flex-1 max-h-[calc(100%-68px)] w-full'
           onClick={togglePlayerState}
         >
           <h1 class='not-full-screen:hidden'>Almost (nombre video)</h1>
         </section>
-        <section class='relative bottom-0 w-full h-fit px-2'>
+        <section
+          class='relative bottom-0 w-full h-fit px-2'
+          onMouseEnter={handleHoverControls}
+          onMouseLeave={handleLeaveControls}
+        >
           {/* línea de tiempo */}
           <div
             ref={timelineRef}
