@@ -89,7 +89,7 @@ export function VideoCard ({ video }: { video: Video }) {
             <div class='text-[min(3vw,14px)] ms:block flex items-center gap-1'>
               <span>mAngo</span>
               &nbsp;<span>•</span>&nbsp;
-              <span hidden={!views}>{parseViews(views)} vistas</span>
+              <span>{parseViews(0)} vistas</span>
               &nbsp;<span>•</span>&nbsp;
               <span>hace 20 días</span>
             </div>
