@@ -17,6 +17,7 @@ export type Video = {
 	min_resolution: string
 	max_resolution: string
 	thumbnails: Thumbnail[]
+	thumbnailsById: ThumbnailsById
 	min_thumbnail: string
 	max_thumbnail: string
 	release_timestamp: number
@@ -49,6 +50,7 @@ export type ResolutionMetadata = {
 }
 
 export type ResolutionsById = Record<ResolutionMetadata['id'], ResolutionMetadata>
+export type ThumbnailsById = Record<Thumbnail['id'], Thumbnail>
 
 export type Thumbnail = {
   id: string
