@@ -26,12 +26,12 @@ export function Watch ({ id }: { id: string }) {
     if (!target) return
 
     const key = event.key.toLowerCase()
-    if (!validKeys.includes(key) || target.closest('form')?.id === 'search-bar-form') return
+    if (!validKeys.includes(key as typeof validKeys[number]) || target.closest('form')?.id === 'search-bar-form') return
 
     const action = playerKeyboardActions.find(({ key: k }) => k === key)?.action
     if (!action) return
 
-    action()
+    action(event)
   }
   
   useEffect(() => {

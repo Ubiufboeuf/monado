@@ -1,11 +1,19 @@
 import { usePlayerStore } from '@/stores/usePlayerStore'
 
-export const validKeys = [
-  'f'
-]
 
-export const playerKeyboardActions = [
-  { key: 'f', action: toggleFullScreen }
+export const validKeys = [
+  'f',
+  ' '
+] as const
+
+type KeyboardAction = {
+  key: typeof validKeys[number],
+  action: (event: KeyboardEvent) => void
+}
+
+export const playerKeyboardActions: KeyboardAction[] = [
+  { key: 'f', action: toggleFullScreen },
+  { key: ' ', action: togglePlayerState }
 ]
 
 function toggleFullScreen () {
@@ -23,4 +31,11 @@ function toggleFullScreen () {
       if (newState) document.documentElement.dataset.isFullScreen = ''
       else delete document.documentElement.dataset.isFullScreen
     })
+}
+
+function togglePlayerState (ev: KeyboardEvent) {
+  ev.preventDefault()
+  
+  const { setIsPlaying, isPlaying } = usePlayerStore.getState()
+  setIsPlaying(!isPlaying)
 }

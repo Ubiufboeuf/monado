@@ -29,7 +29,6 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
 
   const [dashjs, setDashjs] = useState<DashJS>()
   const [playerInitialized, setPlayerInitialized] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(autoplay)
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
@@ -42,6 +41,8 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
 
   const video = usePlayerStore((state) => state.video)
   const setPlayer = usePlayerStore((state) => state.setPlayer)
+  const isPlaying = usePlayerStore((state) => state.isPlaying)
+  const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
 
   async function importDashjs () {
     return import('dashjs')
