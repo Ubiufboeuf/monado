@@ -25,7 +25,7 @@ const devices = {
 const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
 ---
 
-<html lang='es' data-device-type={deviceType}>
+<html lang='es' data-device-type={deviceType} class='not-full-screen:gutter-stable'>
 	<head>
 		<meta charset='utf-8' />
 		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
