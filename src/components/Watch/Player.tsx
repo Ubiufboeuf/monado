@@ -168,6 +168,21 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
     return isPlaying ? pause() : play()
   }
 
+  const handleChangeResolution = (id: string) => () => {
+    const player = playerRef.current
+    if (!player || !video) return
+
+    const videoRepresentations = player.getRepresentationsByType('video')
+    
+    const representation = videoRepresentations.find((r) => r.height === video.resolutionsById[id].height)
+    if (!representation) {
+      console.log(`Representación de id (${id}) no encontrada`, representation)
+      return
+    }
+
+    player.setRepresentationForTypeById('video', representation.id, true)
+  }
+
   useEffect(() => {    
     importDashjs()
 
@@ -298,6 +313,17 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
                   <span>{parseDuration(duration)}</span>
                 </div>
               </div>
+            </section>
+            <section>
+              { video?.resolutions.map(({ id }) => (
+                <button
+                  key={`player-change-resolution-${id}`}
+                  class='p-2 bg-gray-700 cursor-pointer'
+                  onClick={handleChangeResolution(id)}
+                >
+                  {id}
+                </button>
+              )) }
             </section>
             {/* <div>
               <button>cc</button>
