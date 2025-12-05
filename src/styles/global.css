@@ -79,7 +79,6 @@ body {
 }
 
 html {
-  scrollbar-gutter: stable;
   scrollbar-color: darkgray transparent;
 }
 
