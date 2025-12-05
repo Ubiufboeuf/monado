@@ -255,13 +255,18 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
         onTimeUpdate={handleTimeUpdate}
       />
       {/* controles */}
-      <div class='absolute left-0 top-0 h-full w-full'>
-        <h1 class='not-full-screen:hidden'>Almost (nombre video)</h1>
-        <section class='absolute bottom-0 w-full h-fit px-2'>
+      <div class='absolute left-0 top-0 flex flex-col justify-between h-full w-full'>
+        <section
+          class='flex-1 max-h-[calc(100%-68px)] w-full'
+          onClick={togglePlayerState}
+        >
+          <h1 class='not-full-screen:hidden'>Almost (nombre video)</h1>
+        </section>
+        <section class='relative bottom-0 w-full h-fit px-2'>
           {/* línea de tiempo */}
           <div
             ref={timelineRef}
-            class='group absolute bottom-14.5 left-1/2 translate-y-1/2 -translate-x-1/2 flex items-center h-2.5 hover:h-5 w-[calc(100%-24px)] cursor-pointer'
+            class='group absolute bottom-14.5 left-1/2 translate-y-1/2 -translate-x-1/2 flex items-center h-5 w-[calc(100%-24px)] cursor-pointer'
             onMouseDown={handlePressTimeline}
             /* El eventListener del mouseUp se maneja desde un effect */
           >
