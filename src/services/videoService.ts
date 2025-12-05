@@ -1,7 +1,7 @@
 import { EMPTY, ENDPOINTS } from '@/lib/constants'
 import { errorHandler } from '@/lib/errors'
 import { responseHandler } from '@/lib/handlers'
-import type { ResolutionsById, Video } from '@/types/videoTypes'
+import type { ResolutionsById, ThumbnailsById, Video } from '@/types/videoTypes'
 import type { ServerResponse, VideoFromServer } from './apiTypes'
 import { isValidVideo } from '@/lib/validations'
 import { getMax, getMin } from '@/lib/utils'
@@ -118,6 +118,12 @@ function parseVideoFromServer (v: VideoFromServer): Video | undefined {
   const min_resolution = getMin(v.videos, 'last').id
   const max_resolution = getMax(v.videos, 'last').id
   
+  const thumbnailsById: ThumbnailsById = {}
+
+  for (const t of v.thumbnails) {
+    thumbnailsById[t.id] = t 
+  }
+  
   return {
     id: v.id,
     source: `${ENDPOINTS.VIDEO_STREAM}/${v.id}/manifest.mpd`,
@@ -137,6 +143,7 @@ function parseVideoFromServer (v: VideoFromServer): Video | undefined {
     min_resolution,
     max_resolution,
     thumbnails: v.thumbnails,
+    thumbnailsById,
     min_thumbnail: v.min_thumbnail ?? '',
     max_thumbnail: v.max_thumbnail ?? '',
     release_timestamp: v.release_timestamp ?? -10
