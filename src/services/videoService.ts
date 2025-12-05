@@ -1,7 +1,7 @@
 import { EMPTY, ENDPOINTS } from '@/lib/constants'
 import { errorHandler } from '@/lib/errors'
 import { responseHandler } from '@/lib/handlers'
-import type { ResolutionsById, ThumbnailsById, Video } from '@/types/videoTypes'
+import type { ResolutionsById, Thumbnail, ThumbnailsById, Video } from '@/types/videoTypes'
 import type { ServerResponse, VideoFromServer } from './apiTypes'
 import { isValidVideo } from '@/lib/validations'
 import { getMax, getMin } from '@/lib/utils'
@@ -117,10 +117,18 @@ function parseVideoFromServer (v: VideoFromServer): Video | undefined {
 
   const min_resolution = getMin(v.videos, 'last').id
   const max_resolution = getMax(v.videos, 'last').id
+
+  const thumbnails: Thumbnail[] = []
+
+  for (const idx in v.thumbnails) {
+    const t = v.thumbnails[idx]
+    const url = `${ENDPOINTS.THUMBNAIL}/${v.id}/${t.id}`
+    thumbnails.push({ ...t, url })
+  }
   
   const thumbnailsById: ThumbnailsById = {}
 
-  for (const t of v.thumbnails) {
+  for (const t of thumbnails) {
     thumbnailsById[t.id] = t 
   }
   
@@ -142,7 +150,7 @@ function parseVideoFromServer (v: VideoFromServer): Video | undefined {
     resolutionsById,
     min_resolution,
     max_resolution,
-    thumbnails: v.thumbnails,
+    thumbnails,
     thumbnailsById,
     min_thumbnail: v.min_thumbnail ?? '',
     max_thumbnail: v.max_thumbnail ?? '',
