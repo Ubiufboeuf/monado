@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config'
 
 import preact from '@astrojs/preact'
 import tailwindcss from '@tailwindcss/vite'
-import cloudflare from '@astrojs/cloudflare'
+import node from '@astrojs/node'
 
 import { readFileSync } from 'node:fs'
 
@@ -36,7 +36,7 @@ export default defineConfig({
   },
 
   output: 'server',
-  adapter: cloudflare({
-    imageService: 'passthrough'
+  adapter: node({
+    mode: 'standalone'
   })
 })
