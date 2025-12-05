@@ -41,6 +41,7 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
   const timeseenRef = useRef<HTMLDivElement | null>(null)
   const timelineThumbRef = useRef<HTMLDivElement | null>(null)
   const canHideControlsRef = useRef(true)
+  const canHideCursorRef = useRef(true)
   
   const video = usePlayerStore((state) => state.video)
   const setPlayer = usePlayerStore((state) => state.setPlayer)
@@ -188,17 +189,23 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
     player.setRepresentationForTypeById('video', representation.id, true)
   }
 
-  function resetControlsTimeout () {
+  function clearControlsTimeout () {
+    document.documentElement.style.cursor = 'default'
     if (controlsTimeoutId.current) {
       clearTimeout(controlsTimeoutId.current)
       controlsTimeoutId.current = null
     }
+  }
+
+  function resetControlsTimeout () {
+    clearControlsTimeout()
 
     if (!canHideControlsRef.current) return
 
     const id = setTimeout(() => {
       setControlsVisible(false)
       controlsTimeoutId.current = null
+      if (canHideCursorRef.current) document.documentElement.style.cursor = 'none'
     }, 2000)
 
     controlsTimeoutId.current = id
@@ -215,16 +222,20 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
 
   function handleHoverControls () {
     canHideControlsRef.current = false
-    
-    if (controlsTimeoutId.current) {
-      clearTimeout(controlsTimeoutId.current)
-      controlsTimeoutId.current = null
-    }
+    clearControlsTimeout()
   }
 
   function handleLeaveControls () {
     canHideControlsRef.current = true
     resetControlsTimeout()
+  }
+
+  function enableCanHideCursor () {
+    canHideCursorRef.current = true
+  }
+
+  function disableCanHideCursor () {
+    canHideCursorRef.current = false
   }
 
   useEffect(() => {    
@@ -307,6 +318,8 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
         <section
           class='flex-1 max-h-[calc(100%-68px)] w-full'
           onClick={togglePlayerState}
+          onMouseOver={enableCanHideCursor}
+          onMouseOut={disableCanHideCursor}
         >
           <h1 class='not-full-screen:hidden'>Almost (nombre video)</h1>
         </section>
