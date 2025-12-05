@@ -270,7 +270,7 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
             <div ref={timelineThumbRef} class='absolute left-0 top-1/2 -translate-1/2 size-3 group-hover:size-5 rounded-full [transition:height_300ms_eease] [background:var(--color-gradient)] shadow-2xl' /> {/* thumb */}
           </div>
           {/* botones */}
-          <div class='flex h-13 justify-between px-1'>
+          <div class='flex h-13 justify-between px-1 gap-2'>
             <section class='flex items-center gap-2'>
               <button
                 class='group flex items-center justify-center size-10 p-1 rounded-full overflow-hidden cursor-pointer transition-colors bg-black/30'
