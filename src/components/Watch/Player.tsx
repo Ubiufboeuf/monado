@@ -19,19 +19,17 @@ const playerSettings: MediaPlayerSettingClass = {
   }
 }
 
-const AUTO_PLAY = true
-
-let isMouseDown = false
-let pausedForDragging = false
-let pausedForError = false
-let playAfterDrag = AUTO_PLAY
-
-export function Player ({ class: className, style }: { class?: string, style?: CSSProperties }) {
+export function Player ({ autoplay = false, class: className, style }: { autoplay?: boolean, class?: string, style?: CSSProperties }) {
   type DashJS = typeof import('/home/mango/Dev/monado/node_modules/dashjs/index')
+
+  const isMouseDownRef = useRef(false)
+  const pausedForDraggingRef = useRef(false)
+  const pausedForErrorRef = useRef(false)
+  const playAfterDragRef = useRef(autoplay)
 
   const [dashjs, setDashjs] = useState<DashJS>()
   const [playerInitialized, setPlayerInitialized] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(AUTO_PLAY)
+  const [isPlaying, setIsPlaying] = useState(autoplay)
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
@@ -92,11 +90,11 @@ export function Player ({ class: className, style }: { class?: string, style?: C
   function handlePressTimeline (event: MouseEvent) {
     // console.log('press', isMouseDown && 'mouse down')
     // if (isMouseDown) return
-    isMouseDown = true
+    isMouseDownRef.current = true
     
-    if (!pausedForError) {
+    if (!pausedForErrorRef.current) {
       pause()
-      pausedForDragging = true
+      pausedForDraggingRef.current = true
     }
 
     if (timelineRef.current) {
@@ -119,7 +117,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
   }
 
   function handleDragTimeline (event: MouseEvent) {
-    if (!isMouseDown) return
+    if (!isMouseDownRef.current) return
     
     if (!timelineRef.current) return
 
@@ -140,11 +138,11 @@ export function Player ({ class: className, style }: { class?: string, style?: C
 
   function handleMouseUp () {
     // console.log('mouse up')
-    isMouseDown = false
+    isMouseDownRef.current = false
 
-    if (pausedForDragging && playAfterDrag) {
+    if (pausedForDraggingRef.current && playAfterDragRef.current) {
       play()
-      pausedForDragging = false
+      pausedForDraggingRef.current = false
     }
 
     window.removeEventListener('mousemove', handleDragTimeline)
@@ -166,7 +164,7 @@ export function Player ({ class: className, style }: { class?: string, style?: C
   const play = () => setIsPlaying(true)
   const pause = () => setIsPlaying(false)
   function togglePlayerState () {
-    playAfterDrag = false
+    playAfterDragRef.current = false
     return isPlaying ? pause() : play()
   }
 
@@ -210,15 +208,15 @@ export function Player ({ class: className, style }: { class?: string, style?: C
       .then(() => {
         // console.log('playing')
         setAutoplayBlocked(false)
-        pausedForError = false
-        playAfterDrag = true
+        pausedForErrorRef.current = false
+        playAfterDragRef.current = true
       })
       .catch((err) => {
         errorHandler(err, 'Error reproduciendo el video', 'dev')
         setAutoplayBlocked(true)
         setIsPlaying(false)
-        pausedForError = true
-        pausedForDragging = false
+        pausedForErrorRef.current = true
+        pausedForDraggingRef.current = false
       })
   }, [isPlaying])
 
