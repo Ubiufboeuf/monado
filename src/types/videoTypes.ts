@@ -56,5 +56,5 @@ export type Thumbnail = {
   id: string
   height: number
   width: number
-  url: string | null
+  url: string
 }
