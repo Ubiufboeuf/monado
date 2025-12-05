@@ -6,7 +6,7 @@ import { navigate } from 'astro:transitions/client'
 import { useState } from 'preact/hooks'
 
 export function VideoCard ({ video }: { video: Video }) {
-  const { id, title, duration, views, assets } = video
+  const { id, title, duration, thumbnailsById, min_thumbnail, max_thumbnail } = video
   const [isSquare, setIsSquare] = useState(false)
 
   function changeVideo (event: TargetedMouseEvent<HTMLElement>) {
@@ -44,16 +44,16 @@ export function VideoCard ({ video }: { video: Video }) {
       >
         <section class='w-full aspect-video bg-black xs:rounded-xl flex items-end justify-center relative overflow-hidden'>
           <div class='h-full w-full bg-neutral-700 relative'>
-            { assets.minThumbnail &&
+            { thumbnailsById[min_thumbnail] &&
               <img
-                src={assets.minThumbnail}
+                src={thumbnailsById[min_thumbnail].url}
                 class={`${isSquare ? 'isSquare' : ''} opacity-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none blur`}
                 onLoad={handleLoadThumbnail}
               />
             }
-            { assets.thumbnail &&
+            { thumbnailsById[max_thumbnail] &&
               <img
-                src={assets.thumbnail}
+                src={thumbnailsById[max_thumbnail].url}
                 class={`${isSquare ? 'isSquare' : ''} opacity-0 absolute left-0 top-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none`}
                 alt={title}
                 onLoad={handleLoadThumbnail}
