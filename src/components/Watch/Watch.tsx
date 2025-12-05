@@ -22,8 +22,11 @@ export function Watch ({ id }: { id: string }) {
   }
 
   function handleKeyDown (event: KeyboardEvent) {
+    const target = event.target as HTMLElement
+    if (!target) return
+
     const key = event.key.toLowerCase()
-    if (!validKeys.includes(key)) return
+    if (!validKeys.includes(key) || target.closest('form')?.id === 'search-bar-form') return
 
     const action = playerKeyboardActions.find(({ key: k }) => k === key)?.action
     if (!action) return
