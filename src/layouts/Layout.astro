@@ -13,7 +13,7 @@ interface Props {
 	useTransitions?: boolean
 }
 
-const { title, menuMini, tabBar, useTransitions } = Astro.props
+const { title, menuMini, tabBar, useTransitions = true } = Astro.props
 
 const deviceCodeCookie = Astro.cookies.get('monado-device-type')
 const deviceCode = deviceCodeCookie?.value
@@ -33,7 +33,6 @@ const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
 		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
 		<meta name='viewport' content='width=device-width' />
 		<title>{title ? `${title} - Monado` : 'Monado'}</title>
-		{ useTransitions && <ClientRouter /> }
     <script>
       (function() {
         const htmlElement = document.documentElement;
@@ -103,6 +102,7 @@ const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
 				})
 			})()
 		</script>
+		{ useTransitions && <ClientRouter /> }
 	</head>
 	<body class='flex flex-col bg-base-dark'>
 		<input id='checkbox-menu-state' type='checkbox' hidden />
