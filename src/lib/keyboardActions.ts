@@ -69,4 +69,5 @@ function toggleCinemaMode () {
 
   document.exitFullscreen()
     .then(() => delete html.dataset.isFullScreen)
+    .catch(() => {})
 }
