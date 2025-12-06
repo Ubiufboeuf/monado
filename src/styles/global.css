@@ -99,3 +99,10 @@ p {
 .gutter-stable {
   scrollbar-gutter: stable;
 }
+
+@media (prefers-reduced-motion) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

@@ -15,6 +15,7 @@ interface Props {
 
 const { title, menuMini, tabBar, useTransitions = true } = Astro.props
 
+const isMenuOpen = Astro.cookies.get('monado-is-menu-open')?.value
 const deviceCodeCookie = Astro.cookies.get('monado-device-type')
 const deviceCode = deviceCodeCookie?.value
 
@@ -93,23 +94,37 @@ const { pathname } = Astro.url
 			})()
 		</script>
 		<script>
-			// Añadir listener para cambiar el estado del menú en la cookie
-			(function() {
-				const input = document.querySelector('#checkbox-menu-state') as HTMLInputElement
-				if (!input) return
+			function handleGlobalChange(event: Event) {
+				const input = event.target
+				if (!(input instanceof HTMLInputElement)) return
+				if (!input.matches('#checkbox-menu-state')) return
 
-				input.addEventListener('input', () => {
-					document.cookie = `monado-is-menu-open=${input.checked}; path=/; Secure; SameSite=Strict`
-				})
-			})()
+				document.cookie = `monado-is-menu-open=${input.checked}; path=/; Secure; SameSite=Strict`
+			}
+
+			function handlePageLoad () {
+				const cookie = document.cookie
+					.split('; ')
+					.find((c) => c.includes('monado-is-menu-open='))
+					?.split('=')
+					?.[1]
+
+				const input = document.querySelector('#checkbox-menu-state')
+				if (input instanceof HTMLInputElement) {
+					input.checked = cookie === 'true'
+				}
+			}
+
+			document.addEventListener('change', handleGlobalChange)
+			document.addEventListener('astro:page-load', handlePageLoad)
 		</script>
 		{ useTransitions && <ClientRouter /> }
 	</head>
 	<body class='flex flex-col bg-base-dark'>
-		<input id='checkbox-menu-state' type='checkbox' hidden />
+		<input id='checkbox-menu-state' type='checkbox' hidden checked={isMenuOpen === 'true'} />
 		<Header />
 		<main class='h-full w-full min-h-fit max-h-full pt-14'>
-			<Menu pathname={pathname} client:load />
+			<Menu pathname={pathname} client:load transition:persist />
 			<MenuMini hidden={!menuMini} />
 			<slot />
 		</main>
