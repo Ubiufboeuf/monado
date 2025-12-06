@@ -16,6 +16,8 @@ interface Props {
 const { title, menuMini, tabBar, useTransitions = true } = Astro.props
 
 const isMenuOpen = Astro.cookies.get('monado-is-menu-open')?.value
+const inCinemaMode = Astro.cookies.get('monado-in-cinema-mode')?.value
+
 const deviceCodeCookie = Astro.cookies.get('monado-device-type')
 const deviceCode = deviceCodeCookie?.value
 
@@ -29,7 +31,12 @@ const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
 const { pathname } = Astro.url
 ---
 
-<html lang='es' data-device-type={deviceType} class='not-full-screen:gutter-stable'>
+<html
+	lang='es'
+	data-device-type={deviceType}
+	data-in-cinema-mode={inCinemaMode === 'true'}
+	class='not-full-screen:gutter-stable'
+>
 	<head>
 		<meta charset='utf-8' />
 		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
@@ -113,6 +120,17 @@ const { pathname } = Astro.url
 				if (input instanceof HTMLInputElement) {
 					input.checked = cookie === 'true'
 				}
+
+				const cinemaCookie = document.cookie
+					.split('; ')
+					.find((c) => c.includes('monado-in-cinema-mode='))
+					?.split('=')
+					?.[1]
+
+				const savedCinemaMode = cinemaCookie === 'true'
+
+				if (savedCinemaMode) document.documentElement.dataset.inCinemaMode = 'true'
+				else delete document.documentElement.dataset.inCinemaMode
 			}
 
 			document.addEventListener('change', handleGlobalChange)
