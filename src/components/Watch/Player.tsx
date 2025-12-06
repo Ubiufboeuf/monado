@@ -394,7 +394,7 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
               </div>
             </section>
             <section>
-              { video?.resolutions.map(({ id }) => (
+              { playerInitialized && video?.resolutions.map(({ id }) => (
                 <button
                   key={`player-change-resolution-${id}`}
                   class='p-2 bg-gray-700 cursor-pointer'
