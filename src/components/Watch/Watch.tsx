@@ -2,10 +2,10 @@ import { usePlayerStore } from '@/stores/usePlayerStore'
 import { useEffect } from 'preact/hooks'
 import { getVideo } from '@/services/videoService'
 import { errorHandler } from '@/lib/errors'
-import { Player } from './Player'
 import { playerKeyboardActions, validKeys } from '@/lib/keyboardActions'
+import type { ReactNode } from 'preact/compat'
 
-export function Watch ({ id }: { id: string }) {
+export function Watch ({ id, children }: { id: string, children: ReactNode }) {
   const setVideo = usePlayerStore((state) => state.setVideo)
 
   async function loadVideo () {
@@ -56,10 +56,16 @@ export function Watch ({ id }: { id: string }) {
       grid-rows-[min(100dvw,80%,1fr)_1fr_1fr]
     '>
       <div class='[grid-area:player] w-full desktop:min-w-160 h-fit min-h-fit max-h-full lg:max-h-100 lg:rounded-xl overflow-hidden mobile:max-h-dvw mobile:lg:max-h-[calc(9*100dvw/16)] bg-black'>
-        <Player class='w-full h-fit max-w-full max-h-full select-none' />
+        {children}
       </div>
       <div class='[grid-area:detalles] h-60'>detalles (abajo izquierda)</div>
-      <div class='[grid-area:sugeridos] min-w-85 w-full h-300'>sugeridos (derecha)</div>
+      <div class='[grid-area:sugeridos] min-w-85 w-full h-300'>
+        <a href='/watch?v=wKVJi-FLvak'>rubia (wKVJi-FLvak)</a>
+        <br />
+        <a href='/watch?v=hP69ZfMwmvo'>heinz (hP69ZfMwmvo)</a>
+        <br />
+        <a href='/watch?v=8cTa9vhXx98'>mario (8cTa9vhXx98)</a>
+      </div>
     </section>
   )
 }
