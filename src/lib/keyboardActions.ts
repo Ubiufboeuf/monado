@@ -66,4 +66,7 @@ function toggleCinemaMode () {
   const inCinemaMode = Boolean(html.dataset.inCinemaMode)
   if (inCinemaMode) delete html.dataset.inCinemaMode
   else html.dataset.inCinemaMode = 'true'
+
+  document.exitFullscreen()
+    .then(() => delete html.dataset.isFullScreen)
 }
