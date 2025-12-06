@@ -1,5 +1,7 @@
 import { usePlayerStore } from '@/stores/usePlayerStore'
+import { throttle } from './utils'
 
+const REPEAT_LIMIT = 60
 
 export const validKeys = [
   'f',
@@ -18,13 +20,13 @@ type KeyboardAction = {
 }
 
 export const playerKeyboardActions: KeyboardAction[] = [
-  { key: 'f', action: toggleFullScreen },
-  { key: ' ', action: togglePlayerState, preventDefault: true },
-  { key: 'k', action: togglePlayerState, preventDefault: true },
-  { key: 'j', action: () => changeTime(-10) },
-  { key: 'l', action: () => changeTime(10) },
-  { key: 'arrowleft', action: () => changeTime(-5) },
-  { key: 'arrowright', action: () => changeTime(5) }
+  { key: 'f', action: throttle(toggleFullScreen, REPEAT_LIMIT) },
+  { key: ' ', action: throttle(togglePlayerState, REPEAT_LIMIT), preventDefault: true },
+  { key: 'k', action: throttle(togglePlayerState, REPEAT_LIMIT), preventDefault: true },
+  { key: 'j', action: throttle(() => changeTime(-10), REPEAT_LIMIT) },
+  { key: 'l', action: throttle(() => changeTime(10), REPEAT_LIMIT) },
+  { key: 'arrowleft', action: throttle(() => changeTime(-5), REPEAT_LIMIT) },
+  { key: 'arrowright', action: throttle(() => changeTime(5), REPEAT_LIMIT) }
 ]
 
 function toggleFullScreen () {
