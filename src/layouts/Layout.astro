@@ -25,6 +25,7 @@ const devices = {
 }
 
 const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
+const { pathname } = Astro.url
 ---
 
 <html lang='es' data-device-type={deviceType} class='not-full-screen:gutter-stable'>
@@ -108,7 +109,7 @@ const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
 		<input id='checkbox-menu-state' type='checkbox' hidden />
 		<Header />
 		<main class='h-full w-full min-h-fit max-h-full pt-14'>
-			<Menu client:load />
+			<Menu pathname={pathname} client:load />
 			<MenuMini hidden={!menuMini} />
 			<slot />
 		</main>
