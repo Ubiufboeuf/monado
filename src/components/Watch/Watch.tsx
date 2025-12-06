@@ -50,17 +50,27 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
   }, [])
 
   return (
-    <section class='absolute top-14 lg:top-17 right-0 grid gap-4 h-fit w-full ml:menu-open:w-navbar lg:px-6 [transition:width_250ms_ease]
+    <section class='absolute top-14 lg:top-17 right-0 grid gap-4 h-fit w-full ml:menu-open:w-navbar lg:not-cinema:px-6 [transition:width_250ms_ease]
       2xl:max-w-screen-2xl 2xl:left-1/2 2xl:right-[unset] 2xl:-translate-x-1/2
     
       lg:[grid-template-areas:"player_sugeridos""detalles_sugeridos"]
       lg:grid-cols-[1fr_400px]
       lg:grid-rows-[auto_1fr]
-
+      
       [grid-template-areas:"player""detalles""sugeridos"]
       grid-rows-[min(100dvw,80%,1fr)_1fr_1fr]
+
+      cinema:[grid-template-areas:"player_player""detalles_sugeridos"]
+      cinema:grid-rows-[74dvh_1fr]
     '>
-      <div class='[grid-area:player] w-full desktop:min-w-160 h-fit min-h-fit max-h-full lg:max-h-100 lg:rounded-xl overflow-hidden mobile:max-h-dvw mobile:lg:max-h-[calc(9*100dvw/16)] bg-black'>
+      <div class='[grid-area:player] overflow-hidden bg-black
+        w-full h-fit min-h-fit max-h-full
+        lg:max-h-100 lg:not-cinema:rounded-xl
+        mobile:max-h-dvw
+        desktop:min-w-160
+        mobile:lg:max-h-[calc(9*100dvw/16)]
+        cinema:max-h-full cinema:h-full cinema:w-full
+      '>
         {children}
       </div>
       <div class='[grid-area:detalles] h-60'>detalles (abajo izquierda)</div>
