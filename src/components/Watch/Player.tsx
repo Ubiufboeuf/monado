@@ -318,7 +318,7 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
     >
       <video
         ref={videoRef}
-        class='w-full h-auto'
+        class='w-full h-auto cinema:h-full cinema:w-auto'
         style={{ aspectRatio: video?.aspect_ratio.replace(':', '/') || '16/9' }}
         onTimeUpdate={handleTimeUpdate}
       />

@@ -66,6 +66,12 @@
   }
 }
 
+@custom-variant cinema {
+  &:where([data-in-cinema-mode] *) {
+    @slot;
+  }
+}
+
 :root {
   color-scheme: dark;
   font-family: 'Roboto', Roboto, system-ui;

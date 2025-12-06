@@ -10,7 +10,8 @@ export const validKeys = [
   'j',
   'l',
   'arrowleft',
-  'arrowright'
+  'arrowright',
+  't'
 ] as const
 
 type KeyboardAction = {
@@ -26,7 +27,8 @@ export const playerKeyboardActions: KeyboardAction[] = [
   { key: 'j', action: throttle(() => changeTime(-10), REPEAT_LIMIT) },
   { key: 'l', action: throttle(() => changeTime(10), REPEAT_LIMIT) },
   { key: 'arrowleft', action: throttle(() => changeTime(-5), REPEAT_LIMIT) },
-  { key: 'arrowright', action: throttle(() => changeTime(5), REPEAT_LIMIT) }
+  { key: 'arrowright', action: throttle(() => changeTime(5), REPEAT_LIMIT) },
+  { key: 't', action: toggleCinemaMode }
 ]
 
 function toggleFullScreen () {
@@ -57,4 +59,11 @@ function changeTime (sec: number) {
 
   const time = player.currentTime 
   player.currentTime = time + sec
+}
+
+function toggleCinemaMode () {
+  const html = document.documentElement
+  const inCinemaMode = Boolean(html.dataset.inCinemaMode)
+  if (inCinemaMode) delete html.dataset.inCinemaMode
+  else html.dataset.inCinemaMode = 'true'
 }
