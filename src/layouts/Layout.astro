@@ -4,14 +4,16 @@ import Header from '@/components/Header/Header.astro'
 import { Menu } from '@/components/Menu'
 import { MenuMini } from '@/components/MenuMini'
 import { TabBar } from '@/components/TabBar'
+import { ClientRouter } from 'astro:transitions'
 
 interface Props {
   title?: string
 	menuMini?: boolean
 	tabBar?: boolean
+	useTransitions?: boolean
 }
 
-const { title, menuMini, tabBar } = Astro.props
+const { title, menuMini, tabBar, useTransitions } = Astro.props
 
 const deviceCodeCookie = Astro.cookies.get('monado-device-type')
 const deviceCode = deviceCodeCookie?.value
@@ -31,6 +33,7 @@ const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
 		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
 		<meta name='viewport' content='width=device-width' />
 		<title>{title ? `${title} - Monado` : 'Monado'}</title>
+		{ useTransitions && <ClientRouter /> }
     <script>
       (function() {
         const htmlElement = document.documentElement;
