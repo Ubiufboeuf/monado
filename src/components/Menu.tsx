@@ -3,8 +3,7 @@ import { MenuExpandableLink } from './AsideNavigation/MenuExpandableLink'
 import { MenuLink } from './AsideNavigation/MenuLink'
 import { itemsAside } from '@/lib/menuItems'
 
-export function Menu () {
-  const path = '/'
+export function Menu ({ pathname }: { pathname: string }) {
   const asideMenuRef = useRef<HTMLElement>(null)
 
   return (
@@ -23,7 +22,7 @@ export function Menu () {
                   <MenuExpandableLink
                     key={useId()}
                     item={item}
-                    path={path}
+                    path={pathname}
                     asideMenuRef={asideMenuRef}
                   />
                 ) : (
@@ -31,9 +30,9 @@ export function Menu () {
                     key={useId()}
                     name={name}
                     link={link}
-                    path={path}
+                    path={pathname}
                   >
-                    <Icon active={link === path} />
+                    <Icon active={link === pathname} />
                   </MenuLink>
                 )
               }) }
