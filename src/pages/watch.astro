@@ -1,6 +1,7 @@
 ---
 import Layout from '@/layouts/Layout.astro'
 import { Watch as WatchCentralizedComponent } from '@/components/Watch/Watch'
+import { Player } from '@/components/Watch/Player'
 
 export const prerender = false
 
@@ -10,6 +11,8 @@ if (!id) {
 }
 ---
 
-<Layout>
-  <WatchCentralizedComponent id={id} client:load />
+<Layout useTransitions>
+  <WatchCentralizedComponent id={id} client:load>
+    <Player class='w-full h-fit max-w-full max-h-full select-none' client:load transition:persist />
+  </WatchCentralizedComponent>
 </Layout>

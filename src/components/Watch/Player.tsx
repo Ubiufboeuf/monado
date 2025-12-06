@@ -73,19 +73,25 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
   }
 
   function initPlayer (player: MediaPlayerClass | undefined) {
-    if (!player || playerInitialized) return
-
+    if (!player) return
     const videoElement = videoRef.current
+
+    if (!videoElement) return
+    
+    if (playerInitialized && video) {
+      player.attachSource(video.source)
+      tryPlayVideo()
+      return
+    }
+
     const mpdPath = video?.source
-    // ↓ este autoPlay no define el autoPlay del reproductor, simplemente es una configuración que pide dash.js
-    const autoPlay = false
     const timeSeen = 0
     
-    if (!videoElement || !mpdPath) return
-
+    if (!mpdPath) return
+    
     player.updateSettings(playerSettings)
     try {
-      player.initialize(videoElement, mpdPath, autoPlay, timeSeen)
+      player.initialize(videoElement, mpdPath, false, timeSeen)
       setPlayerInitialized(true)
     } catch (err) {
       errorHandler(err, 'Error inicializando el reproductor')
@@ -238,6 +244,22 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
     canHideCursorRef.current = false
   }
 
+  function tryPlayVideo () {
+    videoRef.current?.play()
+      .then(() => {
+        setAutoplayBlocked(false)
+        pausedForErrorRef.current = false
+        playAfterDragRef.current = true
+      })
+      .catch((err) => {
+        errorHandler(err, 'Error reproduciendo el video', 'dev')
+        setAutoplayBlocked(true)
+        setIsPlaying(false)
+        pausedForErrorRef.current = true
+        pausedForDraggingRef.current = false
+      })
+  }
+
   useEffect(() => {    
     importDashjs()
 
@@ -245,7 +267,7 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
     if (!video) return
 
     resetControlsTimeout()
-    setPlayer(video)
+    setPlayer(video)    
 
     window.addEventListener('mouseup', handleMouseUp)
 
@@ -262,7 +284,7 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
       .then((player) => initPlayer(player))
   }, [dashjs, video])
 
-  useEffect(() => {
+  useEffect(() => {    
     if (!video) return
     setDuration(video.duration)
   }, [video])
@@ -276,20 +298,7 @@ export function Player ({ autoplay = false, class: className, style }: { autopla
       return
     }
 
-    video.play()
-      .then(() => {
-        // console.log('playing')
-        setAutoplayBlocked(false)
-        pausedForErrorRef.current = false
-        playAfterDragRef.current = true
-      })
-      .catch((err) => {
-        errorHandler(err, 'Error reproduciendo el video', 'dev')
-        setAutoplayBlocked(true)
-        setIsPlaying(false)
-        pausedForErrorRef.current = true
-        pausedForDraggingRef.current = false
-      })
+    tryPlayVideo()
   }, [isPlaying])
 
   useEffect(() => {
