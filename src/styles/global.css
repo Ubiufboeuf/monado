@@ -67,7 +67,7 @@
 }
 
 @custom-variant cinema {
-  &:where([data-in-cinema-mode] *) {
+  &:where([data-in-cinema-mode='true'] *) {
     @slot;
   }
 }
