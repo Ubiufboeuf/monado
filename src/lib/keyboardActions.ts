@@ -9,11 +9,12 @@ export const validKeys = [
 type KeyboardAction = {
   key: typeof validKeys[number],
   action: (event: KeyboardEvent) => void
+  preventDefault?: boolean
 }
 
 export const playerKeyboardActions: KeyboardAction[] = [
   { key: 'f', action: toggleFullScreen },
-  { key: ' ', action: togglePlayerState }
+  { key: ' ', action: togglePlayerState, preventDefault: true }
 ]
 
 function toggleFullScreen () {
@@ -33,9 +34,7 @@ function toggleFullScreen () {
     })
 }
 
-function togglePlayerState (ev: KeyboardEvent) {
-  ev.preventDefault()
-  
+function togglePlayerState () {
   const { setIsPlaying, isPlaying } = usePlayerStore.getState()
   setIsPlaying(!isPlaying)
 }
