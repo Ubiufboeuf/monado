@@ -4,6 +4,7 @@ import { getVideo } from '@/services/videoService'
 import { errorHandler } from '@/lib/errors'
 import { playerKeyboardActions, validKeys } from '@/lib/keyboardActions'
 import type { ReactNode } from 'preact/compat'
+import { SuggestedVideos } from './SuggestedVideos'
 
 export function Watch ({ id, children }: { id: string, children: ReactNode }) {
   const setVideo = usePlayerStore((state) => state.setVideo)
@@ -60,11 +61,7 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
       </div>
       <div class='[grid-area:detalles] h-60'>detalles (abajo izquierda)</div>
       <div class='[grid-area:sugeridos] min-w-85 w-full h-300'>
-        <a href='/watch?v=wKVJi-FLvak'>rubia (wKVJi-FLvak)</a>
-        <br />
-        <a href='/watch?v=hP69ZfMwmvo'>heinz (hP69ZfMwmvo)</a>
-        <br />
-        <a href='/watch?v=8cTa9vhXx98'>mario (8cTa9vhXx98)</a>
+        <SuggestedVideos />
       </div>
     </section>
   )
