@@ -13,3 +13,4 @@ export {
 }
 
 export const EMPTY = '(Vacío)' as const
+export const AUTO_PLAY = true

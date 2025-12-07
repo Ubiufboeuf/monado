@@ -1,3 +1,4 @@
+import { AUTO_PLAY } from '@/lib/constants'
 import { playerKeyboardActions } from '@/lib/keyboardActions'
 import type { Video } from '@/types/videoTypes'
 import { create } from 'zustand'
@@ -16,7 +17,7 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   video: null,
   player: null,
   playerActions: playerKeyboardActions,
-  isPlaying: false,
+  isPlaying: AUTO_PLAY,
   setVideo: (video) => set({ video }),
   setPlayer: (player) => set({ player }),
   setIsPlaying: (isPlaying) => set({ isPlaying })
