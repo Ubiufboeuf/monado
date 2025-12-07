@@ -293,6 +293,8 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
     const video = videoRef.current
     if (!video) return
     
+    showControls()
+    
     if (!isPlaying) {
       video.pause()
       return
