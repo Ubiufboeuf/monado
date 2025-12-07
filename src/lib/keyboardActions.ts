@@ -36,9 +36,10 @@ function toggleFullScreen () {
   if (!player || !document.fullscreenEnabled) return
 
   const isFullScreen = Boolean(document.fullscreenElement)
+  const watch = document.querySelector('#watch')
 
-  const promise = isFullScreen ? document.exitFullscreen : player.parentElement?.requestFullscreen
-  const thisArg = isFullScreen ? document : player.parentElement
+  const promise = isFullScreen ? document.exitFullscreen : watch?.requestFullscreen
+  const thisArg = isFullScreen ? document : watch
 
   promise?.call(thisArg)
     .then(() => {
