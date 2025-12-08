@@ -52,6 +52,7 @@ export function VideoCard ({ video }: { video: Video }) {
               <img
                 src={thumbnailsById[min_thumbnail].url}
                 class={`${isSquare ? 'isSquare' : ''} opacity-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none blur`}
+                aria-hidden
                 onLoad={handleLoadThumbnail}
               />
             }
