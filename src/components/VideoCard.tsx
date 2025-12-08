@@ -35,10 +35,11 @@ export function VideoCard ({ video }: { video: Video }) {
   }
   
   return (
-    <article class='cardWrapper relative flex justify-center'>
+    <article class='cardWrapper group relative flex justify-center'>
+      <div class='absolute h-full w-full left-0 top-0 rounded-xl pointer-events-none transition-all duration-200 scale-98 group-hover:scale-103 opacity-0 group-hover:opacity-100 group-[:has(.dots:hover)]:opacity-0 group-[:has(.dots:hover)]:scale-98 bg-neutral-700/40' />
       <a
         href={`/watch?v=${id}`}
-        class='videoCard h-fit w-full xs:not-sm:w-[max(80%,var(--breakpoint-xs))] sm:not-md:w-[min(100%,500px)] cursor-pointer items-start flex flex-col focus:outline-0 [&:not(:has(.dots:active)):active]:bg-neutral-600/20 rounded-xl transition-colors active:duration-200'
+        class='videoCard h-fit w-full xs:not-sm:w-[max(80%,var(--breakpoint-xs))] sm:not-md:w-[min(100%,500px)] cursor-pointer items-start flex flex-col rounded-xl transition-colors'
         onClick={changeVideo}
         title={title}
       >
@@ -67,10 +68,10 @@ export function VideoCard ({ video }: { video: Video }) {
             }} />
           </div>
         </section>
-        <section class='w-full h-26 ms:h-29 text-sm relative grid grid-cols-[48px_1fr_36px] not-xs:px-3 pt-3'>
+        <section class='w-full h-24 text-sm relative grid grid-cols-[48px_1fr_36px] not-xs:px-3 pt-3'>
           <div class='h-fulll w-full flex items-start justify-start'>
             <button
-              class='size-10 aspect-square flex items-center justify-start pointer-events-auto cursor-pointer'
+              class='h-fit w-fit aspect-square flex items-center justify-start pointer-events-auto cursor-pointer'
               // onClick={() => {
               //   navigate('/channel?id=ooo0eve0ooo')
               // }}
@@ -86,7 +87,7 @@ export function VideoCard ({ video }: { video: Video }) {
           </div>
           <div class='flex-1 text-neutral-400 flex flex-col items-start'>
             <h1 class='text-sm sm:text-base font-medium text-start line-clamp-2 text-neutral-100'>{title}</h1>
-            <div class='text-[min(3vw,14px)] ms:block flex items-center gap-1'>
+            <div class='text-[min(3vw,14px)] ms:block'>
               <span>mAngo</span>
               &nbsp;<span>•</span>&nbsp;
               <span>{parseViews(0)} vistas</span>
@@ -96,7 +97,7 @@ export function VideoCard ({ video }: { video: Video }) {
           </div>
           <div class='h-full w-full flex-1'>
             <button
-              class='dots hover:bg-neutral-800 cursor-pointer rounded-full aspect-square size-9 flex items-center justify-center'
+              class='dots cursor-pointer rounded-full aspect-square size-9 flex items-center justify-center transition-colors hover:bg-neutral-700/40'
               onClick={showOptions}
             >
               <div class='size-5 overflow-hidden flex items-center justify-center pointer-events-none'>
