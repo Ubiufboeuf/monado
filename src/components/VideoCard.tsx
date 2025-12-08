@@ -27,8 +27,11 @@ export function VideoCard ({ video }: { video: Video }) {
     const { naturalWidth, naturalHeight } = image
     const aspectRatio = naturalWidth / naturalHeight
 
-    const threshold = 0.1
-    setIsSquare(((aspectRatio + threshold) <= 1.1) && ((aspectRatio - threshold) >= 0.9))
+    const upper_threshold = 1.1
+    const lower_threshold = 0.9
+    const tolerance = 0.1
+
+    setIsSquare(((aspectRatio + tolerance) <= upper_threshold) && ((aspectRatio - tolerance) >= lower_threshold))
 
     // Para evitar un "parpadeo" por el object fit inicial incorrecto
     image.classList.remove('opacity-0')
