@@ -50,6 +50,10 @@ export function HomeMainContent () {
       <VideoCardFallback />
       <VideoCardFallback />
       <VideoCardFallback />
+      <VideoCardFallback />
+      <VideoCardFallback />
+      <VideoCardFallback />
+      <VideoCardFallback />
     </div>
   )
 }
