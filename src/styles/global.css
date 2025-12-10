@@ -105,4 +105,14 @@ p {
     transition: none !important;
     animation: none !important;
   }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none; 
+  }
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none; 
 }
