@@ -5,7 +5,7 @@ import type { MediaPlayerClass, MediaPlayerSettingClass } from 'dashjs'
 import type { CSSProperties } from 'preact'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { Icon } from '../Icon'
-import { IconNext, IconPause, IconPlay } from '../Icons'
+import { IconNext, IconPause, IconPlay, IconVolume } from '../Icons'
 import { parseDuration } from '@/lib/parsers'
 
 const playerSettings: MediaPlayerSettingClass = {
@@ -40,8 +40,12 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
   const timelineRef = useRef<HTMLDivElement | null>(null)
   const timeseenRef = useRef<HTMLDivElement | null>(null)
   const timelineThumbRef = useRef<HTMLDivElement | null>(null)
+  const volumeRef = useRef<HTMLDivElement | null>(null)
+  const volumeLevelRef = useRef<HTMLDivElement | null>(null)
+  const volumeThumbRef = useRef<HTMLDivElement | null>(null)
   const canHideControlsRef = useRef(true)
   const canHideCursorRef = useRef(true)
+  const mouseTargetRef = useRef<HTMLElement | null>(null)
   
   const video = usePlayerStore((state) => state.video)
   const setPlayer = usePlayerStore((state) => state.setPlayer)
@@ -102,6 +106,7 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
     // console.log('press', isMouseDown && 'mouse down')
     // if (isMouseDown) return
     isMouseDownRef.current = true
+    mouseTargetRef.current = event.target as HTMLElement
     
     if (!pausedForErrorRef.current) {
       pause()
@@ -128,6 +133,8 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
   }
 
   function handleDragTimeline (event: MouseEvent) {
+    if (!mouseTargetRef.current?.closest('#timeline')) return
+    
     if (!isMouseDownRef.current) return
     
     if (!timelineRef.current) return
@@ -147,9 +154,43 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
     if (timelineThumbRef.current) timelineThumbRef.current.style.left = `${position}px`
   }
 
+  function handlePressVolme (event: MouseEvent) {
+    isMouseDownRef.current = true
+    mouseTargetRef.current = event.target as HTMLElement
+    
+    if (volumeRef.current) changeVolume(event, volumeRef.current)
+    
+    window.addEventListener('mousemove', handleDragVolume)
+  }
+
+  function handleDragVolume (event: MouseEvent) {
+    if (!mouseTargetRef.current?.closest('#volume') || !isMouseDownRef.current || !volumeRef.current) return
+
+    changeVolume(event, volumeRef.current)
+  }
+  
+  function changeVolume (event: MouseEvent, volumeElement: HTMLDivElement) {
+    const { x } = event
+    const { left, width } = volumeElement.getBoundingClientRect()
+    const start = left
+    const end = width
+    const linePercent = (x - start) / (end)
+
+    const volumeThumb = volumeThumbRef.current
+    const volumeThumbWidth = volumeThumb?.getBoundingClientRect().width
+
+    const volume = Math.max(0, Math.min(linePercent, 1))
+    const position = Math.max(0 + (volumeThumbWidth ?? 0) / 2, Math.min(x - start, end - (volumeThumbWidth ?? 0) / 2))
+
+    if (videoRef.current) videoRef.current.volume = volume    
+    if (volumeLevelRef.current) volumeLevelRef.current.style.width = `${position}px`
+    if (volumeThumb) volumeThumb.style.left = `${position}px`
+  }
+
   function handleMouseUp () {
     // console.log('mouse up')
     isMouseDownRef.current = false
+    mouseTargetRef.current = null
 
     if (pausedForDraggingRef.current && playAfterDragRef.current) {
       play()
@@ -341,6 +382,7 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
         >
           {/* línea de tiempo */}
           <div
+            id='timeline'
             ref={timelineRef}
             class='group absolute bottom-14.5 left-1/2 translate-y-1/2 -translate-x-1/2 flex items-center h-5 w-[calc(100%-24px)] cursor-pointer'
             onMouseDown={handlePressTimeline}
@@ -384,9 +426,31 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
                   </div>
                 </button>
               </div>
-              {/* <div class='flex items-center justify-center h-10 w-fit rounded-full bg-black/30'>
-                volumen
-              </div> */}
+              <div class='group relative flex items-center justify-center h-10 w-fit rounded-full bg-black/30'>
+                <div class='absolute w-full h-full left-0 top-0 p-1'>
+                  <div class='w-full h-full rounded-full group-hover:bg-white/10' />
+                </div>
+                <button class='flex items-center justify-center h-full w-10 rounded-full outline-0 overflow-hidden cursor-pointer transition-colors'>
+                  <div class='flex items-center justify-center size-8 rounded-full transition-colors'>
+                    <Icon class='size-8 shrink-0 filter-[drop-shadow(0px_0px_1px_black)]'>
+                      <IconVolume />
+                    </Icon>
+                  </div>
+                </button>
+                <button class='h-full w-0 group-hover:w-fit focus-within:w-fit group-hover:pr-5 focus-within:pr-5 overflow-hidden transition-[width] [interpolate-size:allow-keywords] duration-350 group-hover:duration-250'>
+                  {/* volumen */}
+                  <div
+                    id='volume'
+                    ref={volumeRef}
+                    class='relative w-13 h-full flex items-center cursor-pointer'
+                    onMouseDown={handlePressVolme}
+                  >
+                    <div class='flex items-center h-0.5 w-full rounded-full transition-all duration-300 bg-transparent' /> {/* track */}
+                    <div ref={volumeLevelRef} class='absolute h-0.5 rounded-full [transition:height_300ms_eease] filter-[drop-shadow(0px_0px_1px_black)] bg-white' /> {/* nivel del volumen */}
+                    <div ref={volumeThumbRef} class='absolute left-1.5 top-1/2 -translate-1/2 size-3 rounded-full [transition:height_300ms_eease] filter-[drop-shadow(0px_0px_1px_black)] bg-white shadow-2xl' /> {/* thumb */}
+                  </div>
+                </button>
+              </div>
               <div class='flex items-center justify-center h-10 w-fit p-1 rounded-full bg-black/30'>
                 <div class='flex items-center justify-center h-full w-full px-3 rounded-full text-sm'>
                   <span>{parseDuration(currentTime)}</span>
