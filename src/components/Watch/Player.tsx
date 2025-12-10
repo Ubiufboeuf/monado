@@ -396,7 +396,7 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
           <div class='flex h-13 justify-between px-1 gap-2'>
             <section class='flex items-center gap-2'>
               <button
-                class='group flex items-center justify-center size-10 p-1 rounded-full overflow-hidden cursor-pointer transition-colors bg-black/30'
+                class='group flex items-center justify-center size-10 p-1 rounded-full overflow-hidden cursor-pointer transition-colors bg-black/30 outline-0 border-2 border-transparent focus-within:border-focus'
                 onClick={togglePlayerState}
               >
                 <div class='flex items-center justify-center size-full rounded-full pointer-events-none transition-colors group-hover:bg-white/10'>
@@ -411,14 +411,14 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
                 </div>
               </button>
               <div class='flex items-center justify-center h-10 w-fit rounded-full bg-black/30'>
-                <button class='group flex items-center justify-center h-full w-13 p-1 pr-0 rounded-full overflow-hidden cursor-pointer transition-colors'>
+                <button class='group flex items-center justify-center h-full w-13 p-1 pr-0 rounded-full overflow-hidden cursor-pointer transition-colors outline-0 border-2 border-transparent focus-within:border-focus'>
                   <div class='flex items-center justify-center size-full rounded-full transition-colors group-hover:bg-white/10'>
                     <Icon class='size-10 shrink-0 filter-[drop-shadow(0px_0px_1px_black)] rotate-180'>
                       <IconNext />
                     </Icon>
                   </div>
                 </button>
-                <button class='group flex items-center justify-center h-full w-13 p-1 pl-0 rounded-full overflow-hidden cursor-pointer transition-colors'>
+                <button class='group flex items-center justify-center h-full w-13 p-1 pl-0 rounded-full overflow-hidden cursor-pointer transition-colors outline-0 border-2 border-transparent focus-within:border-focus'>
                   <div class='flex items-center justify-center size-full rounded-full transition-colors group-hover:bg-white/10'>
                     <Icon class='size-10 shrink-0 filter-[drop-shadow(0px_0px_1px_black)]'>
                       <IconNext />
@@ -430,19 +430,19 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
                 <div class='absolute w-full h-full left-0 top-0 p-1'>
                   <div class='w-full h-full rounded-full group-hover:bg-white/10' />
                 </div>
-                <button class='flex items-center justify-center h-full w-10 rounded-full outline-0 overflow-hidden cursor-pointer transition-colors'>
+                <button class='flex items-center justify-center h-full w-10 rounded-full outline-0 border-2 overflow-hidden cursor-pointer transition-colors border-transparent focus-within:border-focus'>
                   <div class='flex items-center justify-center size-8 rounded-full transition-colors'>
                     <Icon class='size-8 shrink-0 filter-[drop-shadow(0px_0px_1px_black)]'>
                       <IconVolume />
                     </Icon>
                   </div>
                 </button>
-                <button class='h-full w-0 group-hover:w-fit focus-within:w-fit group-hover:pr-5 focus-within:pr-5 overflow-hidden transition-[width] [interpolate-size:allow-keywords] duration-350 group-hover:duration-250'>
+                <button class='h-full w-0 group-hover:w-fit focus-within:w-fit group-hover:pr-5 focus-within:pr-5 overflow-hidden transition-[width] [interpolate-size:allow-keywords] duration-350 group-hover:duration-250 outline-0 border border-transparent focus-within:border-focus'>
                   {/* volumen */}
                   <div
                     id='volume'
                     ref={volumeRef}
-                    class='relative w-13 h-full flex items-center cursor-pointer'
+                    class='relative w-13 h-full flex items-center cursor-pointer outline-0 border-2 border-transparent focus-within:border-focus'
                     onMouseDown={handlePressVolme}
                   >
                     <div class='flex items-center h-0.5 w-full rounded-full transition-all duration-300 bg-transparent' /> {/* track */}
