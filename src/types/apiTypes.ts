@@ -1,10 +1,15 @@
+import type { SERVER_RESPONSE_PARSER_TARGETS } from '@/lib/constants'
+
 export interface ServerResponse {
   success: boolean
-  status: number
-  msg?: string
-  cause?: string
-  [key: string]: unknown
+	message?: string
+	example?: string
+	video?: VideoFromServer
+	videos?: VideoFromServer[]
+	nextCursor?: string | null
 }
+
+export type ServerResponseParserTarget = typeof SERVER_RESPONSE_PARSER_TARGETS[keyof typeof SERVER_RESPONSE_PARSER_TARGETS]
 
 export type VideoFromServer = {
 	id: string | undefined
