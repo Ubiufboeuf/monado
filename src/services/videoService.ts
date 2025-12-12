@@ -1,33 +1,37 @@
-import { EMPTY, ENDPOINTS } from '@/lib/constants'
+import { EMPTY, ENDPOINTS, SERVER_RESPONSE_PARSER_TARGETS } from '@/lib/constants'
 import { errorHandler } from '@/lib/errors'
 import { responseHandler } from '@/lib/handlers'
 import type { ResolutionsById, Thumbnail, ThumbnailsById, Video } from '@/types/videoTypes'
-import type { ServerResponse, VideoFromServer } from '../types/apiTypes'
+import type { ServerResponse, ServerResponse, VideoFromServer } from '../types/apiTypes'
 import { isValidVideo } from '@/lib/validations'
 import { getMax, getMin } from '@/lib/utils'
+import { parseServerResponse } from './apiService'
 
-export async function getVideos (): Promise<Video[]> {
+export async function getVideos ({ limit = 12 }: { limit?: number } = {}): Promise<Video[]> {
   let res
   try {
-    res = await fetch(ENDPOINTS.VIDEOS)
+    res = await fetch(`${ENDPOINTS.VIDEOS}?limit=${limit}`)
   } catch (err) {
     const errorMessage = 'Error con la petición de los videos'
     errorHandler(err, errorMessage, 'dev')
     throw new Error(errorMessage)
   }
 
-  let data: unknown = undefined
+  let serverResponse: unknown = undefined
   try {
-    data = await responseHandler(res)
+    serverResponse = await responseHandler(res)
   } catch (err) {
     const errorMessage = 'Error parseando la respuesta'
     errorHandler(err, errorMessage, 'dev')
     throw new Error(errorMessage)
   }
 
+  const data = parseServerResponse(SERVER_RESPONSE_PARSER_TARGETS.VIDEOS, serverResponse)
+  if (!data) return []
+  
   let videos = []
   try {
-    videos = formVideos(data as ServerResponse)
+    videos = formVideos(data)
   } catch (err) {
     const errorMessage = 'Error formando los videos'
     errorHandler(err, errorMessage, 'dev')
@@ -40,7 +44,7 @@ export async function getVideos (): Promise<Video[]> {
 export async function getVideo (id: string): Promise<Video | undefined> {
   let res
   try {
-    res = await fetch(`${ENDPOINTS.VIDEO}?id=${id}`)
+    res = await fetch(`${ENDPOINTS.VIDEO}/${id}`)
   } catch (err) {
     const errorMessage = 'Error con la petición de la información del video'
     errorHandler(err, errorMessage, 'dev')
@@ -134,7 +138,7 @@ function parseVideoFromServer (v: VideoFromServer): Video | undefined {
   
   return {
     id: v.id,
-    source: `${ENDPOINTS.VIDEO_STREAM}/${v.id}/manifest.mpd`,
+    source: `${ENDPOINTS.STREAMS}/${v.id}/manifest.mpd`,
     title: v.title ?? EMPTY,
     uploader: v.uploader ?? EMPTY,
     uploader_id: v.uploader_id ?? EMPTY,
