@@ -2,7 +2,7 @@ import { EMPTY, ENDPOINTS } from '@/lib/constants'
 import { errorHandler } from '@/lib/errors'
 import { responseHandler } from '@/lib/handlers'
 import type { ResolutionsById, Thumbnail, ThumbnailsById, Video } from '@/types/videoTypes'
-import type { ServerResponse, VideoFromServer } from './apiTypes'
+import type { ServerResponse, VideoFromServer } from '../types/apiTypes'
 import { isValidVideo } from '@/lib/validations'
 import { getMax, getMin } from '@/lib/utils'
 
