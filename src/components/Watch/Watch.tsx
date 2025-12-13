@@ -51,7 +51,7 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
 
   return (
     <section id='watch' class='absolute top-14 lg:top-17 right-0 grid gap-4 h-fit w-full ml:menu-open:w-navbar lg:not-cinema:px-6 [transition:width_250ms_ease]
-      2xl:max-w-screen-2xl 2xl:left-1/2 2xl:right-[unset] 2xl:-translate-x-1/2 full-screen:overflow-y-scroll bg-base-dark
+      2xl:max-w-screen-2xl 2xl:left-1/2 2xl:right-[unset] 2xl:-translate-x-1/2 [scrollbar-width:none] bg-base-dark
     
       lg:[grid-template-areas:"player_sugeridos""detalles_sugeridos"]
       lg:grid-cols-[1fr_400px]
@@ -66,7 +66,7 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
       full-screen:[grid-template-areas:"player_player""detalles_sugeridos"] full-screen:grid-rows-[100dvh_1fr]
       full-screen:cinema:[grid-template-areas:"player_player""detalles_sugeridos"] full-screen:cinema:grid-rows-[100dvh_1fr]
 
-      full-screen:w-screen full-screen:h-screen
+      full-screen:w-screen full-screen:h-dvh full-screen:overflow-y-scroll
     '>
       <div class='[grid-area:player] overflow-hidden bg-black
         w-full h-fit min-h-fit max-h-full
@@ -79,7 +79,7 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
         {children}
       </div>
       <div class='[grid-area:detalles] h-60'>detalles (abajo izquierda)</div>
-      <div class='[grid-area:sugeridos] min-w-85 w-full h-300'>
+      <div class='[grid-area:sugeridos] min-w-85 w-full h-fit'>
         <SuggestedVideos />
       </div>
     </section>
