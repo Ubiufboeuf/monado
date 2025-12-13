@@ -1,6 +1,6 @@
 import type { Video } from '@/types/videoTypes'
 import type { TargetedEvent, TargetedMouseEvent } from 'preact'
-import { IconDots, IconVerified } from './Icons'
+import { IconDots } from './Icons'
 import { parseDuration, parseViews } from '@/lib/parsers'
 import { navigate } from 'astro:transitions/client'
 import { useState } from 'preact/hooks'
