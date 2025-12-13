@@ -4,8 +4,8 @@ const SERVER_URL = import.meta.env.PUBLIC_SERVER_URL
 export const ENDPOINTS = {
   VIDEOS: `${SERVER_URL}/videos`,
   VIDEO: `${SERVER_URL}/video`,
-  STREAMS: `${SERVER_URL}/streams`,
-  THUMBNAIL: `${SERVER_URL}/video/thumbnail`
+  STREAMS: `${SERVER_URL}/streams`
+  // THUMBNAIL: `${SERVER_URL}/video/thumbnail`
 } as const
 
 export const SERVER_RESPONSE_PARSER_TARGETS = {
