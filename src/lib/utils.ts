@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-this-alias */
+
+import { v4 } from 'uuid'
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export function padStart (value: number | string, length: number, fill: string) {
   const str = typeof value === 'number'
@@ -72,4 +75,40 @@ export function throttle (func: (...args: any[]) => any, limit: number) {
     
     return lastResult
   }
+}
+
+const randomSelectorList = new Map<string, number[]>()
+
+export function getRandomItem<T> (list: T[], selectorId?: string): [T, string] {  
+  if (!list.length || list.length < 2) {
+    throw new Error('La lista es demasiado corta')
+  }
+
+  let id = selectorId
+  if (!id) {
+    id = v4()
+    randomSelectorList.set(id, [])
+  }
+  
+  const history = randomSelectorList.get(id)
+  if (!history) {
+    throw new Error(`Error con la lista de elementos aleatorios de id: ${id}`)
+  }
+
+  let availableItems = list
+    .map((_, idx) => idx)
+    .filter((item) => !history.includes(item))
+  
+  if (!availableItems.length) {
+    history.length = 3
+    availableItems = list.map((_, idx) => idx)
+  }
+
+  const randomIndexInAvailableItems = Math.floor(Math.random() * availableItems.length)
+  const randomNumber = availableItems[randomIndexInAvailableItems]
+  
+  history.unshift(randomNumber)
+  history.length = Math.min(list.length - 1, 8)
+  
+  return [list[randomNumber], id]
 }
