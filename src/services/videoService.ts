@@ -129,7 +129,7 @@ function parseVideoFromServer (v: VideoFromServer): Video | undefined {
     const t = v.thumbnails[idx]
     // const url = `${ENDPOINTS.THUMBNAIL}/${v.id}/${t.id}`
     const url = getThumbnail(v.id, t.id)
-    thumbnails.push({ ...t, url })
+    if (url) thumbnails.push({ ...t, url })
   }
   
   const thumbnailsById: ThumbnailsById = {}
