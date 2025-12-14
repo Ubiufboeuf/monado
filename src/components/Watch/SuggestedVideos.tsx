@@ -1,12 +1,13 @@
-import { useEffect, useState } from 'preact/hooks'
+import { useEffect } from 'preact/hooks'
 import { v4 as uuidv4 } from 'uuid'
 import { VideoListCard } from '../VideoListCard'
-import type { Video } from '@/types/videoTypes'
 import { errorHandler } from '@/lib/errors'
 import { getVideos } from '@/services/videoService'
+import { useVideosStore } from '@/stores/useVideosStore'
 
 export function SuggestedVideos () {
-  const [videos, setVideos] = useState<Video[]>([])
+  const videos = useVideosStore((state) => state.suggestedVideos)
+  const setVideos = useVideosStore((state) => state.setSuggestedVideos)
 
   async function loadVideos () {
     getVideos()
