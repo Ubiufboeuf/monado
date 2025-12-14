@@ -7,6 +7,9 @@ import { useEffect, useRef, useState } from 'preact/hooks'
 import { Icon } from '../Icon'
 import { IconNext, IconPause, IconPlay, IconVolume } from '../Icons'
 import { parseDuration } from '@/lib/parsers'
+import { navigate } from 'astro/virtual-modules/transitions-router.js'
+import { useVideosStore } from '@/stores/useVideosStore'
+import { getRandomItem } from '@/lib/utils'
 
 const playerSettings: MediaPlayerSettingClass = {
   streaming: {
@@ -46,11 +49,13 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
   const canHideControlsRef = useRef(true)
   const canHideCursorRef = useRef(true)
   const mouseTargetRef = useRef<HTMLElement | null>(null)
+  const randomSelectorId = useRef<string | undefined>(undefined)
   
   const video = usePlayerStore((state) => state.video)
   const setPlayer = usePlayerStore((state) => state.setPlayer)
   const isPlaying = usePlayerStore((state) => state.isPlaying)
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
+  const suggestedVideos = useVideosStore((state) => state.suggestedVideos)
 
   async function importDashjs () {
     return import('dashjs')
@@ -301,6 +306,16 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
       })
   }
 
+  function handleVideoEnded () {
+    let selectorId = randomSelectorId.current
+    const result = getRandomItem(suggestedVideos, selectorId)
+    
+    const nextVideo = result[0]
+    selectorId = result[1]
+
+    navigate(`/watch?v=${nextVideo.id}`)
+  }
+
   useEffect(() => {    
     importDashjs()
 
@@ -364,6 +379,7 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
         class='w-full h-auto cinema:h-full cinema:w-auto aspect-(--aspectRatio) lg:aspect-video'
         style={{ '--aspectRatio': video?.aspect_ratio.replace(':', '/') || '16/9' }}
         onTimeUpdate={handleTimeUpdate}
+        onEnded={handleVideoEnded}
       />
       {/* controles */}
       <div class={`${controlsVisible ? '' : 'hide'} absolute left-0 top-0 flex flex-col justify-between h-full w-full [.hide]:opacity-0 transition-opacity`}>
