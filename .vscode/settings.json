@@ -6,6 +6,7 @@
     "ui",
     "commit-scope",
     "ui-ux",
-    "ux"
+    "ux",
+    "hydration"
   ]
 }
