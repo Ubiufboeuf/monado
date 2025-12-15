@@ -4,6 +4,7 @@ import Header from '@/components/Header/Header.astro'
 import { Menu } from '@/components/Menu'
 import { MenuMini } from '@/components/MenuMini'
 import { TabBar } from '@/components/TabBar'
+import { useUIStore } from '@/stores/useUIStore'
 import { ClientRouter } from 'astro:transitions'
 
 interface Props {
@@ -17,6 +18,8 @@ const { title, menuMini, tabBar, useTransitions = true } = Astro.props
 
 const isMenuOpen = Astro.cookies.get('monado-is-menu-open')?.value
 const inCinemaMode = Astro.cookies.get('monado-in-cinema-mode')?.value
+
+useUIStore.setState({ isMenuOpen: isMenuOpen === 'true' })
 
 const deviceCodeCookie = Astro.cookies.get('monado-device-type')
 const deviceCode = deviceCodeCookie?.value
@@ -91,6 +94,8 @@ const { pathname } = Astro.url
       })()
     </script>
 		<script>
+			import { useUIStore } from '@/stores/useUIStore'
+
 			// Leer cookie del estado del menú
 			(function() {
 				const isMenuOpen = document.cookie
@@ -98,16 +103,26 @@ const { pathname } = Astro.url
 					.find(c => c.startsWith('monado-is-menu-open='))
 					?.split('=')[1] || 'false'
 				const input = document.querySelector('#checkbox-menu-state') as HTMLInputElement
-				if (input) input.checked = (isMenuOpen === 'true')
+				if (input) {
+					input.checked = (isMenuOpen === 'true')
+					const { setIsMenuOpen } = useUIStore.getState()
+					setIsMenuOpen(isMenuOpen === 'true')
+				}
 			})()
 		</script>
 		<script>
+			import { useUIStore } from '@/stores/useUIStore'
+			
 			function handleGlobalChange(event: Event) {
 				const input = event.target
 				if (!(input instanceof HTMLInputElement)) return
 				if (!input.matches('#checkbox-menu-state')) return
 
-				document.cookie = `monado-is-menu-open=${input.checked}; path=/; Secure; SameSite=Strict`
+				const isMenuOpen = input.checked
+				document.cookie = `monado-is-menu-open=${isMenuOpen}; path=/; Secure; SameSite=Strict`
+
+				const { setIsMenuOpen } = useUIStore.getState()
+				setIsMenuOpen(isMenuOpen)
 			}
 
 			function handlePageLoad () {
@@ -119,7 +134,10 @@ const { pathname } = Astro.url
 
 				const input = document.querySelector('#checkbox-menu-state')
 				if (input instanceof HTMLInputElement) {
-					input.checked = cookie === 'true'
+					const isMenuOpen = cookie === 'true'
+					input.checked = isMenuOpen
+					const { setIsMenuOpen } = useUIStore.getState()
+					setIsMenuOpen(isMenuOpen)
 				}
 
 				const cinemaCookie = document.cookie
