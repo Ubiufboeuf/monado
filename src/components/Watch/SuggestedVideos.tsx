@@ -10,7 +10,7 @@ export function SuggestedVideos () {
   const setVideos = useVideosStore((state) => state.setSuggestedVideos)
 
   async function loadVideos () {
-    getVideos()
+    getVideos({ limit: 96 })
       .then((videos) => setVideos(videos))
       .catch((err) => errorHandler(err))
   }

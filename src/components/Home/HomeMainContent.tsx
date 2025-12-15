@@ -15,7 +15,7 @@ export function HomeMainContent () {
   const user = { hasSearched: true }
 
   async function loadVideos () {
-    getVideos()
+    getVideos({ limit: 96 })
       .then((videos) => setVideos(videos))
       .catch((err) => errorHandler(err))
       .finally(() => setIsComponentReady(true))
