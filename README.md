@@ -8,6 +8,7 @@ git clone https://github.com/Ubiufboeuf/monado.git # Clonar repositorio
 cd monado # Moverte a la carpeta del proyecto
 bun install # Instalar las dependencias del proyecto
 bun dev # Levantar la web (:4321)
+bun dev --host # Levanta la web (:4321) y habilita el uso de la IP y monado.dev.local (por httpd)
 ```
 
 <!-- ### Servidor -->
