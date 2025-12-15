@@ -1,15 +1,18 @@
 import { useId, useState } from 'preact/hooks'
 import { Icon } from './Icon'
 import { itemsAside } from '@/lib/menuItems'
+import { useUIStore } from '@/stores/useUIStore'
 
 export function MenuMini ({ hidden }: { hidden?: boolean | undefined }) {
   const [pathname] = useState<string>('/')
+  const isMenuOpen = useUIStore((state) => state.isMenuOpen)
 
   return (
     <aside
       id='menu-mini'
       class='fixed left-0 z-98 hidden sm:flex flex-col items-center gap-2 w-18 h-[calc(100%-56px)] px-2 overflow-y-auto [scrollbar-width:none] bg-base-dark'
       hidden={hidden}
+      aria-hidden={isMenuOpen}
     >
       <div class='min-h-fit w-fit h-full pb-1'>
         { itemsAside.map(item => (
@@ -20,6 +23,7 @@ export function MenuMini ({ hidden }: { hidden?: boolean | undefined }) {
                 href={path}
                 title={name}
                 class={`${path === pathname ? 'actualPathMini bg-selected font-medium' : 'hover:bg-neutral-800'} h-10 aspect-square flex flex-col rounded-lg items-center justify-center active:bg-neutral-600 active:transition-colors`}
+                tabIndex={isMenuOpen ? -1 : 0}
               >
                 <Icon class='aspect-square'>
                   <ItemIcon active={path === pathname} />
