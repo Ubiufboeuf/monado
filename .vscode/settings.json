@@ -4,6 +4,8 @@
     "player",
     "api",
     "ui",
-    "commit-scope"
+    "commit-scope",
+    "ui-ux",
+    "ux"
   ]
 }
