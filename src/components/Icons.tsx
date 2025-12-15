@@ -41,7 +41,7 @@ const Svg = ({ children, viewBox = '0 0 24 24', width = '24', height = '24', gra
     hidden={hidden}
     class='h-full w-full pointer-events-none'
   >
-    {gradient && <Gradients />}
+    <Gradients />
     {children}
   </svg>
 )
