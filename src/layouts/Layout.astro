@@ -162,7 +162,7 @@ const { pathname } = Astro.url
 		<Header />
 		<main class='h-full w-full min-h-fit max-h-full pt-14'>
 			<Menu pathname={pathname} client:load transition:persist />
-			<MenuMini hidden={!menuMini} />
+			<MenuMini hidden={!menuMini} client:load />
 			<slot />
 		</main>
 		<TabBar hidden={!tabBar} />
