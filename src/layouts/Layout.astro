@@ -4,7 +4,7 @@ import Header from '@/components/Header/Header.astro'
 import { Menu } from '@/components/Menu'
 import { MenuMini } from '@/components/MenuMini'
 import { TabBar } from '@/components/TabBar'
-import { useUIStore } from '@/stores/useUIStore'
+import { useHydrationStore } from '@/stores/useHydrationStore'
 import { ClientRouter } from 'astro:transitions'
 
 interface Props {
@@ -19,7 +19,7 @@ const { title, menuMini, tabBar, useTransitions = true } = Astro.props
 const isMenuOpen = Astro.cookies.get('monado-is-menu-open')?.value
 const inCinemaMode = Astro.cookies.get('monado-in-cinema-mode')?.value
 
-useUIStore.setState({ isMenuOpen: isMenuOpen === 'true' })
+useHydrationStore.setState({ isMenuOpen: isMenuOpen === 'true' })
 
 const deviceCodeCookie = Astro.cookies.get('monado-device-type')
 const deviceCode = deviceCodeCookie?.value
@@ -94,7 +94,7 @@ const { pathname } = Astro.url
       })()
     </script>
 		<script>
-			import { useUIStore } from '@/stores/useUIStore'
+			import { useHydrationStore } from '@/stores/useHydrationStore'
 
 			// Leer cookie del estado del menú
 			(function() {
@@ -105,13 +105,13 @@ const { pathname } = Astro.url
 				const input = document.querySelector('#checkbox-menu-state') as HTMLInputElement
 				if (input) {
 					input.checked = (isMenuOpen === 'true')
-					const { setIsMenuOpen } = useUIStore.getState()
+					const { setIsMenuOpen } = useHydrationStore.getState()
 					setIsMenuOpen(isMenuOpen === 'true')
 				}
 			})()
 		</script>
 		<script>
-			import { useUIStore } from '@/stores/useUIStore'
+			import { useHydrationStore } from '@/stores/useHydrationStore'
 			
 			function handleGlobalChange(event: Event) {
 				const input = event.target
@@ -121,7 +121,7 @@ const { pathname } = Astro.url
 				const isMenuOpen = input.checked
 				document.cookie = `monado-is-menu-open=${isMenuOpen}; path=/; Secure; SameSite=Strict`
 
-				const { setIsMenuOpen } = useUIStore.getState()
+				const { setIsMenuOpen } = useHydrationStore.getState()
 				setIsMenuOpen(isMenuOpen)
 			}
 
@@ -136,7 +136,7 @@ const { pathname } = Astro.url
 				if (input instanceof HTMLInputElement) {
 					const isMenuOpen = cookie === 'true'
 					input.checked = isMenuOpen
-					const { setIsMenuOpen } = useUIStore.getState()
+					const { setIsMenuOpen } = useHydrationStore.getState()
 					setIsMenuOpen(isMenuOpen)
 				}
 

@@ -1,11 +1,11 @@
 import { useId, useState } from 'preact/hooks'
 import { Icon } from './Icon'
 import { itemsAside } from '@/lib/menuItems'
-import { useUIStore } from '@/stores/useUIStore'
+import { useHydrationStore } from '@/stores/useHydrationStore'
 
 export function MenuMini ({ hidden }: { hidden?: boolean | undefined }) {
   const [pathname] = useState<string>('/')
-  const isMenuOpen = useUIStore((state) => state.isMenuOpen)
+  const isMenuOpen = useHydrationStore((state) => state.isMenuOpen)
 
   return (
     <aside

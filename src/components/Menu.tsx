@@ -2,11 +2,11 @@ import { useId, useRef } from 'preact/hooks'
 import { MenuExpandableLink } from './AsideNavigation/MenuExpandableLink'
 import { MenuLink } from './AsideNavigation/MenuLink'
 import { itemsAside } from '@/lib/menuItems'
-import { useUIStore } from '@/stores/useUIStore'
+import { useHydrationStore } from '@/stores/useHydrationStore'
 
 export function Menu ({ pathname }: { pathname: string }) {
   const asideMenuRef = useRef<HTMLElement>(null)
-  const isMenuOpen = useUIStore((state) => state.isMenuOpen)
+  const isMenuOpen = useHydrationStore((state) => state.isMenuOpen)
 
   return (
     <>
