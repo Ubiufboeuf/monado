@@ -50,7 +50,7 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
   }, [])
 
   return (
-    <section id='watch' class='absolute top-14 lg:top-17 right-0 grid gap-4 h-fit w-full ml:menu-open:w-navbar lg:not-cinema:px-6 [transition:width_250ms_ease]
+    <section id='watch' class='absolute top-14 lg:top-17 right-0 grid gap-4 h-fit w-full ml:menu-open:w-navbar lg:not-cinema:not-full-screen:px-6 [transition:width_250ms_ease]
       2xl:max-w-screen-2xl 2xl:left-1/2 2xl:right-[unset] 2xl:-translate-x-1/2 [scrollbar-width:none] bg-base-dark
     
       lg:[grid-template-areas:"player_sugeridos""detalles_sugeridos"]
@@ -70,7 +70,7 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
     '>
       <div class='[grid-area:player] overflow-hidden bg-black
         w-full h-fit min-h-fit max-h-full
-        lg:max-h-100 lg:not-cinema:rounded-xl
+        lg:max-h-100 lg:not-cinema:not-full-screen:rounded-xl
         mobile:max-h-dvw
         desktop:min-w-160
         mobile:lg:max-h-[calc(9*100dvw/16)]
