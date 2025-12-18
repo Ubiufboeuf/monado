@@ -2,7 +2,7 @@
 import { errorHandler } from '@/lib/errors'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import type { MediaPlayerClass, MediaPlayerSettingClass } from 'dashjs'
-import type { CSSProperties } from 'preact'
+import type { CSSProperties, TargetedEvent } from 'preact'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { Icon } from '../Icon'
 import { IconNext, IconPause, IconPlay, IconVolume } from '../Icons'
@@ -316,6 +316,13 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
     navigate(`/watch?v=${nextVideo.id}`)
   }
 
+  function checkPlayerStates (event: TargetedEvent<HTMLVideoElement>) {
+    const video = event.currentTarget
+    const isPlaying = !video.paused
+
+    setIsPlaying(isPlaying)
+  }
+
   useEffect(() => {    
     importDashjs()
 
@@ -380,6 +387,8 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
         style={{ '--aspectRatio': video?.aspect_ratio.replace(':', '/') || '16/9' }}
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleVideoEnded}
+        onPlay={checkPlayerStates} // Se supone que es mejor que onPlaying para esto
+        onPause={checkPlayerStates}
       />
       {/* controles */}
       <div class={`${controlsVisible ? '' : 'hide'} absolute left-0 top-0 flex flex-col justify-between h-full w-full [.hide]:opacity-0 transition-opacity`}>
