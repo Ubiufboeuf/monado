@@ -50,31 +50,22 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
   }, [])
 
   return (
-    <section id='watch' class='absolute top-14 lg:top-17 right-0 grid gap-4 h-fit w-full ml:menu-open:w-navbar lg:not-cinema:not-full-screen:px-6 [transition:width_250ms_ease]
-      2xl:max-w-screen-2xl 2xl:left-1/2 2xl:right-[unset] 2xl:-translate-x-1/2 [scrollbar-width:none] bg-base-dark
-    
-      lg:[grid-template-areas:"player_sugeridos""detalles_sugeridos"]
-      lg:grid-cols-[1fr_400px]
-      lg:grid-rows-[auto_1fr]
-      
-      [grid-template-areas:"player""detalles""sugeridos"]
-      grid-rows-[min(100dvw,80%,1fr)_1fr_1fr]
-
-      cinema:[grid-template-areas:"player_player""detalles_sugeridos"]
-      cinema:grid-rows-[74dvh_1fr]
-
-      full-screen:[grid-template-areas:"player_player""detalles_sugeridos"] full-screen:grid-rows-[100dvh_1fr]
+    <section id='watch' class='absolute top-14 right-0 grid gap-4 h-fit w-full px-6 [transition:width_250ms_ease] [scrollbar-width:none] bg-base-dark
+      ml:menu-open:w-navbar
+      lg:top-17 lg:[grid-template-areas:"player_sugeridos""detalles_sugeridos"] lg:grid-cols-[1fr_400px] lg:grid-rows-[auto_1fr]
+      2xl:max-w-screen-2xl 2xl:left-1/2 2xl:right-[unset] 2xl:-translate-x-1/2
+      [grid-template-areas:"player""detalles""sugeridos"] grid-rows-[min(100dvw,80%,1fr)_1fr_1fr]
+      cinema:[grid-template-areas:"player_player""detalles_sugeridos"] cinema:grid-rows-[74dvh_1fr] cinema:px-0
+      full-screen:[grid-template-areas:"player_player""detalles_sugeridos"] full-screen:grid-rows-[100dvh_1fr] full-screen:w-screen full-screen:h-dvh full-screen:overflow-y-scroll full-screen:px-0
       full-screen:cinema:[grid-template-areas:"player_player""detalles_sugeridos"] full-screen:cinema:grid-rows-[100dvh_1fr]
-
-      full-screen:w-screen full-screen:h-dvh full-screen:overflow-y-scroll
     '>
       <div class='[grid-area:player] overflow-hidden bg-black
         w-full h-fit min-h-fit max-h-full
-        lg:max-h-100 lg:not-cinema:not-full-screen:rounded-xl
-        mobile:max-h-dvw
+        lg:max-h-100 lg:rounded-xl
+        mobile:max-h-dvw mobile:lg:max-h-[calc(9*100dvw/16)]
         desktop:min-w-160
-        mobile:lg:max-h-[calc(9*100dvw/16)]
-        cinema:max-h-full cinema:h-full cinema:w-full
+        cinema:max-h-full cinema:h-full cinema:w-full cinema:rounded-none
+        full-screen:rounded-none
       '>
         {children}
       </div>
