@@ -1,20 +1,17 @@
 ---
 import '../styles/global.css'
 import Header from '@/components/Header/Header.astro'
-import { Menu } from '@/components/Menu/Menu'
-import { MenuMini } from '@/components/Menu/MenuMini'
 import { TabBar } from '@/components/TabBar'
 import { useHydrationStore } from '@/stores/useHydrationStore'
 import { ClientRouter } from 'astro:transitions'
 
 interface Props {
   title?: string
-	menuMini?: boolean
 	tabBar?: boolean
 	useTransitions?: boolean
 }
 
-const { title, menuMini, tabBar, useTransitions = true } = Astro.props
+const { title, tabBar, useTransitions = true } = Astro.props
 
 const isMenuOpen = Astro.cookies.get('monado-is-menu-open')?.value
 const inCinemaMode = Astro.cookies.get('monado-in-cinema-mode')?.value
@@ -31,7 +28,6 @@ const devices = {
 }
 
 const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
-const { pathname } = Astro.url
 ---
 
 <html
@@ -161,8 +157,6 @@ const { pathname } = Astro.url
 		<input id='checkbox-menu-state' type='checkbox' hidden checked={isMenuOpen === 'true'} />
 		<Header />
 		<main class='h-full w-full min-h-fit max-h-full pt-14'>
-			<Menu pathname={pathname} client:load transition:persist />
-			<MenuMini hidden={!menuMini} client:load />
 			<slot />
 		</main>
 		<TabBar hidden={!tabBar} />
