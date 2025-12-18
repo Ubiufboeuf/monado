@@ -30,6 +30,7 @@
   --spacing-tbh: 72px; /* tab bar height */
   
   /* breakpoints */
+  --breakpoint-alg: 892px; /* almost large */
   --breakpoint-ml: 792px;
   --breakpoint-ms: 703px;
   --breakpoint-xs: 412px;
