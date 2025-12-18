@@ -1,12 +1,13 @@
 {
   "conventionalCommits.scopes": [
-    "watch",
-    "player",
+    "a11y",
     "api",
-    "ui",
     "commit-scope",
-    "ui-ux",
+    "hydration",
+    "player",
+    "responsive",
+    "tags",
+    "ui",
     "ux",
-    "hydration"
   ]
 }
