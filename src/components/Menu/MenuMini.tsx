@@ -1,5 +1,5 @@
 import { useId, useState } from 'preact/hooks'
-import { Icon } from './Icon'
+import { Icon } from '../Icon'
 import { itemsAside } from '@/lib/menuItems'
 import { useHydrationStore } from '@/stores/useHydrationStore'
 
