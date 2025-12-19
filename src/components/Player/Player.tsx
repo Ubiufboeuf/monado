@@ -2,7 +2,7 @@
 import { errorHandler } from '@/lib/errors'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import type { MediaPlayerClass, MediaPlayerSettingClass } from 'dashjs'
-import type { CSSProperties, TargetedEvent } from 'preact'
+import type { CSSProperties } from 'preact'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { Icon } from '../Icon'
 import { IconNext, IconPause, IconPlay, IconVolume } from '../Icons'
@@ -10,6 +10,7 @@ import { parseDuration } from '@/lib/parsers'
 import { navigate } from 'astro/virtual-modules/transitions-router.js'
 import { useVideosStore } from '@/stores/useVideosStore'
 import { getRandomItem } from '@/lib/utils'
+import { INITIAL_VOLUME } from '@/lib/constants'
 
 const playerSettings: MediaPlayerSettingClass = {
   streaming: {
@@ -30,12 +31,14 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
   const pausedForErrorRef = useRef(false)
   const playAfterDragRef = useRef(autoplay)
   const controlsTimeoutId = useRef<NodeJS.Timeout | null>(null)
+  const initialVolumeSettedRef = useRef(false)
 
   const [dashjs, setDashjs] = useState<DashJS>()
   const [playerInitialized, setPlayerInitialized] = useState(false)
   const [autoplayBlocked, setAutoplayBlocked] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [volume, setVolume] = useState(INITIAL_VOLUME)
   const [controlsVisible, setControlsVisible] = useState(false)
   
   const playerRef = useRef<MediaPlayerClass>()
@@ -56,6 +59,8 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
   const isPlaying = usePlayerStore((state) => state.isPlaying)
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
   const suggestedVideos = useVideosStore((state) => state.suggestedVideos)
+
+  setInitialVolume()
 
   async function importDashjs () {
     return import('dashjs')
@@ -174,22 +179,42 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
     changeVolume(event, volumeRef.current)
   }
   
-  function changeVolume (event: MouseEvent, volumeElement: HTMLDivElement) {
-    const { x } = event
-    const { left, width } = volumeElement.getBoundingClientRect()
-    const start = left
-    const end = width
-    const linePercent = (x - start) / (end)
-
+  function changeVolume (event: MouseEvent, volumeElement: HTMLDivElement, updateState = true) {
     const volumeThumb = volumeThumbRef.current
-    const volumeThumbWidth = volumeThumb?.getBoundingClientRect().width
+    const thumbWidth = volumeThumbRef.current?.getBoundingClientRect().width ?? 0
+    const halfThumbWidth = thumbWidth / 2
 
-    const volume = Math.max(0, Math.min(linePercent, 1))
-    const position = Math.max(0 + (volumeThumbWidth ?? 0) / 2, Math.min(x - start, end - (volumeThumbWidth ?? 0) / 2))
-
+    const { x } = event
+    const { left: volumeLeft, width: volumeWidth } = volumeElement.getBoundingClientRect()
+    const maxScroll = volumeWidth - 4 - thumbWidth
+    const thumbPosition = Math.max(0, Math.min(x - volumeLeft - 2 - halfThumbWidth, maxScroll))
+    const volume = thumbPosition / maxScroll
+    const position = thumbPosition + halfThumbWidth
+    
+    if (updateState) setVolume(volume)
     if (videoRef.current) videoRef.current.volume = volume    
     if (volumeLevelRef.current) volumeLevelRef.current.style.width = `${position}px`
-    if (volumeThumb) volumeThumb.style.left = `${position}px`
+    if (volumeThumb) volumeThumb.style.left = `${thumbPosition}px`
+  }
+
+  function syncVolumeUI () {
+    const video = videoRef.current
+    const volumeElement = volumeRef.current
+    const volumeThumb = volumeThumbRef.current
+    if (!video || !volumeElement || !volumeThumb) return
+
+    const { volume } = video
+    const { width: volumeWidth } = volumeElement.getBoundingClientRect()
+    const { width: thumbWidth } = volumeThumb.getBoundingClientRect()
+
+    const halfThumbWidth = thumbWidth / 2
+    const maxScroll = volumeWidth - 4 - thumbWidth
+    
+    const volumeLevelWidth = volumeWidth * volume - 4
+    const thumbPosition = Math.max(0, Math.min((volume * volumeWidth) - 2 - halfThumbWidth, maxScroll))
+    
+    if (volumeLevelRef.current) volumeLevelRef.current.style.width = `${volumeLevelWidth}px`
+    if (volumeThumb) volumeThumb.style.left = `${thumbPosition}px`
   }
 
   function handleMouseUp () {
@@ -316,11 +341,25 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
     navigate(`/watch?v=${nextVideo.id}`)
   }
 
-  function checkPlayerStates (event: TargetedEvent<HTMLVideoElement>) {
-    const video = event.currentTarget
-    const isPlaying = !video.paused
+  function checkPlayerStates () {
+    const video = videoRef.current
+    if (!video) return
 
+    // Estado de reproducción
+    const isPlaying = !video.paused
     setIsPlaying(isPlaying)
+  }
+
+  function setInitialVolume () {
+    if (initialVolumeSettedRef.current) return
+    
+    const video = videoRef.current
+    if (!video) return
+
+    video.volume = volume
+    initialVolumeSettedRef.current = true
+
+    syncVolumeUI()
   }
 
   useEffect(() => {    
@@ -330,7 +369,7 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
     if (!video) return
 
     resetControlsTimeout()
-    setPlayer(video)    
+    setPlayer(video)
 
     window.addEventListener('mouseup', handleMouseUp)
 
@@ -350,6 +389,7 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
   useEffect(() => {    
     if (!video) return
     setDuration(video.duration)
+    checkPlayerStates()
   }, [video])
 
   useEffect(() => {
@@ -389,6 +429,7 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
         onEnded={handleVideoEnded}
         onPlay={checkPlayerStates} // Se supone que es mejor que onPlaying para esto
         onPause={checkPlayerStates}
+        onVolumeChange={checkPlayerStates}
       />
       {/* controles */}
       <div class={`${controlsVisible ? '' : 'hide'} absolute left-0 top-0 flex flex-col justify-between h-full w-full [.hide]:opacity-0 transition-opacity`}>
@@ -414,8 +455,8 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
             /* El eventListener del mouseUp se maneja desde un effect */
           >
             <div class='absolute flex items-center h-1 group-hover:h-1.5 w-full cursor-pointer rounded-full transition-all duration-300 bg-gray-900/60' /> {/* track */}
-            <div ref={timeseenRef} class='absolute h-1 group-hover:h-1.5 rounded-full [transition:height_300ms_eease] [background:var(--color-gradient)]' /> {/* tiempo visto */}
-            <div ref={timelineThumbRef} class='absolute left-0 top-1/2 -translate-1/2 size-3 group-hover:size-5 rounded-full [transition:height_300ms_eease] [background:var(--color-gradient)] shadow-2xl' /> {/* thumb */}
+            <div ref={timeseenRef} class='absolute h-1 group-hover:h-1.5 rounded-full transition-[height] duration-300 [background:var(--color-gradient)]' /> {/* tiempo visto */}
+            <div ref={timelineThumbRef} class='absolute left-0 top-1/2 -translate-1/2 size-3 group-hover:size-5 rounded-full transition-[height,width] duration-300 [background:var(--color-gradient)] shadow-2xl' /> {/* thumb */}
           </div>
           {/* botones */}
           <div class='flex h-13 justify-between px-1 gap-2'>
@@ -467,12 +508,18 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
                   <div
                     id='volume'
                     ref={volumeRef}
-                    class='relative w-13 h-full flex items-center cursor-pointer outline-0 border-2 border-transparent focus-within:border-focus'
+                    class='relative w-13 h-full bg-black flex items-center cursor-pointer outline-0 border-2 border-transparent focus-within:border-focus'
                     onMouseDown={handlePressVolme}
                   >
                     <div class='flex items-center h-0.5 w-full rounded-full transition-all duration-300 bg-transparent' /> {/* track */}
-                    <div ref={volumeLevelRef} class='absolute h-0.5 rounded-full [transition:height_300ms_eease] filter-[drop-shadow(0px_0px_1px_black)] bg-white' /> {/* nivel del volumen */}
-                    <div ref={volumeThumbRef} class='absolute left-1.5 top-1/2 -translate-1/2 size-3 rounded-full [transition:height_300ms_eease] filter-[drop-shadow(0px_0px_1px_black)] bg-white shadow-2xl' /> {/* thumb */}
+                    <div
+                      ref={volumeLevelRef}
+                      class='absolute w-0 h-0.5 rounded-full [transition:height_300ms_ease] filter-[drop-shadow(0px_0px_1px_black)] bg-white'
+                    /> {/* nivel del volumen */}
+                    <div
+                      ref={volumeThumbRef}
+                      class='absolute left-0 top-1/2 -translate-y-1/2 size-3 rounded-full [transition:height_300ms_ease] filter-[drop-shadow(0px_0px_1px_black)] bg-white shadow-2xl'
+                    /> {/* thumb */}
                   </div>
                 </button>
               </div>
