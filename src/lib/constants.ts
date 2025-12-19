@@ -17,4 +17,6 @@ export {
 }
 
 export const EMPTY = '(Vacío)' as const
-export const AUTO_PLAY = true
+export const AUTO_PLAY = false
+export const INITIAL_VOLUME = 1
+
