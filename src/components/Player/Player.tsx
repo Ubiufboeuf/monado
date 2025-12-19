@@ -508,7 +508,7 @@ export function Player ({ autoplay, class: className, style }: { autoplay?: bool
                   <div
                     id='volume'
                     ref={volumeRef}
-                    class='relative w-13 h-full bg-black flex items-center cursor-pointer outline-0 border-2 border-transparent focus-within:border-focus'
+                    class='relative w-13 h-full flex items-center cursor-pointer outline-0 border-2 border-transparent focus-within:border-focus'
                     onMouseDown={handlePressVolme}
                   >
                     <div class='flex items-center h-0.5 w-full rounded-full transition-all duration-300 bg-transparent' /> {/* track */}
