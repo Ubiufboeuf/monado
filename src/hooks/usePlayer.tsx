@@ -21,13 +21,15 @@ export function usePlayer () {
   const [player, setPlayer] = useState<MediaPlayerClass>()
   const [isPlayerInitialized, setIsPlayerInitialized] = useState(false)
   const [hasPlayed, setHasPlayed] = useState(false)
-
+  const [isTogglePlayStored, setIsTogglePlayStored] = useState(false)
+  
   const videoRef = useRef<HTMLVideoElement>(null)
-
+  
   const video = usePlayerStore((state) => state.video)
   const isPlaying = usePlayerStore((state) => state.isPlaying)
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
   const setTime = usePlayerStore((state) => state.setTime)
+  const setTogglePlayState = usePlayerStore((state) => state.setTogglePlayState)
   
   async function importDashjs () {
     return import('dashjs')
@@ -118,6 +120,13 @@ export function usePlayer () {
     if (video.paused) play()
     else pause()
   }
+  
+  function storeTogglePlay () {
+    setTogglePlayState(togglePlayState)
+    setIsTogglePlayStored(true)
+  }
+
+  if (!isTogglePlayStored) storeTogglePlay()
 
   function handleTimeUpdate (event: TargetedEvent<HTMLVideoElement>) {
     const video = event.currentTarget

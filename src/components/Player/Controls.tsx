@@ -1,14 +1,15 @@
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { CustomRange as Timeline } from './CustomRange'
 import type { RefObject } from 'preact'
+import { ControlsBottomPanel } from './ControlsBottomPanel'
+import { ControlsTopArea } from './ControlsTopArea'
 
 interface ControlsProps {
-  togglePlayState: () => void
   videoRef: RefObject<HTMLVideoElement>
   hidden?: boolean
 }
 
-export function Controls ({ togglePlayState, videoRef, hidden }: ControlsProps) {
+export function Controls ({ videoRef, hidden }: ControlsProps) {
   const video = usePlayerStore((state) => state.video)
   const controlsVisible = usePlayerStore((state) => state.controlsVisible)
   // const isPlaying = usePlayerStore((state) => state.isPlaying)
@@ -33,11 +34,6 @@ export function Controls ({ togglePlayState, videoRef, hidden }: ControlsProps) 
     document.addEventListener('mousemove', restore, { once: true })
     document.addEventListener('click', restore, { once: true })
   }
-  
-  async function handleContextMenuTopSection (event: MouseEvent) {
-    const element = event.currentTarget as HTMLElement
-    element.style.pointerEvents = 'none'
-  }
 
   function handleTimeUpdate (time: number) {
     if (videoRef.current) videoRef.current.currentTime = time
@@ -49,13 +45,7 @@ export function Controls ({ togglePlayState, videoRef, hidden }: ControlsProps) 
       onContextMenu={handleContextMenu}
       hidden={hidden}
     >
-      <section
-        class='flex-1 max-h-[calc(100%-68px)] w-full'
-        onClick={togglePlayState}
-        onContextMenu={handleContextMenuTopSection}
-      >
-        <h1 class='not-full-screen:hidden'>{video?.title}</h1>
-      </section>
+      <ControlsTopArea /> 
       <section
         class='relative bottom-0 w-full h-fit px-2'
       >
@@ -65,7 +55,7 @@ export function Controls ({ togglePlayState, videoRef, hidden }: ControlsProps) 
           listenForProgress={time}
           onValueUpdate={handleTimeUpdate}
         />
-        {/* Panel inferior */}
+        <ControlsBottomPanel />
       </section>
     </div>
   )
