@@ -124,6 +124,14 @@ export function usePlayer () {
       .then(initPlayer)
   }, [dashjs, video])
 
+  useEffect(() => {
+    const videoElement = videoRef.current
+    const aspectRatio = video?.aspect_ratio
+    if (!videoElement || !aspectRatio) return
+
+    videoElement.setAttribute('style', `--aspectRatio: ${aspectRatio.replace(':', '/')}`)
+  }, [video, videoRef.current])
+
   return {
     videoRef,
     hasPlayed,

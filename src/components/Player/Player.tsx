@@ -31,6 +31,8 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
     >
       <video
         ref={videoRef}
+        class='w-full h-auto cinema:h-full cinema:w-auto aspect-(--aspectRatio) lg:aspect-video'
+        style={{ '--aspectRatio': '16/9' }}
         autoPlay={autoplay}
         poster={getPoster(videoId)}
         onClick={togglePlayState}
