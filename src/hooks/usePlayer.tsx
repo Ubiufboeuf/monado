@@ -5,6 +5,7 @@ import type { MediaPlayerClass, MediaPlayerSettingClass } from 'dashjs'
 import { useEffect, useRef, useState } from 'preact/hooks'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { errorHandler } from '@/lib/errors'
+import type { TargetedEvent } from 'preact'
 
 const playerSettings: MediaPlayerSettingClass = {
   streaming: { abr: { autoSwitchBitrate: {
@@ -26,6 +27,7 @@ export function usePlayer () {
   const video = usePlayerStore((state) => state.video)
   const isPlaying = usePlayerStore((state) => state.isPlaying)
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
+  const setTime = usePlayerStore((state) => state.setTime)
   
   async function importDashjs () {
     return import('dashjs')
@@ -117,6 +119,13 @@ export function usePlayer () {
     else pause()
   }
 
+  function handleTimeUpdate (event: TargetedEvent<HTMLVideoElement>) {
+    const video = event.currentTarget
+    if (!video) return
+
+    setTime(video.currentTime)
+  }
+
   useEffect(() => {
     importDashjs()
   }, [])
@@ -141,6 +150,7 @@ export function usePlayer () {
     hasPlayed,
     isPlaying,
     togglePlayState,
-    handlePlayVideo
+    handlePlayVideo,
+    handleTimeUpdate
   }
 }

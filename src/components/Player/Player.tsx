@@ -17,7 +17,8 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
     hasPlayed,
     isPlaying,
     togglePlayState,
-    handlePlayVideo
+    handlePlayVideo,
+    handleTimeUpdate
   } = usePlayer()
   
   const [playbackStarted, setPlaybackStarted] = useState(false)
@@ -40,6 +41,7 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
         autoPlay={autoplay}
         poster={getPoster(videoId)}
         onPlay={handlePlayVideo}
+        onTimeUpdate={handleTimeUpdate}
       />
       <Controls
         videoRef={videoRef}
