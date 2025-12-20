@@ -39,7 +39,7 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
           class='absolute left-1/2 top-1/2 -translate-1/2 h-full w-full flex items-center justify-center cursor-pointer outline-0'
           onClick={firstPlayVideo}
         >
-          <div class='h-fit w-fit p-1.5 px-4 rounded-2xl [corner-shape:squircle] backdrop-blur pointer-events-none bg-black/80'>
+          <div class='flex items-center justify-center h-12 w-18 rounded-2xl [corner-shape:squircle] backdrop-blur pointer-events-none bg-black/80'>
             <Icon class='size-10'>
               <IconPlay />
             </Icon>
