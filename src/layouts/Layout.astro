@@ -9,9 +9,10 @@ interface Props {
   title?: string
 	tabBar?: boolean
 	useTransitions?: boolean
+	links?: astroHTML.JSX.LinkHTMLAttributes[]
 }
 
-const { title, tabBar, useTransitions = true } = Astro.props
+const { title, tabBar, useTransitions = true, links } = Astro.props
 
 const isMenuOpen = Astro.cookies.get('monado-is-menu-open')?.value
 const inCinemaMode = Astro.cookies.get('monado-in-cinema-mode')?.value
@@ -42,6 +43,7 @@ const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
 		<meta name='viewport' content='width=device-width' />
 		<meta name='description' content='Reproductor de video basado en YouTube e YT-DLP hecho con Astro (SSR) y Preact para un rendimiento increible' />
 		<title>{title ? `${title} - Monado` : 'Monado'}</title>
+		{ links?.map((link) => <link {...link} />) }
     <script>
       (function() {
         const htmlElement = document.documentElement;
