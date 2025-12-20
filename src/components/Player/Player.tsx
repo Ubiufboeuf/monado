@@ -3,6 +3,7 @@ import { getPoster } from '@/lib/api'
 import { AUTO_PLAY } from '@/lib/constants'
 import { VideoPosterButton } from './VideoPosterButton'
 import { Controls } from './Controls'
+import { useState } from 'preact/hooks'
 
 interface PlayerProps {
   videoId: string
@@ -14,9 +15,19 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
   const {
     videoRef,
     hasPlayed,
+    isPlaying,
     togglePlayState,
     handlePlayVideo
   } = usePlayer()
+  
+  const [playbackStarted, setPlaybackStarted] = useState(false)
+
+  function startPlayback () {
+    if (playbackStarted) return
+    setPlaybackStarted(hasPlayed && isPlaying)
+  }
+
+  if (!playbackStarted) startPlayback()
   
   return (
     <div
@@ -32,6 +43,7 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
       />
       <Controls
         togglePlayState={togglePlayState}
+        hidden={!playbackStarted}
       />
       <VideoPosterButton hasPlayed={hasPlayed} togglePlayState={togglePlayState} />
       {/* <TouchableControls /> */}

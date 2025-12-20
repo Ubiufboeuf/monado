@@ -24,6 +24,7 @@ export function usePlayer () {
   const videoRef = useRef<HTMLVideoElement>(null)
 
   const video = usePlayerStore((state) => state.video)
+  const isPlaying = usePlayerStore((state) => state.isPlaying)
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
   
   async function importDashjs () {
@@ -138,6 +139,7 @@ export function usePlayer () {
   return {
     videoRef,
     hasPlayed,
+    isPlaying,
     togglePlayState,
     handlePlayVideo
   }
