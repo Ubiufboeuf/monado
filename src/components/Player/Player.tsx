@@ -2,6 +2,7 @@ import { usePlayer } from '@/hooks/usePlayer'
 import { getPoster } from '@/lib/api'
 import { AUTO_PLAY } from '@/lib/constants'
 import { VideoPosterButton } from './VideoPosterButton'
+import { Controls } from './Controls'
 
 interface PlayerProps {
   videoId: string
@@ -27,10 +28,13 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
         style={{ '--aspectRatio': '16/9' }}
         autoPlay={autoplay}
         poster={getPoster(videoId)}
-        onClick={togglePlayState}
         onPlay={handlePlayVideo}
       />
+      <Controls
+        togglePlayState={togglePlayState}
+      />
       <VideoPosterButton hasPlayed={hasPlayed} togglePlayState={togglePlayState} />
+      {/* <TouchableControls /> */}
     </div>
   )
 }
