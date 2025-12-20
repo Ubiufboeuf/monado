@@ -3,10 +3,11 @@ import { useEffect, useRef } from 'preact/hooks'
 interface CustomRangeProps {
   id: string
   maxValue: number
+  listenForProgress: number
   onValueUpdate: (value: number) => void
 }
 
-export function CustomRange ({ id, maxValue, onValueUpdate: updateValue }: CustomRangeProps) {
+export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: updateValue }: CustomRangeProps) {
   const isMouseDownRef = useRef(false)
   const mouseTargetRef = useRef<HTMLElement>()
   const progressRef = useRef<HTMLDivElement>(null)
@@ -45,6 +46,17 @@ export function CustomRange ({ id, maxValue, onValueUpdate: updateValue }: Custo
     window.removeEventListener('mousemove', moveRange)
   }
 
+  function updateProgress (currentValue: number) {
+    if (!rangeRef.current) return
+
+    const { width } = rangeRef.current.getBoundingClientRect()
+    const position = (currentValue / maxValue) * width
+    const safePosition = Math.max(0, Math.min(position, width))
+
+    if (progressRef.current) progressRef.current.style.width = `${safePosition}px`
+    if (thumbRef.current) thumbRef.current.style.left = `${safePosition}px`
+  }
+
   useEffect(() => {
     window.addEventListener('mouseup', handleMouseUp)
 
@@ -52,6 +64,10 @@ export function CustomRange ({ id, maxValue, onValueUpdate: updateValue }: Custo
       window.removeEventListener('mouseup', handleMouseUp)
     }
   }, [])
+
+  useEffect(() => {
+    updateProgress(listenForProgress)
+  }, [listenForProgress])
 
   return (
     <div

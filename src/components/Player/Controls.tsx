@@ -12,6 +12,7 @@ export function Controls ({ togglePlayState, videoRef, hidden }: ControlsProps) 
   const video = usePlayerStore((state) => state.video)
   const controlsVisible = usePlayerStore((state) => state.controlsVisible)
   // const isPlaying = usePlayerStore((state) => state.isPlaying)
+  const time = usePlayerStore((state) => state.time)
 
   function handleContextMenu (event: MouseEvent) {
     const controls = event.currentTarget as HTMLElement
@@ -61,6 +62,7 @@ export function Controls ({ togglePlayState, videoRef, hidden }: ControlsProps) 
         <Timeline
           id='timeline'
           maxValue={video?.duration ?? 100}
+          listenForProgress={time}
           onValueUpdate={handleTimeUpdate}
         />
         {/* Panel inferior */}
