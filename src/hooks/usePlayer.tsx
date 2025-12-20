@@ -129,7 +129,7 @@ export function usePlayer () {
     const aspectRatio = video?.aspect_ratio
     if (!videoElement || !aspectRatio) return
 
-    videoElement.setAttribute('style', `--aspectRatio: ${aspectRatio.replace(':', '/')}`)
+    videoElement.setAttribute('style', `--aspectRatio: ${Math.max(1, Number(aspectRatio.replace(':', '/')))}`)
   }, [video, videoRef.current])
 
   return {
