@@ -29,7 +29,7 @@ export function usePlayer () {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
   const setElement = usePlayerStore((state) => state.setElement)
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
-  const setTime = usePlayerStore((state) => state.setTime)
+  const setTime = usePlayerStore((state) => state.setCurrentTime)
   const setTogglePlayState = usePlayerStore((state) => state.setTogglePlayState)
   
   async function importDashjs () {
