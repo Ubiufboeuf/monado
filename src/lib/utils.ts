@@ -39,6 +39,8 @@ export function getMin (arr: any[], fallback: 'first' | 'last') {
   return min
 }
 
+export const sleep = (ms: number) => new Promise((res) => setTimeout(res, ms))
+
 // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export function debounce<T extends Function> (func: (this: T, ...args: any[]) => any, timeout: number): any {
   let timeoutId: NodeJS.Timeout | null = null
