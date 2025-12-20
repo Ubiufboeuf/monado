@@ -8,9 +8,11 @@ type PlayerStore = {
   player: HTMLVideoElement | null
   playerActions: typeof playerKeyboardActions
   isPlaying: boolean
+  controlsVisible: boolean
   setVideo: (video: Video) => void
   setPlayer: (player: HTMLVideoElement) => void
   setIsPlaying: (isPlaying: boolean) => void
+  setControlsVisible: (controlsVisible: boolean) => void
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
@@ -18,7 +20,9 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   player: null,
   playerActions: playerKeyboardActions,
   isPlaying: AUTO_PLAY,
+  controlsVisible: false,
   setVideo: (video) => set({ video }),
   setPlayer: (player) => set({ player }),
-  setIsPlaying: (isPlaying) => set({ isPlaying })
+  setIsPlaying: (isPlaying) => set({ isPlaying }),
+  setControlsVisible: (controlsVisible) => set({ controlsVisible })
 }))
