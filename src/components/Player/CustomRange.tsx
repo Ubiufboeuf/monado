@@ -5,9 +5,13 @@ interface CustomRangeProps {
   maxValue: number
   listenForProgress: number
   onValueUpdate: (value: number) => void
+  rangeClass?: string
+  trackClass?: string
+  progressClass?: string
+  thumbClass?: string
 }
 
-export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: updateValue }: CustomRangeProps) {
+export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: updateValue, rangeClass, trackClass, progressClass, thumbClass }: CustomRangeProps) {
   const isMouseDownRef = useRef(false)
   const mouseTargetRef = useRef<HTMLElement>()
   const progressRef = useRef<HTMLDivElement>(null)
@@ -73,15 +77,12 @@ export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: u
     <div
       id={id}
       ref={rangeRef}
-      class='group absolute bottom-14.5 left-1/2 translate-y-1/2 -translate-x-1/2 flex items-center h-5 w-[calc(100%-24px)] cursor-pointer'
+      class={rangeClass}
       onMouseDown={handlePressCustomRange}
     >
-      {/* track */}
-      <div class='absolute flex items-center h-1 group-hover:h-1.5 w-full cursor-pointer rounded-full transition-all duration-300 bg-gray-900/60' />
-      {/* progress */}
-      <div ref={progressRef} class='absolute h-1 group-hover:h-1.5 rounded-full transition-[height] duration-300 [background:var(--color-gradient)]' />
-      {/* thumb */}
-      <div ref={thumbRef} class='absolute left-0 top-1/2 -translate-1/2 size-3 group-hover:size-5 rounded-full transition-[height,width] duration-300 [background:var(--color-gradient)] shadow-2xl' />
+      <div class={trackClass} /> {/* track */}
+      <div ref={progressRef} class={progressClass} /> {/* progress */}
+      <div ref={thumbRef} class={thumbClass} /> {/* thumb */}
     </div>
   )
 }
