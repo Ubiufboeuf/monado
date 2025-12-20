@@ -42,6 +42,7 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
         onPlay={handlePlayVideo}
       />
       <Controls
+        videoRef={videoRef}
         togglePlayState={togglePlayState}
         hidden={!playbackStarted}
       />
