@@ -32,8 +32,8 @@ export const playerKeyboardActions: KeyboardAction[] = [
 ]
 
 function toggleFullScreen () {
-  const player = usePlayerStore.getState().player
-  if (!player || !document.fullscreenEnabled) return
+  const { element } = usePlayerStore.getState()
+  if (!element || !document.fullscreenEnabled) return
 
   const isFullScreen = Boolean(document.fullscreenElement)
   const watch = document.querySelector('#watch')
@@ -55,11 +55,11 @@ function togglePlayerState () {
 }
 
 function changeTime (sec: number) {
-  const { player } = usePlayerStore.getState()
-  if (!player) return
+  const { element } = usePlayerStore.getState()
+  if (!element) return
 
-  const time = player.currentTime 
-  player.currentTime = time + sec
+  const time = element.currentTime 
+  element.currentTime = time + sec
 }
 
 function toggleCinemaMode () {
