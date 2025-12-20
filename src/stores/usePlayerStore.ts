@@ -4,14 +4,14 @@ import { create } from 'zustand'
 
 type PlayerStore = {
   video: Video | null
-  player: HTMLVideoElement | null
+  element: HTMLVideoElement | null
   playerActions: typeof playerKeyboardActions
   isPlaying: boolean
   controlsVisible: boolean
   time: number
   togglePlayState: undefined | (() => void)
   setVideo: (video: Video) => void
-  setPlayer: (player: HTMLVideoElement) => void
+  setElement: (element: HTMLVideoElement) => void
   setIsPlaying: (isPlaying: boolean) => void
   setControlsVisible: (controlsVisible: boolean) => void
   setTime: (time: number) => void
@@ -20,14 +20,14 @@ type PlayerStore = {
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
   video: null,
-  player: null,
+  element: null,
   playerActions: playerKeyboardActions,
   isPlaying: false,
   controlsVisible: false,
   time: 0,
   togglePlayState: undefined,
   setVideo: (video) => set({ video }),
-  setPlayer: (player) => set({ player }),
+  setElement: (element) => set({ element }),
   setIsPlaying: (isPlaying) => set({ isPlaying }),
   setControlsVisible: (controlsVisible) => set({ controlsVisible }),
   setTime: (time) => set({ time }),
