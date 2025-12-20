@@ -59,7 +59,7 @@ export function VideoCard ({ video }: { video: Video }) {
             { thumbnailsById[max_thumbnail] &&
               <img
                 src={thumbnailsById[max_thumbnail].url}
-                class={`${isSquare ? 'isSquare' : ''} opacity-0 absolute left-0 top-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none`}
+                class={`${isSquare ? 'isSquare' : ''} opacity-0 absolute left-0 top-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none transition-opacity`}
                 alt={title}
                 onLoad={handleLoadThumbnail}
               />
