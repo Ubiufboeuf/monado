@@ -28,7 +28,7 @@ export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: u
   }
 
   function moveRange (event: MouseEvent) {
-    if (!mouseTargetRef.current?.closest('#timeline') || !isMouseDownRef.current || !rangeRef.current) return
+    if (!mouseTargetRef.current?.closest(`#${id}`) || !isMouseDownRef.current || !rangeRef.current) return
 
     const { x } = event
     const { left, width } = rangeRef.current.getBoundingClientRect()
