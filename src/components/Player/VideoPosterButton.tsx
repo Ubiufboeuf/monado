@@ -8,6 +8,7 @@ export function VideoPosterButton ({ hasPlayed, togglePlayState }: { hasPlayed: 
     button.hidden = true
     togglePlayState()
   }
+  
   return (
     !hasPlayed && (
       <button
