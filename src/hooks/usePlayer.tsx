@@ -27,6 +27,7 @@ export function usePlayer () {
   
   const video = usePlayerStore((state) => state.video)
   const isPlaying = usePlayerStore((state) => state.isPlaying)
+  const setElement = usePlayerStore((state) => state.setElement)
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
   const setTime = usePlayerStore((state) => state.setTime)
   const setTogglePlayState = usePlayerStore((state) => state.setTogglePlayState)
@@ -153,6 +154,11 @@ export function usePlayer () {
 
     videoElement.setAttribute('style', `--aspectRatio: ${Math.max(1, Number(aspectRatio.replace(':', '/')))}`)
   }, [video, videoRef.current])
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (video) setElement(video)
+  }, [videoRef.current])
 
   return {
     videoRef,
