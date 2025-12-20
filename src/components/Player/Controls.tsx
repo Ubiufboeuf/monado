@@ -1,6 +1,5 @@
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { CustomRange as Timeline } from './CustomRange'
-import { sleep } from '@/lib/utils'
 import type { RefObject } from 'preact'
 
 interface ControlsProps {
@@ -16,11 +15,14 @@ export function Controls ({ togglePlayState, videoRef, hidden }: ControlsProps) 
 
   function handleContextMenu (event: MouseEvent) {
     const controls = event.currentTarget as HTMLElement
+    const topSection = controls.children[0] as HTMLElement
 
     controls.style.pointerEvents = 'none'
 
     const restore = () => {
       controls.style.pointerEvents = 'auto'
+      topSection.style.pointerEvents = 'auto'
+
       document.removeEventListener('keydown', restore)
       document.removeEventListener('mousemove', restore)
       document.removeEventListener('click', restore)
@@ -34,8 +36,6 @@ export function Controls ({ togglePlayState, videoRef, hidden }: ControlsProps) 
   async function handleContextMenuTopSection (event: MouseEvent) {
     const element = event.currentTarget as HTMLElement
     element.style.pointerEvents = 'none'
-    await sleep(50)
-    element.style.pointerEvents = 'auto'
   }
 
   function handleTimeUpdate (time: number) {
