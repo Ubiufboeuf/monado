@@ -59,7 +59,9 @@ export function Controls ({ videoRef, hidden }: ControlsProps) {
           progressClass='absolute h-1 group-hover:h-1.5 rounded-full transition-[height] duration-300 [background:var(--color-gradient)]'
           thumbClass='absolute left-0 top-1/2 -translate-1/2 size-3 group-hover:size-5 rounded-full transition-[height,width] duration-300 [background:var(--color-gradient)] shadow-2xl'
         />
-        <ControlsBottomPanel />
+        <ControlsBottomPanel
+          videoRef={videoRef}
+        />
       </section>
     </div>
   )

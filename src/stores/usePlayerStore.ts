@@ -9,12 +9,14 @@ type PlayerStore = {
   isPlaying: boolean
   controlsVisible: boolean
   currentTime: number
+  volume: number
   togglePlayState: undefined | (() => void)
   setVideo: (video: Video) => void
   setElement: (element: HTMLVideoElement) => void
   setIsPlaying: (isPlaying: boolean) => void
   setControlsVisible: (controlsVisible: boolean) => void
   setCurrentTime: (time: number) => void
+  setVolume: (volume: number) => void
   setTogglePlayState: (fn: () => void) => void
 }
 
@@ -25,11 +27,13 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   isPlaying: false,
   controlsVisible: false,
   currentTime: 0,
+  volume: 0,
   togglePlayState: undefined,
   setVideo: (video) => set({ video }),
   setElement: (element) => set({ element }),
   setIsPlaying: (isPlaying) => set({ isPlaying }),
   setControlsVisible: (controlsVisible) => set({ controlsVisible }),
   setCurrentTime: (currentTime) => set({ currentTime }),
+  setVolume: (volume) => set({ volume }),
   setTogglePlayState: (togglePlayState) => set({ togglePlayState })
 }))
