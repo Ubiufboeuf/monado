@@ -96,6 +96,10 @@ export function usePlayer () {
       .catch(handlePlayError)
   }
 
+  function handlePlayVideo () {
+    setHasPlayed(true)
+  }
+
   function pause () {
     const video = videoRef.current
     if (!video) return
@@ -123,6 +127,7 @@ export function usePlayer () {
   return {
     videoRef,
     hasPlayed,
-    togglePlayState
+    togglePlayState,
+    handlePlayVideo
   }
 }

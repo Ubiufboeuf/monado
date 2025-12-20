@@ -15,7 +15,8 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
   const {
     videoRef,
     hasPlayed,
-    togglePlayState
+    togglePlayState,
+    handlePlayVideo
   } = usePlayer()
 
   function firstPlayVideo (event: TargetedEvent<HTMLButtonElement>) {
@@ -33,6 +34,7 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
         autoPlay={autoplay}
         poster={getPoster(videoId)}
         onClick={togglePlayState}
+        onPlay={handlePlayVideo}
       />
       { !hasPlayed && (
         <button
