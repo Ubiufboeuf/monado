@@ -1,9 +1,7 @@
 import { usePlayer } from '@/hooks/usePlayer'
 import { getPoster } from '@/lib/api'
 import { AUTO_PLAY } from '@/lib/constants'
-import { Icon } from '../Icon'
-import { IconPlay } from '../Icons'
-import type { TargetedEvent } from 'preact'
+import { VideoPosterButton } from './VideoPosterButton'
 
 interface PlayerProps {
   videoId: string
@@ -18,12 +16,6 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
     togglePlayState,
     handlePlayVideo
   } = usePlayer()
-
-  function firstPlayVideo (event: TargetedEvent<HTMLButtonElement>) {
-    const button = event.currentTarget
-    button.hidden = true
-    togglePlayState()
-  }
   
   return (
     <div
@@ -38,18 +30,7 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
         onClick={togglePlayState}
         onPlay={handlePlayVideo}
       />
-      { !hasPlayed && (
-        <button
-          class='absolute left-1/2 top-1/2 -translate-1/2 h-full w-full flex items-center justify-center cursor-pointer outline-0'
-          onClick={firstPlayVideo}
-        >
-          <div class='flex items-center justify-center h-12 w-18 rounded-2xl [corner-shape:squircle] backdrop-blur pointer-events-none bg-black/80'>
-            <Icon class='size-10'>
-              <IconPlay />
-            </Icon>
-          </div>
-        </button>
-      ) }
+      <VideoPosterButton hasPlayed={hasPlayed} togglePlayState={togglePlayState} />
     </div>
   )
 }
