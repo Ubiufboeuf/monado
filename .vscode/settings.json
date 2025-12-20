@@ -10,6 +10,7 @@
     "ui",
     "ux",
     "video-card",
-    "player,ui"
+    "player,ui",
+    "player,ux"
   ]
 }
