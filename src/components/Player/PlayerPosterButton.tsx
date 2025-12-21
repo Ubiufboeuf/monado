@@ -2,7 +2,7 @@ import type { TargetedEvent } from 'preact'
 import { IconPlay } from '../Icons'
 import { Icon } from '../Icon'
 
-export function VideoPosterButton ({ hasPlayed, togglePlayState }: { hasPlayed: boolean, togglePlayState: () => unknown }) {
+export function PlayerPosterButton ({ hasPlayed, togglePlayState }: { hasPlayed: boolean, togglePlayState: () => unknown }) {
   function firstPlayVideo (event: TargetedEvent<HTMLButtonElement>) {
     const button = event.currentTarget
     button.hidden = true
