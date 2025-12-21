@@ -16,7 +16,7 @@ interface CustomRangeProps {
 
 export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: updateValue, onMouseDown, onMouseUp, rangeClass, trackClass, progressClass, thumbClass }: CustomRangeProps) {
   const isMouseDownRef = useRef(false)
-  const mouseTargetRef = useRef<HTMLElement>()
+  const targetIsCustomRange = useRef<string | false>()
   const progressRef = useRef<HTMLDivElement>(null)
   const thumbRef = useRef<HTMLDivElement>(null)
   const rangeRef = useRef<HTMLDivElement>(null)
@@ -25,7 +25,10 @@ export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: u
 
   function handlePressCustomRange (event: MouseEvent) {
     isMouseDownRef.current = true
-    mouseTargetRef.current = event.target as HTMLElement
+    const target = event.target as HTMLElement
+    const customRange = target.closest('[data-id="custom-range"]')
+
+    if (customRange) targetIsCustomRange.current = customRange.id
     
     onMouseDown?.()
 
@@ -35,7 +38,7 @@ export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: u
   }
 
   function moveRange (event: MouseEvent) {
-    if (!mouseTargetRef.current?.closest(`#${id}`) || !isMouseDownRef.current || !rangeRef.current) return
+    if (targetIsCustomRange.current !== id || !isMouseDownRef.current || !rangeRef.current) return
 
     const { x } = event
     const { left, width } = rangeRef.current.getBoundingClientRect()
@@ -57,6 +60,11 @@ export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: u
 
     isMouseDownRef.current = false
     window.removeEventListener('mousemove', moveRange)
+
+    const isCustomRange = targetIsCustomRange.current
+    targetIsCustomRange.current = false
+
+    if (isCustomRange !== id) return
     onMouseUp?.()
   }
 
@@ -89,6 +97,7 @@ export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: u
       ref={rangeRef}
       class={rangeClass}
       onMouseDown={handlePressCustomRange}
+      data-id='custom-range'
     >
       <div class={trackClass} /> {/* track */}
       <div ref={progressRef} class={progressClass} /> {/* progress */}
