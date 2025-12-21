@@ -15,6 +15,8 @@ export function Controls ({ videoRef, hidden }: ControlsProps) {
   const controlsVisible = usePlayerStore((state) => state.controlsVisible)
   // const isPlaying = usePlayerStore((state) => state.isPlaying)
   const currentTime = usePlayerStore((state) => state.currentTime)
+  const pause = usePlayerStore((state) => state.pause)
+  const play = usePlayerStore((state) => state.play)
 
   function handleContextMenu (event: MouseEvent) {
     const controls = event.currentTarget as HTMLElement
@@ -55,6 +57,8 @@ export function Controls ({ videoRef, hidden }: ControlsProps) {
           maxValue={video?.duration ?? 100}
           listenForProgress={currentTime}
           onValueUpdate={handleTimeUpdate}
+          onMouseDown={pause}
+          onMouseUp={play}
           rangeClass='group absolute bottom-14.5 left-1/2 translate-y-1/2 -translate-x-1/2 flex items-center h-5 w-[calc(100%-24px)] cursor-pointer'
           trackClass='absolute flex items-center h-1 group-hover:h-1.5 w-full cursor-pointer rounded-full transition-all duration-300 bg-gray-900/60'
           progressClass='absolute h-1 group-hover:h-1.5 rounded-full transition-[height] duration-300 [background:var(--color-gradient)]'
