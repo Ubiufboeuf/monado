@@ -1,6 +1,7 @@
 import type { TargetedEvent } from 'preact'
 import { IconPlay } from '../Icons'
 import { Icon } from '../Icon'
+import { SHOW_PLAYER_POSTER } from '@/lib/constants'
 
 export function PlayerPosterButton ({ hasPlayed, togglePlayState }: { hasPlayed: boolean, togglePlayState: () => unknown }) {
   function firstPlayVideo (event: TargetedEvent<HTMLButtonElement>) {
@@ -10,7 +11,7 @@ export function PlayerPosterButton ({ hasPlayed, togglePlayState }: { hasPlayed:
   }
   
   return (
-    !hasPlayed && (
+    !hasPlayed && SHOW_PLAYER_POSTER && (
       <button
         class='absolute left-1/2 top-1/2 -translate-1/2 h-full w-full flex items-center justify-center cursor-pointer outline-0'
         onClick={firstPlayVideo}

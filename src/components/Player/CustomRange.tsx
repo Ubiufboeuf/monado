@@ -1,3 +1,4 @@
+import { SHOW_PLAYER_POSTER } from '@/lib/constants'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { useEffect, useRef } from 'preact/hooks'
 
@@ -56,7 +57,7 @@ export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: u
   }
 
   function handleMouseUp () {
-    if (!hasPlayed) return
+    if (SHOW_PLAYER_POSTER ? !hasPlayed : undefined) return
 
     isMouseDownRef.current = false
     window.removeEventListener('mousemove', moveRange)
