@@ -1,8 +1,9 @@
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { CustomRange as Timeline } from './CustomRange'
 import type { RefObject } from 'preact'
-import { ControlsBottomPanel } from './ControlsBottomPanel'
 import { ControlsTopArea } from './ControlsTopArea'
+import { BottomLeftControls } from './BottomLeftControls'
+import { BottomRightControls } from './BottomRightControls'
 
 interface ControlsProps {
   videoRef: RefObject<HTMLVideoElement>
@@ -59,9 +60,10 @@ export function Controls ({ videoRef, hidden }: ControlsProps) {
           progressClass='absolute h-1 group-hover:h-1.5 rounded-full transition-[height] duration-300 [background:var(--color-gradient)]'
           thumbClass='absolute left-0 top-1/2 -translate-1/2 size-3 group-hover:size-5 rounded-full transition-[height,width] duration-300 [background:var(--color-gradient)] shadow-2xl'
         />
-        <ControlsBottomPanel
-          videoRef={videoRef}
-        />
+        <div class='flex h-13 justify-between px-1 gap-2'>
+          <BottomLeftControls videoRef={videoRef} />
+          <BottomRightControls />
+        </div>
       </section>
     </div>
   )
