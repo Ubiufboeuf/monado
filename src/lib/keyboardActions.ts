@@ -22,8 +22,8 @@ type KeyboardAction = {
 
 export const playerKeyboardActions: KeyboardAction[] = [
   { key: 'f', action: throttle(toggleFullScreen, REPEAT_LIMIT) },
-  { key: ' ', action: throttle(togglePlayerState, REPEAT_LIMIT), preventDefault: true },
-  { key: 'k', action: throttle(togglePlayerState, REPEAT_LIMIT), preventDefault: true },
+  { key: ' ', action: throttle(togglePlayState, REPEAT_LIMIT), preventDefault: true },
+  { key: 'k', action: throttle(togglePlayState, REPEAT_LIMIT), preventDefault: true },
   { key: 'j', action: throttle(() => changeTime(-10), REPEAT_LIMIT) },
   { key: 'l', action: throttle(() => changeTime(10), REPEAT_LIMIT) },
   { key: 'arrowleft', action: throttle(() => changeTime(-5), REPEAT_LIMIT) },
@@ -49,9 +49,9 @@ function toggleFullScreen () {
     })
 }
 
-function togglePlayerState () {
-  const { setIsPlaying, isPlaying } = usePlayerStore.getState()
-  setIsPlaying(!isPlaying)
+function togglePlayState () {
+  const { togglePlayState } = usePlayerStore.getState()
+  togglePlayState?.()
 }
 
 function changeTime (sec: number) {
