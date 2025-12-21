@@ -1,3 +1,4 @@
+import { usePlayerStore } from '@/stores/usePlayerStore'
 import { useEffect, useRef } from 'preact/hooks'
 
 interface CustomRangeProps {
@@ -5,22 +6,28 @@ interface CustomRangeProps {
   maxValue: number
   listenForProgress: number
   onValueUpdate: (value: number) => void
+  onMouseDown?: () => void
+  onMouseUp?: () => void
   rangeClass?: string
   trackClass?: string
   progressClass?: string
   thumbClass?: string
 }
 
-export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: updateValue, rangeClass, trackClass, progressClass, thumbClass }: CustomRangeProps) {
+export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: updateValue, onMouseDown, onMouseUp, rangeClass, trackClass, progressClass, thumbClass }: CustomRangeProps) {
   const isMouseDownRef = useRef(false)
   const mouseTargetRef = useRef<HTMLElement>()
   const progressRef = useRef<HTMLDivElement>(null)
   const thumbRef = useRef<HTMLDivElement>(null)
   const rangeRef = useRef<HTMLDivElement>(null)
-  
+
+  const hasPlayed = usePlayerStore((state) => state.hasPlayed)
+
   function handlePressCustomRange (event: MouseEvent) {
     isMouseDownRef.current = true
     mouseTargetRef.current = event.target as HTMLElement
+    
+    onMouseDown?.()
 
     if (rangeRef.current) moveRange(event)
     
@@ -46,8 +53,11 @@ export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: u
   }
 
   function handleMouseUp () {
+    if (!hasPlayed) return
+
     isMouseDownRef.current = false
     window.removeEventListener('mousemove', moveRange)
+    onMouseUp?.()
   }
 
   function updateProgress (currentValue: number) {
@@ -67,7 +77,7 @@ export function CustomRange ({ id, maxValue, listenForProgress, onValueUpdate: u
     return () => {
       window.removeEventListener('mouseup', handleMouseUp)
     }
-  }, [])
+  }, [hasPlayed])
 
   useEffect(() => {
     updateProgress(listenForProgress)
