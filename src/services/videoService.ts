@@ -160,6 +160,6 @@ function parseVideoFromServer (v: VideoFromServer): Video | undefined {
     thumbnailsById,
     min_thumbnail: v.min_thumbnail ?? '',
     max_thumbnail: v.max_thumbnail ?? '',
-    release_timestamp: v.release_timestamp ?? -10
+    release_timestamp: v.release_timestamp ?? -1
   }
 }
