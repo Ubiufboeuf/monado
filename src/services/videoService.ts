@@ -5,7 +5,7 @@ import type { ResolutionsById, Thumbnail, ThumbnailsById, Video } from '@/types/
 import type { ServerResponse, VideoFromServer } from '../types/serverTypes'
 import { isValidVideo } from '@/lib/validations'
 import { getMax, getMin } from '@/lib/utils'
-import { parseServerResponse } from './apiService'
+import { parseServerResponse } from './serverService'
 
 export async function getVideos ({ limit = 12 }: { limit?: number } = {}): Promise<Video[]> {
   let res
