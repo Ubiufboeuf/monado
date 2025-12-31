@@ -1,7 +1,7 @@
 import type { Video } from '@/types/videoTypes'
 import type { TargetedEvent, TargetedMouseEvent } from 'preact'
 import { IconDots } from './Icons'
-import { parseDuration, parseViews } from '@/lib/parsers'
+import { parseDuration, parseReleaseTimestamp, parseViews } from '@/lib/parsers'
 import { navigate } from 'astro:transitions/client'
 import { useState } from 'preact/hooks'
 
@@ -96,7 +96,7 @@ export function VideoCard ({ video }: { video: Video }) {
               &nbsp;<span>•</span>&nbsp;
               <span>{parseViews(0)} vistas</span>
               &nbsp;<span>•</span>&nbsp;
-              <span>hace 20 días</span>
+              <span>hace {parseReleaseTimestamp(video.release_timestamp)}</span>
             </div>
           </div>
           <div class='h-full w-full flex-1'>
