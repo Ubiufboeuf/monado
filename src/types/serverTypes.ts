@@ -11,14 +11,13 @@ export interface ServerResponse {
 
 export type ServerResponseParserTarget = typeof SERVER_RESPONSE_PARSER_TARGETS[keyof typeof SERVER_RESPONSE_PARSER_TARGETS]
 
-export type VideoFromServer = {
+export interface VideoFromServer {
 	id: string | undefined
 	title: string | undefined
 	uploader: string | undefined
 	uploader_id: string | undefined
 	channel_follower_count: number | undefined
 	channel_is_verified: boolean | undefined
-	upload_date: string | undefined
 	duration: number | undefined
 	width: number | undefined
 	height: number | undefined
@@ -31,10 +30,10 @@ export type VideoFromServer = {
 	thumbnails: Thumbnail[]
 	min_thumbnail: string | undefined
 	max_thumbnail: string | undefined
-	release_timestamp: number
+	timestamp: number
 }
 
-export type AudioMetadata = {
+export interface AudioMetadata {
 	codec: string
 	codec_long_name: string
 	channel_layout: string | undefined
@@ -46,7 +45,7 @@ export type AudioMetadata = {
 	size: number | undefined
 }
 
-export type ResolutionMetadata = {
+export interface ResolutionMetadata {
 	id: string
 	codec: string
 	codec_long_name: string
@@ -60,9 +59,8 @@ export type ResolutionMetadata = {
 	fps: number | undefined
 }
 
-export type Thumbnail = {
+export interface Thumbnail {
   id: string
   height: number
   width: number
-  url: null
 }
