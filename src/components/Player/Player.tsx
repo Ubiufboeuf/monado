@@ -1,5 +1,5 @@
 import { usePlayer } from '@/hooks/usePlayer'
-import { getPoster } from '@/lib/api'
+import { getPoster } from '@/services/videoService'
 import { AUTO_PLAY, SHOW_PLAYER_POSTER } from '@/lib/constants'
 import { PlayerPosterButton } from './PlayerPosterButton'
 import { Controls } from './Controls'
