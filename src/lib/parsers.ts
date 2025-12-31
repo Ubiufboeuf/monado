@@ -1,3 +1,4 @@
+import { Temporal } from 'temporal-polyfill'
 import { padStart } from './utils'
 
 export function parseDuration (duration: number) {
@@ -42,4 +43,37 @@ export function parseViews (views: number) {
   }
 
   return parsedViews
+}
+
+const SECONDS_IN_YEAR = 31536000
+const SECONDS_IN_MONTH = 2678400
+const SECONDS_IN_WEEK = 604800
+const SECONDS_IN_DAY = 86400
+const SECONDS_IN_HOUR = 3600
+const SECONDS_IN_MINUTE = 60
+
+export function parseReleaseTimestamp (timestamp: number) {
+  const timestampInSeconds = timestamp < 100_000_000_000
+  const epoch = timestampInSeconds
+    ? timestamp * 1000
+    : timestamp
+  
+  const instant = Temporal.Instant.fromEpochMilliseconds(epoch)
+  const now = Temporal.Now.instant()
+  const dif = now.since(instant).seconds
+
+  const year = Math.floor(dif / SECONDS_IN_YEAR)
+  const month = Math.floor(dif / SECONDS_IN_MONTH)
+  const week = Math.floor(dif / SECONDS_IN_WEEK)
+  const day = Math.floor(dif / SECONDS_IN_DAY)
+  const hour = Math.floor(dif / SECONDS_IN_HOUR)
+  const minute = Math.floor(dif / SECONDS_IN_MINUTE)
+  
+  if (dif >= SECONDS_IN_YEAR)        return `${year}   ${year   === 1 ? 'año'     : 'años'}`
+  else if (dif >= SECONDS_IN_MONTH)  return `${month}  ${month  === 1 ? 'mes'     : 'meses'}`
+  else if (dif >= SECONDS_IN_WEEK)   return `${week}   ${week   === 1 ? 'semana'  : 'semanas'}`
+  else if (dif >= SECONDS_IN_DAY)    return `${day}    ${day    === 1 ? 'día'     : 'días'}`
+  else if (dif >= SECONDS_IN_HOUR)   return `${hour}   ${hour   === 1 ? 'hora'    : 'horas'}`
+  else if (dif >= SECONDS_IN_MINUTE) return `${minute} ${minute === 1 ? 'minuto'  : 'minutos'}`
+  else                               return `${dif}    ${dif    === 1 ? 'segundo' : 'segundos'}`
 }
