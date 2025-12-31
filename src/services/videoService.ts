@@ -2,7 +2,7 @@ import { EMPTY, ENDPOINTS, SERVER_RESPONSE_PARSER_TARGETS } from '@/lib/constant
 import { errorHandler } from '@/lib/errors'
 import { responseHandler } from '@/lib/handlers'
 import type { ResolutionsById, Thumbnail, ThumbnailsById, Video } from '@/types/videoTypes'
-import type { ServerResponse, VideoFromServer } from '../types/apiTypes'
+import type { ServerResponse, VideoFromServer } from '../types/serverTypes'
 import { isValidVideo } from '@/lib/validations'
 import { getMax, getMin } from '@/lib/utils'
 import { parseServerResponse } from './apiService'

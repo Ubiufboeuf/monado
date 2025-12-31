@@ -1,5 +1,5 @@
 import { isValidVideo } from '@/lib/validations'
-import type { ServerResponse, ServerResponseParserTarget, VideoFromServer } from '@/types/apiTypes'
+import type { ServerResponse, ServerResponseParserTarget, VideoFromServer } from '@/types/serverTypes'
 
 export function parseServerResponse (target: ServerResponseParserTarget, serverResponse: unknown): ServerResponse | null {
   // - Comprobación base -

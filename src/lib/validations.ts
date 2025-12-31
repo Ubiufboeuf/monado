@@ -1,4 +1,4 @@
-import type { VideoFromServer } from '@/types/apiTypes'
+import type { VideoFromServer } from '@/types/serverTypes'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export function isValidVideo (data: any): data is VideoFromServer {
