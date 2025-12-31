@@ -6,7 +6,6 @@ import type { ServerResponse, VideoFromServer } from '../types/apiTypes'
 import { isValidVideo } from '@/lib/validations'
 import { getMax, getMin } from '@/lib/utils'
 import { parseServerResponse } from './apiService'
-import { getThumbnail } from '@/lib/api'
 
 export async function getVideos ({ limit = 12 }: { limit?: number } = {}): Promise<Video[]> {
   let res
@@ -162,4 +161,14 @@ function parseVideoFromServer (v: VideoFromServer): Video | undefined {
     max_thumbnail: v.max_thumbnail ?? '',
     release_timestamp: v.release_timestamp ?? -1
   }
+}
+
+export function getThumbnail (videoId: string | undefined, thumbnailId: string | undefined) {
+  if (!videoId || !thumbnailId) return
+  return `${ENDPOINTS.VIDEO}/${videoId}/thumbnail/${thumbnailId}`
+}
+
+export function getPoster (videoId: string | undefined) {
+  if (!videoId) return
+  return `${ENDPOINTS.VIDEO}/${videoId}/poster`
 }
