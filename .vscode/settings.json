@@ -11,6 +11,7 @@
     "ux",
     "video-card",
     "player,ui",
-    "player,ux"
+    "player,ux",
+    "types"
   ]
 }
