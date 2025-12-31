@@ -2,7 +2,6 @@
   "conventionalCommits.scopes": [
     "a11y",
     "api",
-    "commit-scope",
     "hydration",
     "player",
     "responsive",
@@ -10,8 +9,6 @@
     "ui",
     "ux",
     "video-card",
-    "player,ui",
-    "player,ux",
     "types",
     "lib"
   ]
