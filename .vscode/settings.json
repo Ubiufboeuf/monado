@@ -12,6 +12,7 @@
     "video-card",
     "player,ui",
     "player,ux",
-    "types"
+    "types",
+    "lib"
   ]
 }
