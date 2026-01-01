@@ -46,7 +46,7 @@ export function SearchBar ({ search }: { search: string | undefined }) {
 
   function searchResults () {
     const query = inputRef.current?.value
-    if (!query) return
+    if (!query || !query.trim()) return
     
     location.href = `/results?search=${encodeURI(query)}`
   }
