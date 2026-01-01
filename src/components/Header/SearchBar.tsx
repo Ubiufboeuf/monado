@@ -5,6 +5,8 @@ import { Icon } from '../Icon'
 import { useSearchStore } from '@/stores/useSearchStore'
 
 export function SearchBar ({ search }: { search: string | undefined }) {
+  const initialValue = decodeURI(search ?? '')
+  
   const query = useSearchStore((state) => state.query)
   const setQuery = useSearchStore((state) => state.setQuery)
   
@@ -18,12 +20,15 @@ export function SearchBar ({ search }: { search: string | undefined }) {
   }
 
   function updateSearch (newValue?: string | null) {
-    const value = newValue ?? ''
-    if (inputRef.current && inputRef.current.value !== value) {
-      inputRef.current.value = value
+    const search = newValue ?? ''
+    if (inputRef.current && inputRef.current.value !== search) {
+      inputRef.current.value = search
     }
-    setQuery(value)
-    checkVisibility(value)
+
+    const encodedSearch = encodeURI(search)
+
+    setQuery(encodedSearch)
+    checkVisibility(search)
   }
 
   function checkVisibility (value: string) {
@@ -62,7 +67,7 @@ export function SearchBar ({ search }: { search: string | undefined }) {
     if (search?.trim() === '' || search == null) {
       return
     }
-    updateSearch(encodeURI(search))
+    updateSearch(search)
   }, [])
 
   return (
@@ -81,7 +86,7 @@ export function SearchBar ({ search }: { search: string | undefined }) {
             ref={inputRef}
             id='search-bar'
             placeholder='Buscar'
-            defaultValue={search}
+            defaultValue={initialValue}
             autoComplete='off'
             class='h-full w-full max-w-full px-1 bg-transparent focus:outline-0 placeholder:text-neutral-500 placeholder:select-none'
             onInput={handleInput}
