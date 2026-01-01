@@ -1,8 +1,7 @@
 ---
 import { Menu } from '@/components/Menu/Menu'
 import { MenuMini } from '@/components/Menu/MenuMini'
-import { VideoCard } from '@/components/VideoCard'
-import { VideoListCard } from '@/components/VideoListCard'
+import { SearchResults } from '@/components/Results/SearchResults'
 import Layout from '@/layouts/Layout.astro'
 import { search } from '@/services/searchService'
 import type { Video } from '@/types/videoTypes'
@@ -23,11 +22,5 @@ try {
 <Layout>
   <Menu pathname={pathname} client:load transition:persist />
   <MenuMini client:load />
-  <section class='absolute top-17 right-0 flex flex-col h-[calc(100%-112px)] min-h-fit w-full sm:w-[calc(100%-72px)] ml:menu-open:w-navbar pb-6 [transition:width_250ms_ease]'>
-    <div class='w-full'>
-      { videos.map((v) => (
-        <VideoListCard video={v} client:load />
-      )) }
-    </div>
-  </section>
+  <SearchResults results={videos} client:load />
 </Layout>
