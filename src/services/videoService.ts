@@ -1,4 +1,4 @@
-import { EMPTY, ENDPOINTS, SERVER_RESPONSE_PARSER_TARGETS } from '@/lib/constants'
+import { EMPTY, ENDPOINTS } from '@/lib/constants'
 import { errorHandler } from '@/lib/errors'
 import { responseHandler } from '@/lib/handlers'
 import type { ResolutionsById, Thumbnail, ThumbnailsById, Video } from '@/types/videoTypes'
@@ -26,12 +26,12 @@ export async function getVideos ({ limit = 12 }: { limit?: number } = {}): Promi
     throw new Error(errorMessage)
   }
 
-  const data = parseServerResponse(SERVER_RESPONSE_PARSER_TARGETS.VIDEOS, serverResponse)
+  const data = parseServerResponse('videos', serverResponse)
   if (!data) return []
   
   let videos = []
   try {
-    videos = formVideos(data)
+    videos = formVideos(data?.videos)
   } catch (err) {
     const errorMessage = 'Error formando los videos'
     errorHandler(err, errorMessage, 'dev')
@@ -72,10 +72,8 @@ export async function getVideo (id: string): Promise<Video | undefined> {
   return video
 }
 
-export function formVideos (data: ServerResponse): Video[] {
-  if (!data) return []
-  
-  const videosFromServer = data.videos
+export function formVideos (videosFromServer: VideoFromServer[] | undefined): Video[] {
+  if (!videosFromServer) return []
   
   if (!videosFromServer || !Array.isArray(videosFromServer)) {
     throw new Error('La variable de videos es falsy o no es un array')

@@ -7,7 +7,12 @@ export function SearchBar () {
   const searchValueRef = useRef('')
   const inputRef = useRef<HTMLInputElement>(null)
   const clearInputRef = useRef<HTMLButtonElement>(null)
-  const paramSearchRef = useRef('')
+
+  function handleInput (event: TargetedEvent<HTMLInputElement>) {
+    if (!event.currentTarget) return
+    const { value } = event.currentTarget
+    updateSearch(value)
+  }
 
   function updateSearch (newValue?: string | null) {
     const value = newValue ?? ''
@@ -18,16 +23,24 @@ export function SearchBar () {
     checkVisibility(value)
   }
 
-  function handleInput (event: TargetedEvent<HTMLInputElement>) {
-    if (!event.currentTarget) return
-    const { value } = event.currentTarget
-    updateSearch(value)
-  }
-
   function checkVisibility (value: string) {
     if (clearInputRef.current) {
       clearInputRef.current.hidden = value ? !value : !searchValueRef.current
     }
+  }
+
+  function handleKeyDown (event: KeyboardEvent) {
+    const key = event.key.toLowerCase()
+    if (key === 'enter') {
+      search()
+    }
+  }
+
+  function search () {
+    const query = inputRef.current?.value
+    if (!query) return
+    
+    location.href = `/results?search=${query}`
   }
 
   function clearInput (event: TargetedEvent<HTMLButtonElement>) {
@@ -38,14 +51,6 @@ export function SearchBar () {
       inputRef.current.focus()
       checkVisibility('')
     }
-  }
-
-  function handleSubmit (event: TargetedEvent<HTMLFormElement>) {
-    event.preventDefault()
-    const params = new URLSearchParams(location?.search)
-    paramSearchRef!.current = params.get('search') ?? ''
-    if (paramSearchRef.current === searchValueRef.current || !searchValueRef.current) return
-    location.href = `/results?search=${encodeURIComponent(searchValueRef.current)}`
   }
 
   useEffect(() => {
@@ -60,10 +65,9 @@ export function SearchBar () {
   return (
     <section class='hidden md:flex flex-1 items-center justify-center gap-4 h-full w-full min-w-fit max-w-full'>
       <div class='relative flex h-10 w-full max-w-xl'>
-        <form
-          id='search-bar-form'
+        <section
+          id='search-bar'
           class='relative flex items-center justify-between h-full max-w-full w-full rounded-full border align-middle cursor-text focus:outline-0 transition-colors border-neutral-700/70 bg-base-dark text-white focus-within:border-focus'
-          onSubmit={handleSubmit}
         >
           <div class='flex items-center justify-center h-full aspect-[1.4/1]'>
             <Icon class='size-6 text-white/50'>
@@ -77,6 +81,7 @@ export function SearchBar () {
             autoComplete='off'
             class='h-full w-full max-w-full px-1 bg-transparent focus:outline-0 placeholder:text-neutral-500 placeholder:select-none'
             onInput={handleInput}
+            onKeyDown={handleKeyDown}
           />
           <button
             ref={clearInputRef}
@@ -97,7 +102,7 @@ export function SearchBar () {
               <IconMic />
             </Icon>
           </button>
-        </form>
+        </section>
       </div>
     </section>
   )

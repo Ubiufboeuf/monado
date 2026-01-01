@@ -27,7 +27,7 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
     if (!target) return
 
     const key = event.key.toLowerCase()
-    if (!validKeys.includes(key as typeof validKeys[number]) || target.closest('form')?.id === 'search-bar-form') return
+    if (!validKeys.includes(key as typeof validKeys[number]) || target.closest('section')?.id === 'search-bar') return
 
     const keyboardAction = playerKeyboardActions.find(({ key: k }) => k === key)
     if (!keyboardAction) return
