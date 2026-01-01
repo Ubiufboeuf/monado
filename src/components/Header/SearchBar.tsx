@@ -2,9 +2,12 @@ import type { TargetedEvent } from 'preact'
 import { useEffect, useRef } from 'preact/compat'
 import { IconMic, IconSearch, IconClose } from '@/components/Icons'
 import { Icon } from '../Icon'
+import { useSearchStore } from '@/stores/useSearchStore'
 
-export function SearchBar () {
-  const searchValueRef = useRef('')
+export function SearchBar ({ search }: { search: string | undefined }) {
+  const query = useSearchStore((state) => state.query)
+  const setQuery = useSearchStore((state) => state.setQuery)
+  
   const inputRef = useRef<HTMLInputElement>(null)
   const clearInputRef = useRef<HTMLButtonElement>(null)
 
@@ -19,35 +22,35 @@ export function SearchBar () {
     if (inputRef.current && inputRef.current.value !== value) {
       inputRef.current.value = value
     }
-    searchValueRef.current = value
+    setQuery(value)
     checkVisibility(value)
   }
 
   function checkVisibility (value: string) {
     if (clearInputRef.current) {
-      clearInputRef.current.hidden = value ? !value : !searchValueRef.current
+      clearInputRef.current.hidden = value ? !value : !query
     }
   }
 
   function handleKeyDown (event: KeyboardEvent) {
     const key = event.key.toLowerCase()
     if (key === 'enter') {
-      search()
+      searchResults()
     }
   }
 
-  function search () {
+  function searchResults () {
     const query = inputRef.current?.value
     if (!query) return
     
-    location.href = `/results?search=${query}`
+    location.href = `/results?search=${encodeURIComponent(query)}`
   }
 
   function clearInput (event: TargetedEvent<HTMLButtonElement>) {
     event.preventDefault()
     if (inputRef.current) {
       inputRef.current.value = ''
-      searchValueRef.current = ''
+      setQuery('')
       inputRef.current.focus()
       checkVisibility('')
     }
@@ -78,6 +81,7 @@ export function SearchBar () {
             ref={inputRef}
             id='search-bar'
             placeholder='Buscar'
+            defaultValue={search}
             autoComplete='off'
             class='h-full w-full max-w-full px-1 bg-transparent focus:outline-0 placeholder:text-neutral-500 placeholder:select-none'
             onInput={handleInput}
