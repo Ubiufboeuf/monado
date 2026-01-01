@@ -6,6 +6,7 @@ export interface ServerResponse {
 	example?: string
 	video?: VideoFromServer
 	videos?: VideoFromServer[]
+	results?: VideoFromServer[]
 	nextCursor?: string | null
 }
 
@@ -64,3 +65,5 @@ export interface Thumbnail {
   height: number
   width: number
 }
+
+export type SearchResults = VideoFromServer[] 
