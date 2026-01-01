@@ -10,7 +10,8 @@ export const ENDPOINTS = {
 } as const
 
 export const SERVER_RESPONSE_PARSER_TARGETS = {
-  VIDEOS: 'videos'
+  VIDEOS: 'videos',
+  SEARCH: 'search'
 } as const
 
 export {
