@@ -19,7 +19,7 @@ try {
 }
 ---
 
-<Layout>
+<Layout title={query}>
   <Menu pathname={pathname} client:load transition:persist />
   <MenuMini client:load />
   <SearchResults results={videos} client:load />
