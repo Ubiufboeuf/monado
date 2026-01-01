@@ -43,7 +43,7 @@ export function SearchBar ({ search }: { search: string | undefined }) {
     const query = inputRef.current?.value
     if (!query) return
     
-    location.href = `/results?search=${encodeURIComponent(query)}`
+    location.href = `/results?search=${encodeURI(query)}`
   }
 
   function clearInput (event: TargetedEvent<HTMLButtonElement>) {
@@ -62,7 +62,7 @@ export function SearchBar ({ search }: { search: string | undefined }) {
     if (search?.trim() === '' || search == null) {
       return
     }
-    updateSearch(encodeURIComponent(search))
+    updateSearch(encodeURI(search))
   }, [])
 
   return (
