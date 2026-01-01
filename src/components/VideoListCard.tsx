@@ -1,22 +1,41 @@
 import { parseDuration, parseViews } from '@/lib/parsers'
 import type { Video } from '@/types/videoTypes'
 import type { TargetedEvent } from 'preact'
-import { useState } from 'preact/hooks'
+import { useEffect, useRef, useState } from 'preact/hooks'
 
 export function VideoListCard ({ video }: { video: Video }) {
   const { id, title, duration, uploader, thumbnailsById, min_thumbnail, max_thumbnail } = video
   const [isThumbnailSquare, setIsThumbnailSquare] = useState(false)
+
+  const fallbackRef = useRef<HTMLImageElement>(null)
+  const thumbnailRef = useRef<HTMLImageElement>(null)
   
-  function handleLoadThumbnail (event: TargetedEvent<HTMLImageElement>) {
-    const image = event.currentTarget
+  function checkIfSquare (image: HTMLImageElement) {
     const { naturalWidth, naturalHeight } = image
     const aspectRatio = naturalWidth / naturalHeight
 
-    const threshold = 0.1
-    setIsThumbnailSquare(((aspectRatio + threshold) <= 1.1) && ((aspectRatio - threshold) >= 0.9))
+    const upper_threshold = 1.1
+    const lower_threshold = 0.9
+    const tolerance = 0.1
 
-    image.classList.remove('opacity-0')
+    setIsThumbnailSquare(((aspectRatio + tolerance) <= upper_threshold) && ((aspectRatio - tolerance) >= lower_threshold))
   }
+  
+  function handleLoadThumbnail (event: TargetedEvent<HTMLImageElement>) {
+    const image = event.currentTarget
+    checkIfSquare(image)
+  }
+
+  useEffect(() => {
+    if (fallbackRef.current?.complete) {
+      checkIfSquare(fallbackRef.current)
+      fallbackRef.current.classList.remove('opacity-0')
+    }
+    if (thumbnailRef.current?.complete) {
+      checkIfSquare(thumbnailRef.current)
+      thumbnailRef.current.classList.remove('opacity-0')
+    }
+  }, [])
   
   return (
     <a
@@ -28,6 +47,7 @@ export function VideoListCard ({ video }: { video: Video }) {
         <div class='relative h-full w-full bg-neutral-700'>
           { thumbnailsById[min_thumbnail] &&
             <img
+              ref={fallbackRef}
               src={thumbnailsById[min_thumbnail].url}
               class={`${isThumbnailSquare ? 'isSquare' : ''} opacity-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none blur`}
               onLoad={handleLoadThumbnail}
@@ -35,6 +55,7 @@ export function VideoListCard ({ video }: { video: Video }) {
           }
           { thumbnailsById[max_thumbnail] &&
             <img
+              ref={thumbnailRef}
               src={thumbnailsById[max_thumbnail].url}
               class={`${isThumbnailSquare ? 'isSquare' : ''} opacity-0 absolute left-0 top-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none`}
               alt={title}
