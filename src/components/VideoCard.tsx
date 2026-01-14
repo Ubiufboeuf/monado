@@ -3,14 +3,9 @@ import type { TargetedEvent, TargetedMouseEvent } from 'preact'
 import { IconDots } from './Icons'
 import { parseDuration, parseReleaseTimestamp, parseViews } from '@/lib/parsers'
 import { navigate } from 'astro:transitions/client'
-import { useEffect, useRef, useState } from 'preact/hooks'
 
 export function VideoCard ({ video }: { video: Video }) {
   const { id, title, duration, thumbnailsById, min_thumbnail, max_thumbnail } = video
-  const [isSquare, setIsSquare] = useState(false)
-
-  const fallbackRef = useRef<HTMLImageElement>(null)
-  const thumbnailRef = useRef<HTMLImageElement>(null)
 
   function changeVideo (event: TargetedMouseEvent<HTMLElement>) {
     event.preventDefault()
@@ -33,24 +28,24 @@ export function VideoCard ({ video }: { video: Video }) {
     const lower_threshold = 0.9
     const tolerance = 0.1
 
-    setIsSquare(((aspectRatio + tolerance) <= upper_threshold) && ((aspectRatio - tolerance) >= lower_threshold))
+    const isSquare =
+      ((aspectRatio + tolerance) <= upper_threshold)
+      &&
+      ((aspectRatio - tolerance) >= lower_threshold)
+    
+    if (isSquare) {
+      image.classList.add('isSquare')
+    }
   }
   
   function handleLoadThumbnail (event: TargetedEvent<HTMLImageElement>) {
     const image = event.currentTarget
+    if (image.complete) {
+      image.classList.remove('opacity-0')
+    }
+
     checkIfSquare(image)
   }
-
-  useEffect(() => {
-    if (fallbackRef.current?.complete) {
-      checkIfSquare(fallbackRef.current)
-      fallbackRef.current.classList.remove('opacity-0')
-    }
-    if (thumbnailRef.current?.complete) {
-      checkIfSquare(thumbnailRef.current)
-      thumbnailRef.current.classList.remove('opacity-0')
-    }
-  }, [])
   
   return (
     <article class='cardWrapper group relative flex justify-center'>
@@ -65,18 +60,16 @@ export function VideoCard ({ video }: { video: Video }) {
           <div class='h-full w-full bg-neutral-700 relative'>
             { thumbnailsById[min_thumbnail] &&
               <img
-                ref={fallbackRef}
                 src={thumbnailsById[min_thumbnail].url}
-                class={`${isSquare ? 'isSquare' : ''} opacity-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none blur`}
+                class='opacity-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none blur transition-opacity'
                 aria-hidden
                 onLoad={handleLoadThumbnail}
               />
             }
             { thumbnailsById[max_thumbnail] &&
               <img
-                ref={thumbnailRef}
                 src={thumbnailsById[max_thumbnail].url}
-                class={`${isSquare ? 'isSquare' : ''} opacity-0 absolute left-0 top-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none transition-opacity`}
+                class='opacity-0 absolute left-0 top-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none transition-opacity'
                 alt={title}
                 onLoad={handleLoadThumbnail}
               />
