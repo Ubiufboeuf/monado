@@ -21,6 +21,6 @@ try {
 
 <Layout title={query}>
   <Menu pathname={pathname} client:load transition:persist />
-  <MenuMini client:load />
+  <MenuMini pathname={pathname} client:load transition:persist />
   <SearchResults results={videos} client:load />
 </Layout>
