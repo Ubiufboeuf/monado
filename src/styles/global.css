@@ -87,6 +87,11 @@ body {
 
 html {
   scrollbar-color: darkgray transparent;
+  scrollbar-gutter: stable;
+
+  &[data-is-full-screen] {
+    scrollbar-gutter: auto;
+  }
 }
 
 h1 {
