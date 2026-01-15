@@ -1,11 +1,12 @@
-import { useEffect } from 'preact/hooks'
-import { v4 as uuidv4 } from 'uuid'
+import { useEffect, useState } from 'preact/hooks'
 import { VideoListCard } from '../VideoListCard'
 import { errorHandler } from '@/lib/errors'
 import { getVideos } from '@/services/videoService'
 import { useVideosStore } from '@/stores/useVideosStore'
+import { VideoListCardFallback } from '../VideoListCardFallback'
 
 export function SuggestedVideos () {
+  const [isComponentReady, setIsComponentReady] = useState(false)
   const videos = useVideosStore((state) => state.suggestedVideos)
   const setVideos = useVideosStore((state) => state.setSuggestedVideos)
 
@@ -16,12 +17,29 @@ export function SuggestedVideos () {
   }
 
   useEffect(() => {
+    setIsComponentReady(true)
     loadVideos()
   }, [])
   
   return (
     <div class='flex flex-col gap-2 w-full h-fit min-h-fit'>
-      { videos.map((video) => <VideoListCard key={uuidv4()} video={video} /> ) }
+      { isComponentReady
+        ? videos.map((video) => <VideoListCard key={`suggested-list-video:${video.id}`} video={video} /> )
+        : <>
+            <VideoListCardFallback />
+            <VideoListCardFallback />
+            <VideoListCardFallback />
+            <VideoListCardFallback />
+            <VideoListCardFallback />
+            <VideoListCardFallback />
+            <VideoListCardFallback />
+            <VideoListCardFallback />
+            <VideoListCardFallback />
+            <VideoListCardFallback />
+            <VideoListCardFallback />
+            <VideoListCardFallback />
+          </>
+      }
     </div>
   )
 }
