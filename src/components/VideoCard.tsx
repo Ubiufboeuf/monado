@@ -61,7 +61,7 @@ export function VideoCard ({ video }: { video: Video }) {
             { thumbnailsById[min_thumbnail] &&
               <img
                 src={thumbnailsById[min_thumbnail].url}
-                class='opacity-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none blur transition-opacity'
+                class='h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none blur transition-opacity'
                 aria-hidden
                 onLoad={handleLoadThumbnail}
               />
