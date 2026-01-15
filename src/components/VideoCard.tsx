@@ -49,7 +49,7 @@ export function VideoCard ({ video }: { video: Video }) {
   
   return (
     <article class='cardWrapper group relative flex justify-center'>
-      <div class='absolute h-full w-full left-0 top-0 rounded-xl pointer-events-none transition-all duration-200 scale-98 group-hover:scale-103 opacity-0 group-hover:opacity-100 group-[:has(.dots:hover)]:opacity-0 group-[:has(.dots:hover)]:scale-98 bg-neutral-700/40' />
+      <div class='absolute h-full w-full xs:not-sm:w-[max(80%,var(--breakpoint-xs))] sm:not-md:w-[min(100%,500px)] left-1/2 top-1/2 -translate-1/2 rounded-xl pointer-events-none transition-all duration-200 scale-98 group-hover:scale-103 opacity-0 group-hover:opacity-100 group-[:has(.dots:hover)]:opacity-0 group-[:has(.dots:hover)]:scale-98 bg-neutral-700/40' />
       <a
         href={`/watch?v=${id}`}
         class='videoCard h-fit w-full xs:not-sm:w-[max(80%,var(--breakpoint-xs))] sm:not-md:w-[min(100%,500px)] cursor-pointer items-start flex flex-col rounded-xl transition-colors'
