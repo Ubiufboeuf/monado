@@ -4,7 +4,7 @@ import { IconDots } from './Icons'
 import { parseDuration, parseReleaseTimestamp, parseViews } from '@/lib/parsers'
 import { navigate } from 'astro:transitions/client'
 
-export function VideoCard ({ video }: { video: Video }) {
+export function VideoCard ({ video, class: className }: { video: Video, class?: string }) {
   const { id, title, duration, thumbnailsById, min_thumbnail, max_thumbnail } = video
 
   function changeVideo (event: TargetedMouseEvent<HTMLElement>) {
@@ -48,7 +48,7 @@ export function VideoCard ({ video }: { video: Video }) {
   }
   
   return (
-    <article class='cardWrapper group relative flex justify-center'>
+    <article class={`${className} cardWrapper group relative flex justify-center`}>
       <div class='absolute h-full w-full xs:not-sm:w-[max(80%,var(--breakpoint-xs))] sm:not-md:w-[min(100%,500px)] left-1/2 top-1/2 -translate-1/2 rounded-xl pointer-events-none transition-all duration-200 scale-98 group-hover:scale-103 opacity-0 group-hover:opacity-100 group-[:has(.dots:hover)]:opacity-0 group-[:has(.dots:hover)]:scale-98 bg-neutral-700/40' />
       <a
         href={`/watch?v=${id}`}

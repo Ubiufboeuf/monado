@@ -1,6 +1,6 @@
-export function VideoCardFallback () {
+export function VideoCardFallback ({ class: className }: { class?: string }) {
   return (
-    <article class='h-full w-full flex flex-col'>
+    <article class={`${className} h-full w-full flex flex-col`}>
       <section class='w-full aspect-video bg-neutral-700 xs:rounded-xl' />
       <section class='w-full flex min-h-24 h-full pt-3 gap-2 flex-1'>
         <div class='size-9 mr-1 not-xs:ml-3 bg-neutral-700 rounded-full' />
