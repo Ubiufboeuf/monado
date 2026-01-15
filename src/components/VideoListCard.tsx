@@ -3,7 +3,7 @@ import type { Video } from '@/types/videoTypes'
 import type { TargetedEvent } from 'preact'
 import { useRef } from 'preact/hooks'
 
-export function VideoListCard ({ video }: { video: Video }) {
+export function VideoListCard ({ video, class: className }: { video: Video, class?: string }) {
   const { id, title, duration, uploader, thumbnailsById, min_thumbnail, max_thumbnail } = video
 
   const fallbackRef = useRef<HTMLImageElement>(null)
@@ -39,7 +39,7 @@ export function VideoListCard ({ video }: { video: Video }) {
   return (
     <a
       href={`/watch?v=${id}`}
-      class='videoListCard flex items-start justify-between gap-2 h-24 w-full'
+      class={`${className} videoListCard flex items-start justify-between gap-2 h-24 w-full`}
       title={title}
     >
       <section class='relative flex items-end justify-center h-full aspect-video rounded-lg overflow-hidden'>
