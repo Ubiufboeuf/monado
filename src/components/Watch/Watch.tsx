@@ -5,6 +5,8 @@ import { errorHandler } from '@/lib/errors'
 import { playerKeyboardActions, validKeys } from '@/lib/keyboardActions'
 import type { ReactNode } from 'preact/compat'
 import { SuggestedVideos } from './SuggestedVideos'
+import { Comments } from './Comments'
+import { VideoDetails } from './VideoDetails'
 
 export function Watch ({ id, children }: { id: string, children: ReactNode }) {
   const setVideo = usePlayerStore((state) => state.setVideo)
@@ -52,7 +54,7 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
   return (
     <section id='watch' class='absolute top-14 right-0 grid gap-4 h-fit w-full px-6 [transition:width_250ms_ease] [scrollbar-width:none] bg-base-dark
       ml:menu-open:w-navbar
-      lg:top-17 lg:[grid-template-areas:"player_sugeridos""detalles_sugeridos"] lg:grid-cols-[1fr_400px] lg:grid-rows-[auto_1fr]
+      lg:[grid-template-areas:"player_sugeridos""detalles_sugeridos"] lg:grid-cols-[1fr_400px] lg:grid-rows-[auto_1fr]
       2xl:max-w-screen-2xl 2xl:left-1/2 2xl:right-[unset] 2xl:-translate-x-1/2
       [grid-template-areas:"player""detalles""sugeridos"] grid-rows-[min(100dvw,80%,1fr)_1fr_1fr]
       cinema:[grid-template-areas:"player_player""detalles_sugeridos"] cinema:grid-rows-[74dvh_1fr] cinema:px-0
@@ -69,7 +71,10 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
       '>
         {children}
       </div>
-      <div class='[grid-area:detalles] h-60'>detalles (abajo izquierda)</div>
+      <div class='[grid-area:detalles] h-60'>
+        <VideoDetails />
+        <Comments />
+      </div>
       <div class='[grid-area:sugeridos] min-w-85 w-full h-fit'>
         <SuggestedVideos />
       </div>
