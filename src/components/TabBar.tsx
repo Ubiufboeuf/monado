@@ -4,7 +4,6 @@ import { IconLibrary, IconHome, IconSearch, IconShorts, IconSubscriptions } from
 import { TabBarLink } from './TabBar/TabBarLink'
 import { TabBarButton } from './TabBar/TabBarButton'
 import { useState } from 'preact/hooks'
-import { useSearchStore } from '@/stores/useSearchStore'
 import type { TargetedMouseEvent } from 'preact'
 import { navigate } from '@/router/navigate'
 
@@ -18,8 +17,7 @@ const defaultLinks: ItemAside[] = [
 
 export function TabBar ({ pathname, hidden }: { pathname: string, hidden?: boolean | undefined }) {
   const [barLinks] = useState(defaultLinks)
-  const isTabBarSearching = useSearchStore(state => state.isTabBarSearching)
-  const setIsTabBarSearching = useSearchStore(state => state.setIsTabBarSearching)
+  const [isTabBarSearching, setIsTabBarSearching] = useState(false)
 
   function handleClickSearch () {
     setIsTabBarSearching(!isTabBarSearching)
