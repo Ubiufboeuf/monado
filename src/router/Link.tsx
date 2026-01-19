@@ -1,12 +1,16 @@
 import type { HTMLAttributeAnchorTarget, TargetedMouseEvent } from 'preact'
 import { navigate } from './navigate'
+import type { ReactNode } from 'preact/compat'
 
 interface LinkProps {
   to: string
+  class?: string
   target?: HTMLAttributeAnchorTarget
+  onClick?: (event: TargetedMouseEvent<HTMLAnchorElement>) => void
+  children: ReactNode[]
 }
 
-export function Link ({ to, target, ...props }: LinkProps) {
+export function Link ({ to, class: className, target, onClick, ...props }: LinkProps) {
   function handleClick (event: TargetedMouseEvent<HTMLAnchorElement>) {
     const isMainEvent = event.button === 0
     const isModifiedEvent = event.metaKey || event.altKey || event.ctrlKey || event.shiftKey
@@ -19,6 +23,6 @@ export function Link ({ to, target, ...props }: LinkProps) {
   }
 
   return (
-    <a href={to} target={target} onClick={handleClick} {...props} />
+    <a href={to} target={target} class={className} onClick={onClick ?? handleClick} {...props} />
   )
 }
