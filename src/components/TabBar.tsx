@@ -5,7 +5,6 @@ import { TabBarLink } from './TabBar/TabBarLink'
 import { TabBarButton } from './TabBar/TabBarButton'
 import { useState } from 'preact/hooks'
 import type { TargetedMouseEvent } from 'preact'
-import { navigate } from '@/router/navigate'
 
 const defaultLinks: ItemAside[] = [
   { id: 'home', name: 'Inicio', type: 'link', path: '/', Icon: ({ active = false }) => <IconHome active={active} /> },
@@ -26,14 +25,13 @@ export function TabBar ({ pathname, hidden }: { pathname: string, hidden?: boole
   function handleClickLink (event: TargetedMouseEvent<HTMLAnchorElement>) {
     const isMainEvent = event.button === 0
     const isModifiedEvent = event.metaKey || event.altKey || event.ctrlKey || event.shiftKey
-    const path = event.currentTarget.getAttribute('path')
+    const path = event.currentTarget.getAttribute('href')
 
     if (!path) return
-  
-    if (isMainEvent && !isModifiedEvent) {
+
+    if (isMainEvent && !isModifiedEvent && pathname === path) {
       event.preventDefault()
       setIsTabBarSearching(false)
-      navigate(path)
     }
   }
 
