@@ -13,6 +13,7 @@
     "lib",
     "search",
     "loop",
-    "rendering"
+    "rendering",
+    "router"
   ]
 }
