@@ -41,7 +41,7 @@ export function HomeMainContent () {
 
   // Fallback
   return (
-    <div class='grid justify-center items-start ms:gap-4 grid-cols-[min(100%,500px)] ms:grid-cols-[repeat(auto-fill,minmax(312px,1fr))] h-fit w-full max-h-fit max-w-full pt-6 sm:p-6'>
+    <div class='grid justify-center items-start ms:gap-4 grid-cols-[repeat(auto-fill,minmax(312px,1fr))] h-fit w-full max-h-fit max-w-full overflow-x-hidden sm:px-6 sm:pt-3 md:pt-6 not-desktop:pb-tbh'>
       <VideoCardFallback />
       <VideoCardFallback />
       <VideoCardFallback />
