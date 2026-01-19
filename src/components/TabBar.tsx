@@ -12,9 +12,7 @@ const barLinks: ItemAside[] = [
   { name: 'Biblioteca', path: '/library', Icon: ({ active = false }) => <IconLibrary active={active} /> }
 ]
 
-export function TabBar ({ hidden }: { hidden?: boolean | undefined }) {
-  const path = '/'
-  
+export function TabBar ({ pathname: path, hidden }: { pathname: string, hidden?: boolean | undefined }) {
   return (
     <nav
       class='fixed bottom-0 flex desktop:hidden items-center justify-evenly h-tbh w-full sm:px-4 border-t overflow-x-auto [scrollbar-width:none] backdrop-blur-2xl bg-base-dark/80 border-neutral-700'
