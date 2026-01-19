@@ -166,6 +166,7 @@ const { pathname } = Astro.url
 			pathname={pathname}
 			hidden={!tabBar}
 			transition:animate={'fade'}
+			client:load
 		/>
 	</body>
 </html>

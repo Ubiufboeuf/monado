@@ -1,7 +1,17 @@
-export type ItemAside = {
+export type ItemAside = LinkItem | ButtonItem
+
+export interface LinkItem {
+  id: string
   name: string
+  type: 'link'
   path: string
-  type?: string
+  Icon: ({ active }: { active?: boolean | undefined }) => JSX.Element
+}
+
+export interface ButtonItem {
+  id: string
+  name: string
+  type: 'button'
   Icon: ({ active }: { active?: boolean | undefined }) => JSX.Element
 }
 
