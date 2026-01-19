@@ -162,6 +162,10 @@ const { pathname } = Astro.url
 		<main class='h-full w-full min-h-fit max-h-full pt-14'>
 			<slot />
 		</main>
-		<TabBar pathname={pathname} hidden={!tabBar} transition:animate={'fade'} />
+		<TabBar
+			pathname={pathname}
+			hidden={!tabBar}
+			transition:animate={'fade'}
+		/>
 	</body>
 </html>
