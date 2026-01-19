@@ -11,6 +11,7 @@
     "video-card",
     "types",
     "lib",
-    "search"
+    "search",
+    "loop"
   ]
 }
