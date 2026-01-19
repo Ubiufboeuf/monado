@@ -29,6 +29,8 @@ const devices = {
 }
 
 const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
+
+const { pathname } = Astro.url
 ---
 
 <html
@@ -160,6 +162,6 @@ const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
 		<main class='h-full w-full min-h-fit max-h-full pt-14'>
 			<slot />
 		</main>
-		<TabBar hidden={!tabBar} />
+		<TabBar pathname={pathname} hidden={!tabBar} transition:animate={'fade'} />
 	</body>
 </html>
