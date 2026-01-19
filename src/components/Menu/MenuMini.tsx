@@ -1,4 +1,3 @@
-import { useId } from 'preact/hooks'
 import { Icon } from '../Icon'
 import { itemsAside } from '@/lib/menuItems'
 import { useHydrationStore } from '@/stores/useHydrationStore'
@@ -14,11 +13,11 @@ export function MenuMini ({ pathname, hidden }: { pathname: string, hidden?: boo
       aria-hidden={isMenuOpen}
     >
       <div class='min-h-fit w-fit h-full pb-1'>
-        { itemsAside.map(item => (
-          <section key={useId()} class='border-b border-neutral-700 py-3'>
-            { item.map(({ name, Icon: ItemIcon, path }) => (
+        { itemsAside.map(section => (
+          <section key={`menu-mini-section-${section[0].name}`} class='border-b border-neutral-700 py-3'>
+            { section.map(({ name, Icon: ItemIcon, path }) => (
               <a
-                key={useId()}
+                key={`menu-mini-item-${name}`}
                 href={path}
                 title={name}
                 class={`${path === pathname ? 'actualPathMini bg-selected font-medium' : 'hover:bg-neutral-800'} h-10 aspect-square flex flex-col rounded-lg items-center justify-center active:bg-neutral-600 active:transition-colors`}

@@ -1,4 +1,4 @@
-import { useId, useRef } from 'preact/hooks'
+import { useRef } from 'preact/hooks'
 import { MenuExpandableLink } from '../AsideNavigation/MenuExpandableLink'
 import { MenuLink } from '../AsideNavigation/MenuLink'
 import { itemsAside } from '@/lib/menuItems'
@@ -17,13 +17,13 @@ export function Menu ({ pathname, class: className }: { pathname: string, class?
         aria-hidden={!isMenuOpen}
       >
         <div class='h-full w-full max-h-full flex flex-col items-center gutter-stable px-3 pr-1 pb-2 overflow-y-scroll [scrollbar-width:thin] not-hover:[scrollbar-color:transparent_transparent]'>
-          { itemsAside.map((item) => (
-            <section key={useId()} class='flex flex-col w-full h-fit py-3 text-sm border-b border-neutral-700'>
-              { item.map((item) => {
+          { itemsAside.map((section) => (
+            <section key={`menu-section-${section[0].name}`} class='flex flex-col w-full h-fit py-3 text-sm border-b border-neutral-700'>
+              { section.map((item) => {
                 const { Icon, name, type, path: link } = item
                 return (type === 'expand') ? (
                   <MenuExpandableLink
-                    key={useId()}
+                    key={`menu-item-${item.name}`}
                     item={item}
                     path={pathname}
                     asideMenuRef={asideMenuRef}
@@ -31,7 +31,7 @@ export function Menu ({ pathname, class: className }: { pathname: string, class?
                   />
                 ) : (
                   <MenuLink
-                    key={useId()}
+                    key={`menu-item-${item.name}`}
                     name={name}
                     link={link}
                     path={pathname}
