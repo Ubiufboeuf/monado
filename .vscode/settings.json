@@ -12,6 +12,7 @@
     "types",
     "lib",
     "search",
-    "loop"
+    "loop",
+    "rendering"
   ]
 }
