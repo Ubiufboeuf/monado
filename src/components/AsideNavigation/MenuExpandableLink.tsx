@@ -1,6 +1,6 @@
 import type { ItemAside, MenuSubItem } from '@/types/env'
 import type { RefObject, TargetedEvent } from 'preact'
-import { useEffect, useId, useState } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import { IconArrowDown, IconHome } from '../Icons'
 import { Icon } from '../Icon'
 
@@ -74,7 +74,7 @@ export function MenuExpandableLink ({ item: { Icon: IconItem, name, path }, path
         <div class={`${isChecked ? 'checked' : ''} sub-items-container hidden [&.checked]:flex flex-col h-fit w-full [transition:all_300ms_ease_allow-discrete]`}>
           {
             subItems?.map(sub => (
-              <a key={useId()} href={sub.link} class='w-full h-10 flex items-center px-3 pl-6 gap-4 hover:bg-neutral-800 rounded-lg'>
+              <a key={`menu-subexp-item:${sub.link}`} href={sub.link} class='w-full h-10 flex items-center px-3 pl-6 gap-4 hover:bg-neutral-800 rounded-lg'>
                 <Icon class='size-6 max-h-full aspect-square'>
                   { sub.Icon && <IconItem /> }
                 </Icon>
