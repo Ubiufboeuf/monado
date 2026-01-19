@@ -22,7 +22,6 @@ export function TabBar ({ pathname, hidden }: { pathname: string, hidden?: boole
   const setIsTabBarSearching = useSearchStore(state => state.setIsTabBarSearching)
 
   function handleClickSearch () {
-    console.log('searching? (va a cambiar al contrario después de este log)', isTabBarSearching)
     setIsTabBarSearching(!isTabBarSearching)
   }
 
