@@ -1,11 +1,17 @@
 ---
+import { Menu } from '@/components/Menu/Menu'
+import { MenuMini } from '@/components/Menu/MenuMini'
 import Layout from '@/layouts/Layout.astro'
 
 const { id } = Astro.params
 console.log({ dynamicPage: id })
+
+const { pathname } = Astro.url
 ---
 
-<Layout title={id}>
+<Layout title={id} tabBar>
+  <Menu pathname={pathname} client:load transition:persist />
+  <MenuMini pathname={pathname} client:load />
   <p class='absolute right-0 text-4xl font-semibold'>
     {id}
   </p>
