@@ -1,12 +1,12 @@
 /* eslint-disable react/prop-types */
-import type { ItemAside } from '@/types/env'
+import type { TabBarItem } from '@/types/env'
 import { IconLibrary, IconHome, IconSearch, IconShorts, IconSubscriptions } from './Icons'
 import { TabBarLink } from './TabBar/TabBarLink'
 import { TabBarButton } from './TabBar/TabBarButton'
 import { useState } from 'preact/hooks'
 import type { TargetedMouseEvent } from 'preact'
 
-const defaultLinks: ItemAside[] = [
+const defaultLinks: TabBarItem[] = [
   { id: 'home', name: 'Inicio', type: 'link', path: '/', Icon: ({ active = false }) => <IconHome active={active} /> },
   { id: 'shorts', name: 'Shorts', type: 'link', path: '/shorts', Icon: ({ active = false }) => <IconShorts active={active} /> },
   { id: 'search', name: 'Buscar', type: 'button', Icon: ({ active = false }) => <IconSearch active={active} /> },
