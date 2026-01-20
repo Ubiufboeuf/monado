@@ -31,6 +31,8 @@ const devices = {
 const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
 
 const { pathname } = Astro.url
+const { setCurrentPathname } = useHydrationStore.getState()
+setCurrentPathname(pathname)
 ---
 
 <html
@@ -107,6 +109,8 @@ const { pathname } = Astro.url
 					const { setIsMenuOpen } = useHydrationStore.getState()
 					setIsMenuOpen(isMenuOpen === 'true')
 				}
+				const { setCurrentPathname } = useHydrationStore.getState()
+				setCurrentPathname(window.location.pathname)
 			})()
 		</script>
 		<script>
@@ -120,8 +124,9 @@ const { pathname } = Astro.url
 				const isMenuOpen = input.checked
 				document.cookie = `monado-is-menu-open=${isMenuOpen}; path=/; Secure; SameSite=Strict`
 
-				const { setIsMenuOpen } = useHydrationStore.getState()
+				const { setIsMenuOpen, setCurrentPathname } = useHydrationStore.getState()
 				setIsMenuOpen(isMenuOpen)
+				setCurrentPathname(window.location.pathname)
 			}
 
 			function handlePageLoad () {
@@ -149,6 +154,9 @@ const { pathname } = Astro.url
 
 				if (savedCinemaMode) document.documentElement.dataset.inCinemaMode = 'true'
 				else delete document.documentElement.dataset.inCinemaMode
+
+				const { setCurrentPathname } = useHydrationStore.getState()
+				setCurrentPathname(window.location.pathname)
 			}
 
 			document.addEventListener('change', handleGlobalChange)

@@ -10,7 +10,7 @@ const { pathname } = Astro.url
 ---
 
 <Layout title={id} tabBar>
-  <Menu pathname={pathname} client:load transition:persist />
+  <Menu client:load transition:persist />
   <MenuMini pathname={pathname} client:load />
   <p class='absolute right-0 text-4xl font-semibold'>
     {id}

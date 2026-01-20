@@ -4,9 +4,11 @@ import { MenuLink } from '../AsideNavigation/MenuLink'
 import { itemsAside } from '@/lib/menuItems'
 import { useHydrationStore } from '@/stores/useHydrationStore'
 
-export function Menu ({ pathname, class: className }: { pathname: string, class?: string }) {
+export function Menu ({ class: className }: { class?: string }) {
   const asideMenuRef = useRef<HTMLElement>(null)
   const isMenuOpen = useHydrationStore((state) => state.isMenuOpen)
+
+  const pathname = useHydrationStore(state => state.currentPathname)
 
   return (
     <>
