@@ -20,7 +20,7 @@ try {
 ---
 
 <Layout title={query}>
-  <Menu pathname={pathname} client:load transition:persist />
+  <Menu client:load transition:persist />
   <MenuMini pathname={pathname} client:load transition:persist />
   <SearchResults results={videos} client:load />
 </Layout>
