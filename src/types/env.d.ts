@@ -1,4 +1,11 @@
-export type ItemAside = LinkItem | ButtonItem
+export type ItemAside = {
+  name: string
+  path: string
+  type?: string
+  Icon: ({ active }: { active?: boolean | undefined }) => JSX.Element
+}
+
+export type TabBarItem = LinkItem | ButtonItem
 
 export interface LinkItem {
   id: string
