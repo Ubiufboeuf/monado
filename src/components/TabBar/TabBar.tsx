@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import type { TabBarItem } from '@/types/env'
-import { IconLibrary, IconHome, IconSearch, IconShorts, IconSubscriptions } from './Icons'
-import { TabBarLink } from './TabBar/TabBarLink'
-import { TabBarButton } from './TabBar/TabBarButton'
+import { IconLibrary, IconHome, IconSearch, IconShorts, IconSubscriptions } from '../Icons'
+import { TabBarLink } from '../TabBar/TabBarLink'
+import { TabBarButton } from '../TabBar/TabBarButton'
 import { useState } from 'preact/hooks'
 import type { TargetedMouseEvent } from 'preact'
 
