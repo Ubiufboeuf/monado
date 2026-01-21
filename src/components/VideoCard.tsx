@@ -52,7 +52,7 @@ export function VideoCard ({ video, class: className = '' }: { video: Video, cla
       <div class='not-xs:hidden absolute h-full w-full xs:not-sm:w-[max(80%,var(--breakpoint-xs))] sm:not-md:w-[min(100%,500px)] left-1/2 top-1/2 -translate-1/2 rounded-xl pointer-events-none transition-all duration-200 scale-98 group-hover:scale-103 opacity-0 group-hover:opacity-100 group-[:has(.dots:hover)]:opacity-0 group-[:has(.dots:hover)]:scale-98 bg-neutral-700/40' />
       <a
         href={`/watch?v=${id}`}
-        class='videoCard h-fit w-full xs:not-sm:w-[max(80%,var(--breakpoint-xs))] sm:not-md:w-[min(100%,500px)] cursor-pointer items-start flex flex-col xs:rounded-xl transition-colors not-xs:hover:bg-neutral-700/40 not-xs:group-[:has(.dots:hover)]:bg-transparent'
+        class='videoCard h-fit w-full xs:not-sm:w-[max(80%,var(--breakpoint-xs))] sm:not-md:w-[min(100%,500px)] cursor-pointer items-start flex flex-col xs:rounded-xl transition-colors not-xs:active:bg-neutral-700/40 not-xs:group-[:has(.dots:hover)]:bg-transparent'
         onClick={changeVideo}
         title={title}
       >
@@ -82,7 +82,7 @@ export function VideoCard ({ video, class: className = '' }: { video: Video, cla
             }} />
           </div>
         </section>
-        <section class='w-full h-20 text-sm relative grid grid-cols-[48px_1fr_36px] not-xs:px-3 pt-3'>
+        <section class='w-full h-20 xs:h-24 text-sm relative grid grid-cols-[48px_1fr_36px] not-xs:px-3 pt-3'>
           <div class='h-full w-full flex items-start justify-start'>
             <button
               class='h-fit w-fit aspect-square flex items-center justify-start pointer-events-auto cursor-pointer'
@@ -111,7 +111,7 @@ export function VideoCard ({ video, class: className = '' }: { video: Video, cla
           </div>
           <div class='h-full w-full flex-1'>
             <button
-              class='dots cursor-pointer rounded-full aspect-square size-9 flex items-center justify-center transition-colors hover:bg-neutral-700/40'
+              class='dots cursor-pointer rounded-full aspect-square size-9 flex items-center justify-center transition-colors not-mobile:hover:bg-neutral-700/70 pointer-coarse:active:bg-neutral-700/70'
               onClick={showOptions}
             >
               <div class='size-5 overflow-hidden flex items-center justify-center pointer-events-none'>
