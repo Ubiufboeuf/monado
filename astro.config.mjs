@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite'
 import node from '@astrojs/node'
 
 import { readFileSync } from 'node:fs'
+import { HMR_HOST, HMR_PORT } from '@/lib/constants'
 
 const cert = readFileSync('.cert/server.crt')
 const key = readFileSync('.cert/server.key')
@@ -22,9 +23,9 @@ export default defineConfig({
         key
       },
       hmr: {
-        host: 'monado.dev.local', // Usar el dominio proxyado
-        clientPort: 443, // Usar el puerto de entrada de Apache
-        protocol: 'wss' // Usar protocolo seguro
+        host: HMR_HOST,
+        clientPort: HMR_PORT,
+        protocol: 'wss'
       }
     }
   },
