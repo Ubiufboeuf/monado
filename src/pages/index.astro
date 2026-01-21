@@ -12,7 +12,7 @@ const { pathname } = Astro.url
   <Menu client:load transition:persist />
   <MenuMini pathname={pathname} client:load />
   <HomeNav client:idle />
-  <section class='absolute top-26 right-0 flex flex-col h-[calc(100%-112px)] min-h-fit w-full sm:w-[calc(100%-72px)] ml:menu-open:w-navbar pb-6 [transition:width_250ms_ease]'>
+  <section class='absolute top-28 right-0 flex flex-col h-[calc(100%-112px)] min-h-fit w-full sm:w-[calc(100%-72px)] ml:menu-open:w-navbar pb-6 [transition:width_250ms_ease]'>
     <HomeMainContent client:load />
   </section>
 </Layout>
