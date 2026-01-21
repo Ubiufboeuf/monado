@@ -75,7 +75,7 @@ export function SearchBar ({ search }: { search: string | undefined }) {
       <div class='relative flex h-10 w-full max-w-xl'>
         <section
           id='search-bar'
-          class='relative flex items-center justify-between h-full max-w-full w-full rounded-full border align-middle cursor-text focus:outline-0 transition-colors border-neutral-700/70 bg-base-dark text-white focus-within:border-focus'
+          class='relative flex items-center justify-between h-full max-w-full w-full rounded-full border align-middle cursor-text focus:outline-0 transition-colors border-neutral-700/70 bg-base-dark text-white focus-within:border-focus hover:not-focus-within:border-neutral-600'
         >
           <div class='flex items-center justify-center h-full aspect-[1.4/1]'>
             <Icon class='size-6 text-white/50'>
