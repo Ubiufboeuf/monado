@@ -109,7 +109,7 @@ export function VideoCard ({ video, class: className = '' }: { video: Video, cla
               <span>hace {parseReleaseTimestamp(video.release_timestamp)}</span>
             </div>
           </div>
-          <div class='h-full w-full flex-1'>
+          <div title='' class='h-full w-full flex-1'>
             <button
               class='dots cursor-pointer rounded-full aspect-square size-9 flex items-center justify-center transition-colors not-mobile:hover:bg-neutral-700/70 pointer-coarse:active:bg-neutral-700/70'
               onClick={showOptions}
