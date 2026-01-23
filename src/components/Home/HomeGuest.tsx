@@ -8,7 +8,7 @@ export function HomeGuest () {
           de todo tipo, y si no sabes qué buscar, el&nbsp;
           <a href='/tv' class='relative w-fit h-fit group inline-flex'>
             {/* hay tres "modo TV",
-              - el 1ro es para mantener espacios,
+              - el primero es para mantener espacios,
               - el segundo para la vista normal,
               - y el tercero para el hover
             */}
