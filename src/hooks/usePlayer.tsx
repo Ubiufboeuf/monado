@@ -159,6 +159,15 @@ export function usePlayer () {
 
   useEffect(() => {
     importDashjs()
+
+    return () => {
+      // Borrar las funciones guardadas en la store para evitar problemas
+      usePlayerStore.setState({
+        setTogglePlayState: undefined,
+        setPause: undefined,
+        setPlay: undefined
+      })
+    }
   }, [])
 
   useEffect(() => {
