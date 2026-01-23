@@ -12,33 +12,57 @@ interface Props {
 	links?: astroHTML.JSX.LinkHTMLAttributes[]
 }
 
-const { title, tabBar, useTransitions = true, links } = Astro.props
+const { props, cookies, url, request } = Astro
+const { title, tabBar, useTransitions = true, links } = props
+const { pathname } = url
 
-const isMenuOpen = Astro.cookies.get('monado-is-menu-open')?.value
-const inCinemaMode = Astro.cookies.get('monado-in-cinema-mode')?.value
+/*
+	Los scripts son para conseguir el mejor rendimiento posible en varias partes de la web.
+	Se repite el código en el servidor y en los <script> para abarcar todo lo necesario para mejorar el rendimiento.
 
-useHydrationStore.setState({ isMenuOpen: isMenuOpen === 'true' })
+  Optimizaciones que generalmente mejoran el rendimiento, como:
+		- no duplicar lógica entre el frontmatter y los <script>
+		- middleware
+		- is:inline
+		- separar en archivos
+	y otras más, acá suelen romper las soluciones aplicadas. ¡Cuidado con eso!
 
-const deviceCodeCookie = Astro.cookies.get('monado-device-type')
-const deviceCode = deviceCodeCookie?.value
+	Por ahora se logra:
+		- [x] Cargar el estado del menú desde el primer momento
+		- [x] Mantener el estado del menú entre páginas, evitando que se abra/cierra cuando no deba
+		- [x] Detectar lo antes posible el tipo de dispositivo (los scripts cargan el primer valor y el servidor devuelve el guardado)
+*/
 
-const devices = { 
-  'M': 'mobile', 
-  'T': 'tablet', 
-  'D': 'desktop'
-}
+// #region - detectDeviceType
+const deviceCode = cookies.get('monado-device-type')?.value
+const ua = request.headers.get('user-agent') || ''
 
-const deviceType = devices[deviceCode as keyof typeof devices] ?? 'desktop'
+const mobileRegex = /(Mobi|Android(?!.*Nexus 7)|iPhone|iPod|Windows Phone|BlackBerry|Symbian|IEMobile|Opera Mini|Fennec|webOS|hpwos|avantgo|bada|blazer|compal|elaine|hiptop|kindle|lge|maemo|midp|mmp|netfront|palm|phone|plucker|pocket|psp|series60|treo|up\.browser|up\.link|vodafone|wap|windows ce|xda|xiino)/i
+const tabletRegex = /(iPad|Android(?!.*mobile)|Kindle|Playbook|Silk|Tablet|hpw|webos|Nexus 7)/i
 
-const { pathname } = Astro.url
-const { setCurrentPathname } = useHydrationStore.getState()
+let detectedType = 'desktop'
+if (mobileRegex.test(ua)) detectedType = 'mobile'
+else if (tabletRegex.test(ua)) detectedType = 'tablet'
+
+const devices: Record<string, string> = { M: 'mobile', T: 'tablet', D: 'desktop' }
+const deviceType = devices[deviceCode!] || detectedType
+// #endregion
+
+// #region - syncInitialState
+const isMenuOpen = cookies.get('monado-is-menu-open')?.value === 'true'
+const inCinemaMode = cookies.get('monado-is-cinema-mode')?.value === 'true'
+
+const { setCurrentPathname, setIsMenuOpen } = useHydrationStore.getState()
+
 setCurrentPathname(pathname)
+setIsMenuOpen(isMenuOpen)
+// #endregion
 ---
 
 <html
 	lang='es'
 	data-device-type={deviceType}
-	data-in-cinema-mode={inCinemaMode === 'true'}
+	data-in-cinema-mode={inCinemaMode}
 >
 	<head>
 		<meta charset='utf-8' />
@@ -47,125 +71,100 @@ setCurrentPathname(pathname)
 		<meta name='description' content='Reproductor de video basado en YouTube e YT-DLP hecho con Astro (SSR) y Preact para un rendimiento increible' />
 		<title>{title ? `${title} - Monado` : 'Monado'}</title>
 		{ links?.map((link) => <link {...link} />) }
-    <script>
-      (function() {
-        const htmlElement = document.documentElement;
-        
-        // El servidor ya puso un valor (ej: 'is-desktop-ua').
-        const currentDeviceType = htmlElement.dataset.deviceType; 
-        
-        // Función auxiliar para establecer cookies
-        function setCookie(name: string, value: string, days: number) {
-          const date = new Date();
-          date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-          const expires = `; expires=${date.toUTCString()}`;
-          document.cookie = `${name}=${value}${expires}; path=/; SameSite=Lax`;
-        }
-        
-        // Mapeo inverso de la clase CSS al código de 1 byte
-        const devices = { 
-					'M': 'mobile',
-					'T': 'tablet',
-					'D': 'desktop'
-        };
-        
-        // --- Lógica de detección del dispositivo en base al user agent ---
-        const ua = navigator.userAgent;
-        const mobileRegex = /(Mobi|Android(?!.*Nexus 7)|iPhone|iPod|Windows Phone|BlackBerry|Symbian|IEMobile|Opera Mini|Fennec|webOS|hpwos|avantgo|bada|blazer|compal|elaine|hiptop|kindle|lge|maemo|midp|mmp|netfront|palm|phone|plucker|pocket|psp|series60|treo|up\.browser|up\.link|vodafone|wap|windows ce|xda|xiino)/i;
-        const tabletRegex = /(iPad|Android(?!.*mobile)|Kindle|Playbook|Silk|Tablet|hpw|webos|Nexus 7)/i;
-        
-        let newDeviceCode = 'D'; // Por defecto: Desktop
-
-        if (mobileRegex.test(ua) && !/iPad/i.test(ua)) {
-          newDeviceCode = 'M'; // Mobile
-        } else if (tabletRegex.test(ua)) {
-          newDeviceCode = 'T'; // Tablet
-        }
-        
-        const newDeviceType = devices[newDeviceCode as keyof typeof devices];
-        
-        // --- Optimización: Solo actualizar si hay discrepancia ---
-        if (currentDeviceType !== newDeviceType) {
-					// Aplicar el cambio en el DOM para evitar flasheo
-					htmlElement.dataset.deviceType = newDeviceType;
-
-					// Guardar la cookie para que el servidor la use en la próxima carga
-					setCookie('monado-device-type', newDeviceCode, 30);
-        }
-      })()
-    </script>
 		<script>
-			import { useHydrationStore } from '@/stores/useHydrationStore'
+			// - Detect device type -
 
-			// Leer cookie del estado del menú
-			(function() {
-				const isMenuOpen = document.cookie
-					.split('; ')
-					.find(c => c.startsWith('monado-is-menu-open='))
-					?.split('=')[1] || 'false'
-				const input = document.querySelector('#checkbox-menu-state') as HTMLInputElement
-				if (input) {
-					input.checked = (isMenuOpen === 'true')
-					const { setIsMenuOpen } = useHydrationStore.getState()
-					setIsMenuOpen(isMenuOpen === 'true')
-				}
-				const { setCurrentPathname } = useHydrationStore.getState()
-				setCurrentPathname(window.location.pathname)
-			})()
-		</script>
-		<script>
-			import { useHydrationStore } from '@/stores/useHydrationStore'
+			function setCookie (name: string, value: string, days: number) {
+				const date = new Date()
+				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
+				const expires = `; expires=${date.toUTCString()}`
+				document.cookie = `${name}=${value}${expires}; path=/; SameSite=Lax`
+			}
 			
-			function handleGlobalChange(event: Event) {
-				const input = event.target
-				if (!(input instanceof HTMLInputElement)) return
-				if (!input.matches('#checkbox-menu-state')) return
+			function detectDeviceType () {
+				const { dataset } = document.documentElement
+				const serverDetectedDeviceType = dataset.deviceType
 
-				const isMenuOpen = input.checked
-				document.cookie = `monado-is-menu-open=${isMenuOpen}; path=/; Secure; SameSite=Strict`
+				const devices: Record<string, string> = { M: 'mobile', T: 'tablet', D: 'desktop' }
+				const ua = navigator.userAgent
+				const mobileRegex = /(Mobi|Android(?!.*Nexus 7)|iPhone|iPod|Windows Phone|BlackBerry|Symbian|IEMobile|Opera Mini|Fennec|webOS|hpwos|avantgo|bada|blazer|compal|elaine|hiptop|kindle|lge|maemo|midp|mmp|netfront|palm|phone|plucker|pocket|psp|series60|treo|up\.browser|up\.link|vodafone|wap|windows ce|xda|xiino)/i
+				const tabletRegex = /(iPad|Android(?!.*mobile)|Kindle|Playbook|Silk|Tablet|hpw|webos|Nexus 7)/i
 
-				const { setIsMenuOpen, setCurrentPathname } = useHydrationStore.getState()
-				setIsMenuOpen(isMenuOpen)
-				setCurrentPathname(window.location.pathname)
+				let deviceCode = 'D'
+
+				if (mobileRegex.test(ua) && !/iPad/i.test(ua)) {
+					deviceCode = 'M' // Celular
+				} else if (tabletRegex.test(ua)) {
+					deviceCode = 'T' // Tablet
+				}
+
+				const deviceType = devices[deviceCode]
+
+				// Actualizar deviceType sólo si hay diferencia con el servidor
+				if (serverDetectedDeviceType !== deviceType) {
+					dataset.deviceType = deviceType
+					setCookie('monado-device-type', deviceCode, 30)
+				}
 			}
 
-			function handlePageLoad () {
-				const cookie = document.cookie
-					.split('; ')
-					.find((c) => c.includes('monado-is-menu-open='))
+			detectDeviceType()
+		</script>
+		<script>
+			// - Update states on page change
+
+			import { useHydrationStore } from '@/stores/useHydrationStore'
+
+			const { setIsMenuOpen, setCurrentPathname } = useHydrationStore.getState()
+
+			function getCookie (cookie: string) {
+				return document.cookie
+          .split('; ')
+					.find((c) => c.startsWith(`${cookie}=`))
 					?.split('=')
 					?.[1]
+			}
+			
+			// - Cambio de página, especialmente como SPA -
+			document.addEventListener('astro:page-load', astroPageLoad)
+			
+			function astroPageLoad () {
+				const { dataset } = document.documentElement
+				const { setIsMenuOpen } = useHydrationStore.getState()
 
-				const input = document.querySelector('#checkbox-menu-state')
-				if (input instanceof HTMLInputElement) {
-					const isMenuOpen = cookie === 'true'
-					input.checked = isMenuOpen
-					const { setIsMenuOpen } = useHydrationStore.getState()
+				// isMenuOpen
+        const menuCheckbox = document.querySelector('#checkbox-menu-state')
+				const isMenuOpen = getCookie('monado-is-menu-open') === 'true'
+				
+				if (menuCheckbox instanceof HTMLInputElement) {
+					menuCheckbox.checked = isMenuOpen
 					setIsMenuOpen(isMenuOpen)
 				}
 
-				const cinemaCookie = document.cookie
-					.split('; ')
-					.find((c) => c.includes('monado-in-cinema-mode='))
-					?.split('=')
-					?.[1]
-
-				const savedCinemaMode = cinemaCookie === 'true'
-
-				if (savedCinemaMode) document.documentElement.dataset.inCinemaMode = 'true'
-				else delete document.documentElement.dataset.inCinemaMode
-
-				const { setCurrentPathname } = useHydrationStore.getState()
-				setCurrentPathname(window.location.pathname)
+				// inCinemaMode
+				const inCinemaMode = getCookie('monado-in-cinema-mode') === 'true'
+				if (inCinemaMode) dataset.inCinemaMode = 'true'
+				else delete dataset.inCinemaMode	
 			}
 
-			document.addEventListener('change', handleGlobalChange)
-			document.addEventListener('astro:page-load', handlePageLoad)
+			// - Cambios en página -
+			document.addEventListener('change', handleDocumentChange)
+
+			function handleDocumentChange (event: Event) {
+				setCurrentPathname(window.location.pathname)
+
+				// isMenuOpen
+				const menuCheckbox = event.target
+				if (menuCheckbox instanceof HTMLInputElement) {
+					const isMenuOpen = menuCheckbox.checked
+					document.cookie = `monado-is-menu-open=${isMenuOpen}; path=/; Secure; SameSite=Strict`
+					setIsMenuOpen(isMenuOpen)
+				}
+			}
 		</script>
 		{ useTransitions && <ClientRouter /> }
 	</head>
 	<body class='flex flex-col bg-base-dark'>
-		<input id='checkbox-menu-state' type='checkbox' hidden checked={isMenuOpen === 'true'} />
+		<input id='checkbox-menu-state' type='checkbox' hidden checked={isMenuOpen} />
 		<Header />
 		<main class='h-full w-full min-h-fit max-h-full pt-14'>
 			<slot />
