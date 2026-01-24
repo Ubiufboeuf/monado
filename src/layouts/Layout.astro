@@ -50,7 +50,7 @@ const deviceType = devices[deviceCode!] || detectedType
 
 // #region - syncInitialState
 const isMenuOpen = cookies.get('monado-is-menu-open')?.value === 'true'
-const inCinemaMode = cookies.get('monado-is-cinema-mode')?.value === 'true'
+const inCinemaMode = cookies.get('monado-in-cinema-mode')?.value === 'true'
 
 const { setCurrentPathname, setIsMenuOpen } = useHydrationStore.getState()
 
@@ -129,7 +129,8 @@ setIsMenuOpen(isMenuOpen)
 			
 			function astroPageLoad () {
 				const { dataset } = document.documentElement
-				const { setIsMenuOpen } = useHydrationStore.getState()
+
+				setCurrentPathname(window.location.pathname)
 
 				// isMenuOpen
         const menuCheckbox = document.querySelector('#checkbox-menu-state')
@@ -154,7 +155,7 @@ setIsMenuOpen(isMenuOpen)
 
 				// isMenuOpen
 				const menuCheckbox = event.target
-				if (menuCheckbox instanceof HTMLInputElement) {
+				if (menuCheckbox instanceof HTMLInputElement && menuCheckbox.id === 'checkbox-menu-state') {
 					const isMenuOpen = menuCheckbox.checked
 					document.cookie = `monado-is-menu-open=${isMenuOpen}; path=/; Secure; SameSite=Strict`
 					setIsMenuOpen(isMenuOpen)
