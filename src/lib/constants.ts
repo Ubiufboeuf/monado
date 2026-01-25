@@ -26,3 +26,5 @@ export const EMPTY = '(Vacío)' as const
 export const AUTO_PLAY = false
 export const INITIAL_VOLUME = 1
 export const SHOW_PLAYER_POSTER = false
+export const VIDEOS_LIMIT_PER_REQUEST = 12
+
