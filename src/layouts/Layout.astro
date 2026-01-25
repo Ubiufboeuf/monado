@@ -70,6 +70,10 @@ setIsMenuOpen(isMenuOpen)
 		<meta name='viewport' content='width=device-width' />
 		<meta name='description' content='Reproductor de video basado en YouTube e YT-DLP hecho con Astro (SSR) y Preact para un rendimiento increible' />
 		<title>{title ? `${title} - Monado` : 'Monado'}</title>
+		<link rel="manifest" href="/manifest.json" />
+		<meta name="theme-color" content="#181818" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
 		{ links?.map((link) => <link {...link} />) }
 		<script>
 			// - Detect device type -
@@ -125,6 +129,8 @@ setIsMenuOpen(isMenuOpen)
 			}
 			
 			// - Cambio de página, especialmente como SPA -
+			document.addEventListener('astro:page-load', astroPageLoad)
+			document.addEventListener('', astroPageLoad)
 			document.addEventListener('astro:page-load', astroPageLoad)
 			
 			function astroPageLoad () {
