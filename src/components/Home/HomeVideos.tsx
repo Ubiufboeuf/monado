@@ -40,7 +40,7 @@ export function HomeVideos () {
   return (
     <div class='grid justify-center items-start gap-4 grid-cols-[repeat(auto-fill,minmax(312px,1fr))] h-fit w-full max-h-fit max-w-full overflow-hidden pb-6 sm:px-6 sm:pt-3 not-desktop:pb-tbh [content-visibility:auto]'>
       { videos.map((video) => <VideoCard key={`home-video-card:${video.id}`} video={video} />) }
-      <div ref={videosSentinelRef} class='absolute z-100 -bottom-[20dvh] h-dvh w-full' />
+      <div ref={videosSentinelRef} class='absolute -z-100 -bottom-[20dvh] h-dvh w-full pointer-events-none' />
       <div
         class='col-span-full h-16 not-xs:pb-4 w-full flex justify-center items-center gap-4 text-neutral-200'
         hidden={!cursor}
