@@ -3,24 +3,15 @@ import { Menu } from '@/components/Menu/Menu'
 import { MenuMini } from '@/components/Menu/MenuMini'
 import { SearchResults } from '@/components/Results/SearchResults'
 import Layout from '@/layouts/Layout.astro'
-import { search } from '@/services/searchService'
-import type { Video } from '@/types/videoTypes'
 
 const { pathname, searchParams } = Astro.url
 const query = searchParams.get('search')
 
 if (!query) return Astro.redirect('/')
-
-let videos: Video[] = []
-try {
-  videos = await search(query)
-} catch (err) {
-  console.error(`Error buscando "${query}" |`, err)
-}
 ---
 
 <Layout title={query}>
   <Menu client:load transition:persist />
   <MenuMini pathname={pathname} client:load transition:persist />
-  <SearchResults results={videos} client:load />
+  <SearchResults client:load />
 </Layout>
