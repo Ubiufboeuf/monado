@@ -7,10 +7,18 @@ import { isValidVideo } from '@/lib/validations'
 import { getMax, getMin } from '@/lib/utils'
 import { parseServerResponse } from './serverService'
 
-export async function getVideos ({ limit = 12 }: { limit?: number } = {}): Promise<Video[]> {
+interface GetVideosArgs {
+  limit?: number
+  cursor?: string
+}
+
+export async function getVideos (
+  { limit = 12, cursor = undefined }: GetVideosArgs = {}):
+  Promise<{ videos: Video[], cursor: string | undefined }>
+{
   let res
   try {
-    res = await fetch(`${ENDPOINTS.VIDEOS}?limit=${limit}`)
+    res = await fetch(`${ENDPOINTS.VIDEOS}?limit=${limit}&cursor=${cursor}`)
   } catch (err) {
     const errorMessage = 'Error con la petición de los videos'
     errorHandler(err, errorMessage, 'dev')
@@ -26,8 +34,13 @@ export async function getVideos ({ limit = 12 }: { limit?: number } = {}): Promi
     throw new Error(errorMessage)
   }
 
+  let newCursor
+  if (typeof serverResponse === 'object' && serverResponse && 'nextCursor' in serverResponse) {
+    newCursor = serverResponse.nextCursor as string
+  }
+
   const data = parseServerResponse('videos', serverResponse)
-  if (!data) return []
+  if (!data) return { videos: [], cursor: undefined }
   
   let videos = []
   try {
@@ -38,7 +51,7 @@ export async function getVideos ({ limit = 12 }: { limit?: number } = {}): Promi
     throw new Error(errorMessage)
   }
   
-  return videos
+  return { videos, cursor: newCursor }
 }
 
 export async function getVideo (id: string): Promise<Video | undefined> {

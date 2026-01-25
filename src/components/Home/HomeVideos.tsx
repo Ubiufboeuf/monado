@@ -1,11 +1,46 @@
-import type { Video } from '@/types/videoTypes'
-import { v4 as uuidv4 } from 'uuid'
 import { VideoCard } from '../VideoCard'
+import { useRef } from 'preact/hooks'
+import { useVideosStore } from '@/stores/useVideosStore'
+import { getVideos } from '@/services/videoService'
+import { VIDEOS_LIMIT_PER_REQUEST } from '@/lib/constants'
+import { errorHandler } from '@/lib/errors'
+import { useIntersectionObserver } from '@/hooks/useIntersectionObserver'
 
-export function HomeVideos ({ videos }: { videos: Video[] }) {
+const options: IntersectionObserverInit = {
+  rootMargin: '0px 0px 60% 0px',
+  threshold: 0
+}
+
+export function HomeVideos () {
+  const videos = useVideosStore((state) => state.homeVideos)
+  const addVideos = useVideosStore((state) => state.addHomeVideos)
+  const cursor = useVideosStore((state) => state.homeCursor)
+  const setCursor = useVideosStore((state) => state.setHomeCursor)
+  const videosSentinelRef = useRef<HTMLDivElement>(null)
+  const loadingRef = useRef(false)
+
+  useIntersectionObserver(videosSentinelRef, loadMoreVideos, options)
+
+  async function loadMoreVideos () {
+    if (!cursor || loadingRef.current) return
+
+    loadingRef.current = true
+    
+    getVideos({ limit: VIDEOS_LIMIT_PER_REQUEST, cursor })
+      .then(({ videos, cursor }) => {
+        addVideos(videos)
+        setCursor(cursor)
+      })
+      .catch((err) => errorHandler(err))
+      .finally(() => {
+        loadingRef.current = false
+      })
+  }
+  
   return (
-    <div class='grid justify-center items-start gap-4 grid-cols-[repeat(auto-fill,minmax(312px,1fr))] h-fit w-full max-h-fit max-w-full overflow-x-hidden pb-6 sm:px-6 sm:pt-3 not-desktop:pb-tbh'>
-      { videos.map((video) => <VideoCard key={uuidv4()} video={video} />) }
+    <div class='grid justify-center items-start gap-4 grid-cols-[repeat(auto-fill,minmax(312px,1fr))] h-fit w-full max-h-fit max-w-full overflow-x-hidden pb-6 sm:px-6 sm:pt-3 not-desktop:pb-tbh [content-visibility:auto]'>
+      { videos.map((video) => <VideoCard key={`home-video-card:${video.id}`} video={video} />) }
+      <div ref={videosSentinelRef} />
     </div>
   )
 }

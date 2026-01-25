@@ -7,16 +7,23 @@ import { HomeVideos } from './HomeVideos'
 import { HomeGuest } from './HomeGuest'
 import { HomeError } from './HomeError'
 import { VideoCardFallback } from '../VideoCardFallback'
+import { VIDEOS_LIMIT_PER_REQUEST } from '@/lib/constants'
+import { useVideosStore } from '@/stores/useVideosStore'
 
 export function HomeMainContent () {
   const [isComponentReady, setIsComponentReady] = useState(false)
   const [MainContent, setMainContent] = useState<FC<{ videos: Video[] }>>()
-  const [videos, setVideos] = useState<Video[]>([])
+  const videos = useVideosStore((state) => state.homeVideos)
+  const addVideos = useVideosStore((state) => state.addHomeVideos)
+  const setCursor = useVideosStore((state) => state.setHomeCursor)
   const user = { hasSearched: true }
 
   async function loadVideos () {
-    getVideos({ limit: 96 })
-      .then((videos) => setVideos(videos))
+    getVideos({ limit: VIDEOS_LIMIT_PER_REQUEST })
+      .then(({ videos, cursor }) => {
+        addVideos(videos)
+        setCursor(cursor)
+      })
       .catch((err) => errorHandler(err))
       .finally(() => setIsComponentReady(true))
   }
