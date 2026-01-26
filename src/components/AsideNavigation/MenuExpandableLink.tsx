@@ -1,7 +1,7 @@
 import type { ItemAside, MenuSubItem } from '@/types/env'
 import type { RefObject, TargetedEvent } from 'preact'
 import { useEffect, useState } from 'preact/hooks'
-import { IconArrowDown, IconHome } from '../Icons'
+import { IconChevronDown, IconHome } from '../Icons'
 import { Icon } from '../Icon'
 
 const checkboxName = 'checkbox-menu-items'
@@ -66,7 +66,7 @@ export function MenuExpandableLink ({ item: { Icon: IconItem, name, path }, path
         <div class='w-[2px] h-7 bg-neutral-800'></div>
         <label htmlFor={`checkbox-menu-${name}`} class='group aspect-square flex items-center justify-center hover:bg-neutral-800 rounded-lg h-full cursor-pointer'>
           <Icon class='transition-all'>
-            <IconArrowDown />
+            <IconChevronDown />
           </Icon>
         </label>
       </div>
