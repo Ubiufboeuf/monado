@@ -1,9 +1,11 @@
-// @ts-check
+/* eslint-disable no-undef */
+
 import { defineConfig } from 'astro/config'
 
 import preact from '@astrojs/preact'
 import tailwindcss from '@tailwindcss/vite'
 import node from '@astrojs/node'
+import cloudflare from '@astrojs/cloudflare'
 
 import { readFileSync } from 'node:fs'
 import { HMR_HOST, HMR_PORT } from './src/lib/constants'
@@ -11,8 +13,19 @@ import { HMR_HOST, HMR_PORT } from './src/lib/constants'
 const cert = readFileSync('.cert/server.crt')
 const key = readFileSync('.cert/server.key')
 
-// https://astro.build/config
-export default defineConfig({
+const isCloudflare = checkIsCloudflare()
+
+function checkIsCloudflare () {
+  try { return import.meta.env.CF === 'true'}
+  catch {/* empty */}
+
+  try { return process.env.CF === 'true'}
+  catch {/* empty */}
+
+  return false
+}
+
+const devConfig = {
   integrations: [preact()],
 
   vite: {
@@ -37,7 +50,22 @@ export default defineConfig({
   },
 
   output: 'server',
-  adapter: node({
-    mode: 'standalone'
-  })
-})
+  adapter: node({ mode: 'standalone' })
+}
+
+const cloudflareConfig = {
+  integrations: [preact()],
+
+  vite: {
+    plugins: [tailwindcss()]
+  },
+
+  output: 'server',
+  adapter: cloudflare({ imageService: 'passthrough' })
+}
+
+export default defineConfig(
+  isCloudflare
+    ? devConfig
+    : cloudflareConfig
+)
