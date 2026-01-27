@@ -162,11 +162,9 @@ export function usePlayer () {
 
     return () => {
       // Borrar las funciones guardadas en la store para evitar problemas
-      usePlayerStore.setState({
-        setTogglePlayState: undefined,
-        setPause: undefined,
-        setPlay: undefined
-      })
+      setTogglePlayState(undefined)
+      setPlay(undefined)
+      setPause(undefined)
     }
   }, [])
 

@@ -21,9 +21,9 @@ type PlayerStore = {
   setControlsVisible: (controlsVisible: boolean) => void
   setCurrentTime: (time: number) => void
   setVolume: (volume: number) => void
-  setPause: (fn: () => void) => void
-  setPlay: (fn: () => void) => void
-  setTogglePlayState: (fn: () => void) => void
+  setPause: (fn: undefined | (() => void)) => void
+  setPlay: (fn: undefined | (() => void)) => void
+  setTogglePlayState: (fn: undefined | (() => void)) => void
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
