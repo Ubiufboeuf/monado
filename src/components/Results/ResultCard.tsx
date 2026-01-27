@@ -1,14 +1,10 @@
 import { parseDuration, parseViews } from '@/lib/parsers'
 import type { Video } from '@/types/videoTypes'
 import type { TargetedEvent } from 'preact'
-import { useRef } from 'preact/hooks'
 
 export function ResultCard ({ video }: { video: Video }) {
   const { id, title, duration, uploader, thumbnailsById, min_thumbnail, max_thumbnail } = video
 
-  const fallbackRef = useRef<HTMLImageElement>(null)
-  const thumbnailRef = useRef<HTMLImageElement>(null)
-  
   function checkIfSquare (image: HTMLImageElement) {
     const { naturalWidth, naturalHeight } = image
     const aspectRatio = naturalWidth / naturalHeight
@@ -46,7 +42,6 @@ export function ResultCard ({ video }: { video: Video }) {
         <div class='relative h-full w-full bg-neutral-700'>
           { thumbnailsById[min_thumbnail] &&
             <img
-              ref={fallbackRef}
               src={thumbnailsById[min_thumbnail].url}
               class='h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none blur'
               onLoad={handleLoadThumbnail}
@@ -54,7 +49,6 @@ export function ResultCard ({ video }: { video: Video }) {
           }
           { thumbnailsById[max_thumbnail] &&
             <img
-              ref={thumbnailRef}
               src={thumbnailsById[max_thumbnail].url}
               class='opacity-0 absolute left-0 top-0 h-full w-full object-cover [.isSquare]:object-contain flex pointer-events-none select-none'
               alt={title}
