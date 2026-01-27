@@ -13,7 +13,7 @@ export function SuggestedVideos () {
 
   async function loadVideos () {
     getVideos({ limit: 96 })
-      .then((videos) => setVideos(videos))
+      .then(({ videos }) => setVideos(videos))
       .catch((err) => errorHandler(err))
   }
 
