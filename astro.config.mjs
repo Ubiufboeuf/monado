@@ -16,14 +16,23 @@ const key = readFileSync('.cert/server.key')
 const isCloudflare = checkIsCloudflare()
 
 function checkIsCloudflare () {
-  try { return import.meta.env.CF === 'true'}
-  catch {/* empty */}
+  let CF = false
+  try {
+    const envCF = import.meta.env.CF
+    console.log('import meta', { envCF })
+    CF = envCF === 'true'
+  } catch {/* empty */}
 
-  try { return process.env.CF === 'true'}
-  catch {/* empty */}
+  try {
+    const envCF = process.env.CF
+    console.log('process', { envCF })
+    CF = envCF === 'true'
+  } catch {/* empty */}
 
-  return false
+  return CF
 }
+
+console.log({ isCloudflare })
 
 const devConfig = {
   integrations: [preact()],
@@ -66,6 +75,6 @@ const cloudflareConfig = {
 
 export default defineConfig(
   isCloudflare
-    ? devConfig
-    : cloudflareConfig
+    ? cloudflareConfig
+    : devConfig
 )
