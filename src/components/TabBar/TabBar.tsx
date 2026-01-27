@@ -5,6 +5,7 @@ import { TabBarLink } from '../TabBar/TabBarLink'
 import { TabBarButton } from '../TabBar/TabBarButton'
 import { useState } from 'preact/hooks'
 import type { TargetedMouseEvent } from 'preact'
+import { useSearchStore } from '@/stores/useSearchStore'
 
 const defaultLinks: TabBarItem[] = [
   { id: 'home', name: 'Inicio', type: 'link', path: '/', Icon: ({ active = false }) => <IconHome active={active} /> },
@@ -16,10 +17,11 @@ const defaultLinks: TabBarItem[] = [
 
 export function TabBar ({ pathname, hidden }: { pathname: string, hidden?: boolean | undefined }) {
   const [barLinks] = useState(defaultLinks)
-  const [isTabBarSearching, setIsTabBarSearching] = useState(false)
+  const isMobileSearching = useSearchStore((state) => state.isMobileSearching)
+  const setIsMobileSearching = useSearchStore((state) => state.setIsMobileSearching)
 
   function handleClickSearch () {
-    setIsTabBarSearching(!isTabBarSearching)
+    setIsMobileSearching(!isMobileSearching)
   }
 
   function handleClickLink (event: TargetedMouseEvent<HTMLAnchorElement>) {
@@ -31,7 +33,7 @@ export function TabBar ({ pathname, hidden }: { pathname: string, hidden?: boole
 
     if (isMainEvent && !isModifiedEvent && pathname === path) {
       event.preventDefault()
-      setIsTabBarSearching(false)
+      setIsMobileSearching(false)
     }
   }
 
@@ -47,7 +49,7 @@ export function TabBar ({ pathname, hidden }: { pathname: string, hidden?: boole
           <TabBarButton
             key={`tab-bar:${id}`}
             onClick={handleClickSearch}
-            itemActive={isTabBarSearching}
+            itemActive={isMobileSearching}
             {...barLink}
           />
         )
@@ -55,7 +57,7 @@ export function TabBar ({ pathname, hidden }: { pathname: string, hidden?: boole
         if (type === 'link') return (
           <TabBarLink
             key={`tab-bar:${id}`}
-            itemActive={pathname === barLink.path && !isTabBarSearching}
+            itemActive={pathname === barLink.path && !isMobileSearching}
             onClick={handleClickLink}
             {...barLink}
           />

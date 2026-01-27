@@ -1,13 +1,17 @@
 ---
 import HeaderLeft from './HeaderLeft.astro'
-import { SearchBar } from './SearchBar'
 import HeaderRight from './HeaderRight.astro'
+import { SearchOverlay } from './SearchOverlay'
+import { SearchBar } from './SearchBar'
 
-const searchParam = Astro.url.searchParams.get('search') ?? undefined
+const searchQuery = Astro.url.searchParams.get('search') ?? undefined
 ---
 
-<header class='fixed top-0 z-10 flex items-center md:grid md:place-items-center md:grid-cols-[208px_1fr_208px] w-full h-14 bg-base-dark'>
-  <HeaderLeft />
-  <SearchBar search={searchParam} client:load />
-  <HeaderRight />
+<header class='fixed top-0 z-10 w-full h-14 bg-base-dark'>
+  <nav class='flex items-center md:grid md:place-items-center md:grid-cols-[208px_1fr_208px]'>
+    <HeaderLeft />
+    <SearchBar search={searchQuery} client:load />
+    <HeaderRight />
+  </nav>
+  <SearchOverlay searchQuery={searchQuery} client:load />
 </header>

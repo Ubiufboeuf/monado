@@ -33,7 +33,8 @@ export function SearchBar ({ search }: { search: string | undefined }) {
 
   function checkVisibility (value: string) {
     if (clearInputRef.current) {
-      clearInputRef.current.hidden = value ? !value : !query
+      const search = new URLSearchParams(location.href).get('search')
+      clearInputRef.current.hidden = value ? !value : !search
     }
   }
 
@@ -74,7 +75,7 @@ export function SearchBar ({ search }: { search: string | undefined }) {
     <section class='hidden md:flex flex-1 items-center justify-center gap-4 h-full w-full min-w-fit max-w-full'>
       <div class='relative flex h-10 w-full max-w-xl'>
         <section
-          id='search-bar'
+          id='search-bar-container'
           class='relative flex items-center justify-between h-full max-w-full w-full rounded-full border align-middle cursor-text focus:outline-0 transition-colors border-neutral-700/70 bg-base-dark text-white focus-within:border-focus hover:not-focus-within:border-neutral-600'
         >
           <div class='flex items-center justify-center h-full aspect-[1.4/1]'>
