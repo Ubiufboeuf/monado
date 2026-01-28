@@ -12,10 +12,10 @@ const options: IntersectionObserverInit = {
 }
 
 export function HomeVideos () {
-  const videos = useVideosStore((state) => state.homeVideos)
-  const addVideos = useVideosStore((state) => state.addHomeVideos)
-  const cursor = useVideosStore((state) => state.homeCursor)
-  const setCursor = useVideosStore((state) => state.setHomeCursor)
+  const { videos } = useVideosStore((state) => state.videosByContext.home)
+  const addVideos = useVideosStore((state) => state.addVideos)
+  const { cursor } = useVideosStore((state) => state.videosByContext.home)
+  const setCursor = useVideosStore((state) => state.setCursor)
   const videosSentinelRef = useRef<HTMLDivElement>(null)
   const loadingRef = useRef(false)
 
@@ -28,8 +28,8 @@ export function HomeVideos () {
     
     getVideos({ limit: VIDEOS_LIMIT_PER_REQUEST, cursor })
       .then(({ videos, cursor }) => {
-        addVideos(videos)
-        setCursor(cursor)
+        addVideos('home', videos)
+        setCursor('home', cursor)
       })
       .catch((err) => errorHandler(err))
       .finally(() => {

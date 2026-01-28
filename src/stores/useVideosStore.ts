@@ -1,41 +1,63 @@
 import { create } from 'zustand'
 import type { Video } from '@/types/videoTypes'
 
+type VideosContext = 'home' | 'suggested'
+
+interface VideosState {
+  videos: Video[]
+  cursor?: string
+}
+
 interface VideosStore {
-  homeVideos: Video[]
-  setHomeVideos: (videos: Video[]) => void
-  addHomeVideos: (newVideos: Video[]) => void
-  homeCursor: string | undefined
-  setHomeCursor: (newCursor: string | undefined) => void
-  suggestedVideos: Video[]
-  setSuggestedVideos: (suggestedVideos: Video[]) => void
+  videosByContext: Record<VideosContext, VideosState>
+
+  setVideos: (ctx: VideosContext, videos: Video[]) => void
+  addVideos: (ctx: VideosContext, newVideos: Video[]) => void
+  setCursor: (ctx: VideosContext, cursor: string | undefined) => void
 }
 
 export const useVideosStore = create<VideosStore>((set) => ({
-  homeVideos: [],
-  homeCursor: undefined,
-  setHomeVideos: (homeVideos) => set({ homeVideos }),
-  addHomeVideos (newVideos: Video[]) {
-    set((state) => {
-      const map = new Map(state.homeVideos.map((v) => [v.id, v]))
+  videosByContext: {
+    home: { videos: [], cursor: undefined },
+    suggested: { videos: [], cursor: undefined }
+  },
 
-      let changed = false
-
-      for (const video of newVideos) {
-        if (!map.has(video.id)) {
-          map.set(video.id, video)
-          changed = true
+  setVideos (ctx, videos) {
+    set(({ videosByContext }) => ({
+      videosByContext: {
+        ...videosByContext,
+        [ctx]: {
+          ...videosByContext[ctx],
+          videos
         }
       }
-
-      if (!changed) return state
-
-      return {
-        homeVideos: Array.from(map.values())
-      }
-    })
+    }))
   },
-  setHomeCursor: (homeCursor) => set({ homeCursor }),
-  suggestedVideos: [],
-  setSuggestedVideos: (suggestedVideos) => set({ suggestedVideos })
+
+  addVideos (ctx, newVideos) {
+    set(({ videosByContext }) => ({
+      videosByContext: {
+        ...videosByContext,
+        [ctx]: {
+          ...videosByContext[ctx],
+          videos: [
+            ...videosByContext[ctx].videos,
+            ...newVideos
+          ]
+        }
+      }
+    }))
+  },
+
+  setCursor (ctx, cursor) {
+    set(({ videosByContext }) => ({
+      videosByContext: {
+        ...videosByContext,
+        [ctx]: {
+          ...videosByContext[ctx],
+          cursor
+        }
+      }
+    }))
+  }
 }))

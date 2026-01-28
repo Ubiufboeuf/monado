@@ -13,16 +13,16 @@ import { useVideosStore } from '@/stores/useVideosStore'
 export function HomeMainContent () {
   const [isComponentReady, setIsComponentReady] = useState(false)
   const [MainContent, setMainContent] = useState<FC<{ videos: Video[] }>>()
-  const videos = useVideosStore((state) => state.homeVideos)
-  const addVideos = useVideosStore((state) => state.addHomeVideos)
-  const setCursor = useVideosStore((state) => state.setHomeCursor)
+  const { videos } = useVideosStore((state) => state.videosByContext.home)
+  const addVideos = useVideosStore((state) => state.addVideos)
+  const setCursor = useVideosStore((state) => state.setCursor)
   const user = { hasSearched: true }
 
   async function loadVideos () {
     getVideos({ limit: VIDEOS_LIMIT_PER_REQUEST })
       .then(({ videos, cursor }) => {
-        addVideos(videos)
-        setCursor(cursor)
+        addVideos('home', videos)
+        setCursor('home', cursor)
       })
       .catch((err) => errorHandler(err))
       .finally(() => setIsComponentReady(true))
