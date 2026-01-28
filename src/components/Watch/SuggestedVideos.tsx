@@ -8,12 +8,16 @@ import { VideoCard } from '../VideoCard'
 
 export function SuggestedVideos () {
   const [isComponentReady, setIsComponentReady] = useState(false)
-  const videos = useVideosStore((state) => state.suggestedVideos)
-  const setVideos = useVideosStore((state) => state.setSuggestedVideos)
+  const { videos } = useVideosStore((state) => state.videosByContext.suggested)
+  const addVideos = useVideosStore((state) => state.addVideos)
+  const setCursor = useVideosStore((state) => state.setCursor)
 
   async function loadVideos () {
     getVideos({ limit: 96 })
-      .then(({ videos }) => setVideos(videos))
+      .then(({ videos, cursor }) => {
+        addVideos('suggested', videos)
+        setCursor('suggested', cursor)
+      })
       .catch((err) => errorHandler(err))
   }
 
