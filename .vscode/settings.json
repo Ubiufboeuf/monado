@@ -15,6 +15,7 @@
     "loop",
     "rendering",
     "router",
-    "pwa"
+    "pwa",
+    "store"
   ]
 }
