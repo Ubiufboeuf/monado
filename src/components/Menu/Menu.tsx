@@ -1,14 +1,32 @@
-import { useRef } from 'preact/hooks'
+import { useEffect, useRef, useState } from 'preact/hooks'
 import { MenuExpandableLink } from '../AsideNavigation/MenuExpandableLink'
 import { MenuLink } from '../AsideNavigation/MenuLink'
 import { itemsAside } from '@/lib/menuItems'
 import { useHydrationStore } from '@/stores/useHydrationStore'
 
 export function Menu ({ class: className }: { class?: string }) {
+  const [isMenuFloating, setIsMenuFloating] = useState(false)
   const asideMenuRef = useRef<HTMLElement>(null)
   const isMenuOpen = useHydrationStore((state) => state.isMenuOpen)
-
   const pathname = useHydrationStore(state => state.currentPathname)
+
+  function closeMenu () {
+    if (!isMenuFloating) return
+    cookieStore.set('monado-is-menu-open', 'false')
+  }
+
+  function handleMQChange (ev: MediaQueryListEvent) {
+    setIsMenuFloating(ev.matches)
+  }
+  
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(width < 792px)')
+    setIsMenuFloating(mediaQuery.matches)
+
+    mediaQuery.addEventListener('change', handleMQChange)
+
+    return () => mediaQuery.removeEventListener('change', handleMQChange)
+  }, [])
 
   return (
     <>
@@ -30,6 +48,7 @@ export function Menu ({ class: className }: { class?: string }) {
                     path={pathname}
                     asideMenuRef={asideMenuRef}
                     isMenuOpen={isMenuOpen}
+                    onClick={closeMenu}
                   />
                 ) : (
                   <MenuLink
@@ -38,6 +57,7 @@ export function Menu ({ class: className }: { class?: string }) {
                     link={link}
                     path={pathname}
                     isMenuOpen={isMenuOpen}
+                    onClick={closeMenu}
                   >
                     <Icon active={link === pathname} />
                   </MenuLink>

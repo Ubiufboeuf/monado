@@ -6,7 +6,7 @@ import { Icon } from '../Icon'
 
 const checkboxName = 'checkbox-menu-items'
 
-export function MenuExpandableLink ({ item: { Icon: IconItem, name, path }, path: pathname, asideMenuRef, isMenuOpen }: { item: ItemAside, path: string, asideMenuRef: RefObject<HTMLElement | null>, isMenuOpen?: boolean }) {
+export function MenuExpandableLink ({ item: { Icon: IconItem, name, path }, path: pathname, asideMenuRef, isMenuOpen, onClick }: { item: ItemAside, path: string, asideMenuRef: RefObject<HTMLElement | null>, isMenuOpen?: boolean, onClick?: () => void }) {
   const [subItems, setSubItems] = useState<MenuSubItem[]>()
   const [isChecked, setIsChecked] = useState(false)
 
@@ -53,6 +53,7 @@ export function MenuExpandableLink ({ item: { Icon: IconItem, name, path }, path
       <div class='w-full h-10 flex justify-between gap-2 items-center peer-checked:[&>label>div]:rotate-180'>
         <a
           href={path}
+          onClick={onClick}
           class={`${path === pathname ? 'actualPath bg-selected font-medium' : 'hover:bg-neutral-800'}
             flex-1 max-w-51 h-10 min-h-10 flex items-center gap-4 px-3 rounded-lg cursor-pointer active:bg-neutral-600`
           }
