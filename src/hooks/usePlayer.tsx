@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from 'preact/hooks'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { errorHandler } from '@/lib/errors'
 import type { TargetedEvent } from 'preact'
+import { DEFAULT_ASPECT_RATIO } from '@/lib/constants'
 
 const playerSettings: MediaPlayerSettingClass = {
   streaming: { abr: { autoSwitchBitrate: {
@@ -177,10 +178,12 @@ export function usePlayer () {
 
   useEffect(() => {
     const videoElement = videoRef.current
-    const aspectRatio = video?.aspect_ratio
-    if (!videoElement || !aspectRatio) return
+    const aspectRatio = video?.aspect_ratio ?? DEFAULT_ASPECT_RATIO
 
-    videoElement.setAttribute('style', `--aspectRatio: ${Math.max(1, Number(aspectRatio.replace(':', '/')))}`)
+    if (!videoElement) return
+
+    const controlledAspectRatio = `${Math.max(1, Number(aspectRatio.replace(':', '/')))}`
+    videoElement.style.aspectRatio = controlledAspectRatio
   }, [video, videoRef.current])
 
   useEffect(() => {
