@@ -83,8 +83,8 @@ export function usePlayer () {
     
     player.updateSettings(playerSettings)
     try {
-      player.initialize(videoElement, mpdPath, false, timeSeen)
-      setIsPlayerInitialized(true)
+      // player.initialize(videoElement, mpdPath, false, timeSeen)
+      // setIsPlayerInitialized(true)
     } catch (err) {
       errorHandler(err, 'Error inicializando el reproductor')
     }

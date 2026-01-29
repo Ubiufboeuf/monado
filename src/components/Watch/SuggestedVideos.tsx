@@ -1,53 +1,57 @@
 import { useEffect, useState } from 'preact/hooks'
-import { VideoListCard } from '../VideoListCard'
 import { errorHandler } from '@/lib/errors'
 import { getVideos } from '@/services/videoService'
 import { useVideosStore } from '@/stores/useVideosStore'
 import { VideoListCardFallback } from '../VideoListCardFallback'
-import { VideoCard } from '../VideoCard'
+import { VIDEOS_LIMIT_PER_REQUEST } from '@/lib/constants'
+import { SuggestedVideosList } from './SuggestedVideos/SuggestedVideosList'
+import { SuggestedVideosError } from './SuggestedVideos/SuggestedVideosError'
+import type { FC } from 'preact/compat'
 
 export function SuggestedVideos () {
   const [isComponentReady, setIsComponentReady] = useState(false)
+  const [MainContent, setMainContent] = useState<FC>()
   const { videos } = useVideosStore((state) => state.videosByContext.suggested)
   const addVideos = useVideosStore((state) => state.addVideos)
   const setCursor = useVideosStore((state) => state.setCursor)
 
   async function loadVideos () {
-    getVideos({ limit: 96 })
+    getVideos({ limit: VIDEOS_LIMIT_PER_REQUEST })
       .then(({ videos, cursor }) => {
         addVideos('suggested', videos)
         setCursor('suggested', cursor)
       })
       .catch((err) => errorHandler(err))
+      .finally(() => setIsComponentReady(true))
   }
 
   useEffect(() => {
-    setIsComponentReady(true)
     loadVideos()
   }, [])
+
+  useEffect(() => {
+    if (videos.length) setMainContent(() => SuggestedVideosList) // videos
+    else if (!videos.length && isComponentReady) setMainContent(() => SuggestedVideosError) // error
+  }, [isComponentReady])
   
+  // Contenido
+  if (MainContent && isComponentReady) return <MainContent />
+
+  // Fallback
   return (
     <div class='flex flex-col gap-2 w-full h-fit min-h-fit'>
-      { isComponentReady
-        ? videos.map((video) => <>
-            <VideoListCard key={`suggested-list-video:${video.id}`} video={video} class='not-xs:hidden' />
-            <VideoCard key={`suggested-list-video-small:${video.id}`} video={video} class='xs:hidden' />
-          </> )
-        : <>
-            <VideoListCardFallback />
-            <VideoListCardFallback />
-            <VideoListCardFallback />
-            <VideoListCardFallback />
-            <VideoListCardFallback />
-            <VideoListCardFallback />
-            <VideoListCardFallback />
-            <VideoListCardFallback />
-            <VideoListCardFallback />
-            <VideoListCardFallback />
-            <VideoListCardFallback />
-            <VideoListCardFallback />
-          </>
-      }
+      <VideoListCardFallback />
+      <VideoListCardFallback />
+      <VideoListCardFallback />
+      <VideoListCardFallback />
+      <VideoListCardFallback />
+      <VideoListCardFallback />
+      <VideoListCardFallback />
+      <VideoListCardFallback />
+      <VideoListCardFallback />
+      <VideoListCardFallback />
+      <VideoListCardFallback />
+      <VideoListCardFallback />
     </div>
   )
 }
