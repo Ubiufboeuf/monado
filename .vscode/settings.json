@@ -16,6 +16,7 @@
     "rendering",
     "router",
     "pwa",
-    "store"
+    "store",
+    "hook"
   ]
 }
