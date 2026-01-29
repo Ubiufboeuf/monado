@@ -39,7 +39,7 @@ export function VideoListCard ({ video, class: className }: { video: Video, clas
   return (
     <a
       href={`/watch?v=${id}`}
-      class={`${className} videoListCard flex items-start justify-between gap-2 h-24 w-full`}
+      class={`${className} videoListCard flex items-start justify-between gap-2 not-sm:h-24 h-36 lg:h-24 w-full`}
       title={title}
     >
       <section class='relative flex items-end justify-center h-full aspect-video rounded-lg overflow-hidden'>

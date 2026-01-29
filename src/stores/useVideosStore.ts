@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import type { Video } from '@/types/videoTypes'
 
-type VideosContext = 'home' | 'suggested'
+export type VideosContext = 'home' | 'suggested'
 
 interface VideosState {
   videos: Video[]

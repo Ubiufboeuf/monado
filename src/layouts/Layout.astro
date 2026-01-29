@@ -79,6 +79,10 @@ setIsMenuOpen(isMenuOpen)
 		<script>
 			// - Detect device type -
 
+			import { useUIStore, type DeviceType } from '@/stores/useUIStore'
+			
+			const { setDeviceType } = useUIStore.getState()
+
 			function setCookie (name: string, value: string, days: number) {
 				const date = new Date()
 				date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000))
@@ -90,7 +94,7 @@ setIsMenuOpen(isMenuOpen)
 				const { dataset } = document.documentElement
 				const serverDetectedDeviceType = dataset.deviceType
 
-				const devices: Record<string, string> = { M: 'mobile', T: 'tablet', D: 'desktop' }
+				const devices: Record<string, DeviceType> = { M: 'mobile', T: 'tablet', D: 'desktop' }
 				const ua = navigator.userAgent
 				const mobileRegex = /(Mobi|Android(?!.*Nexus 7)|iPhone|iPod|Windows Phone|BlackBerry|Symbian|IEMobile|Opera Mini|Fennec|webOS|hpwos|avantgo|bada|blazer|compal|elaine|hiptop|kindle|lge|maemo|midp|mmp|netfront|palm|phone|plucker|pocket|psp|series60|treo|up\.browser|up\.link|vodafone|wap|windows ce|xda|xiino)/i
 				const tabletRegex = /(iPad|Android(?!.*mobile)|Kindle|Playbook|Silk|Tablet|hpw|webos|Nexus 7)/i
@@ -110,6 +114,8 @@ setIsMenuOpen(isMenuOpen)
 					dataset.deviceType = deviceType
 					setCookie('monado-device-type', deviceCode, 30)
 				}
+
+				setDeviceType(deviceType)
 			}
 
 			detectDeviceType()

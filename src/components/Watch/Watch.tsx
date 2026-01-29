@@ -52,7 +52,7 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
   }, [])
 
   return (
-    <section id='watch' class='absolute top-14 right-0 grid gap-4 h-fit w-full px-6 [transition:width_250ms_ease] [scrollbar-width:none] bg-base-dark
+    <section id='watch' class='absolute top-14 right-0 grid gap-4 h-fit w-full xs:px-6 [transition:width_250ms_ease] [scrollbar-width:none] bg-base-dark
       ml:menu-open:w-navbar
       lg:[grid-template-areas:"player_sugeridos""detalles_sugeridos"] lg:grid-cols-[1fr_400px] lg:grid-rows-[auto_1fr]
       2xl:max-w-screen-2xl 2xl:left-1/2 2xl:right-[unset] 2xl:-translate-x-1/2
@@ -65,7 +65,6 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
         w-full h-fit min-h-fit max-h-full
         lg:max-h-100 lg:rounded-xl
         mobile:max-h-dvw mobile:lg:max-h-[calc(9*100dvw/16)]
-        desktop:min-w-160
         cinema:max-h-full cinema:h-full cinema:w-full cinema:rounded-none
         full-screen:rounded-none
       '>
@@ -75,7 +74,7 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
         <VideoDetails />
         <Comments />
       </div>
-      <div class='[grid-area:sugeridos] min-w-85 w-full h-fit'>
+      <div class='[grid-area:sugeridos] w-full h-fit'>
         <SuggestedVideos />
       </div>
     </section>
