@@ -36,7 +36,7 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
     >
       <video
         ref={videoRef}
-        class='w-full h-auto cinema:h-full cinema:w-auto aspect-(--aspectRatio) lg:aspect-video'
+        class='w-full h-auto cinema:h-[70dvh] cinema:max-h-[calc(100cqw/(var(--aspectRatio)))] cinema:w-auto aspect-(--aspectRatio) lg:aspect-video'
         style={{ '--aspectRatio': '16/9' }}
         autoPlay={autoplay}
         poster={SHOW_PLAYER_POSTER ? getPoster(videoId) : undefined}
