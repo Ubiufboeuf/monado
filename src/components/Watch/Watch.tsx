@@ -72,11 +72,11 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
       '>
         {children}
       </div>
-      <div class='[grid-area:detalles] h-fit'>
+      <div class='[grid-area:detalles] h-fit xs:not-lg:px-4'>
         <VideoDetails />
         <Comments />
       </div>
-      <div class='[grid-area:sugeridos] w-full h-full flex items-center group'>
+      <div class='[grid-area:sugeridos] w-full h-full flex items-center group xs:not-lg:px-4'>
         <SuggestedVideos />
       </div>
     </section>
