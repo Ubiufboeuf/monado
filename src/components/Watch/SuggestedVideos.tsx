@@ -7,6 +7,7 @@ import { VIDEOS_LIMIT_PER_REQUEST } from '@/lib/constants'
 import { SuggestedVideosList } from './SuggestedVideos/SuggestedVideosList'
 import { SuggestedVideosError } from './SuggestedVideos/SuggestedVideosError'
 import type { FC } from 'preact/compat'
+import { usePlayerStore } from '@/stores/usePlayerStore'
 
 export function SuggestedVideos () {
   const [isComponentReady, setIsComponentReady] = useState(false)
@@ -14,6 +15,9 @@ export function SuggestedVideos () {
   const { videos } = useVideosStore((state) => state.videosByContext.suggested)
   const addVideos = useVideosStore((state) => state.addVideos)
   const setCursor = useVideosStore((state) => state.setCursor)
+  const clearVideos = useVideosStore((state) => state.clearVideos)
+  const clearCursor = useVideosStore((state) => state.clearCursor)
+  const videoId = usePlayerStore((state) => state.videoId)
 
   async function loadVideos () {
     getVideos({ limit: VIDEOS_LIMIT_PER_REQUEST })
@@ -27,7 +31,13 @@ export function SuggestedVideos () {
 
   useEffect(() => {
     loadVideos()
-  }, [])
+
+    return () => {
+      clearVideos('suggested')
+      clearCursor('suggested')
+      setIsComponentReady(false)
+    }
+  }, [videoId])
 
   useEffect(() => {
     if (videos.length) setMainContent(() => SuggestedVideosList) // videos

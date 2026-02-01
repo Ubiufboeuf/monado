@@ -3,6 +3,7 @@ import type { Video } from '@/types/videoTypes'
 import { create } from 'zustand'
 
 type PlayerStore = {
+  videoId: string | undefined
   video: Video | null
   element: HTMLVideoElement | null
   playerActions: typeof playerKeyboardActions
@@ -11,6 +12,7 @@ type PlayerStore = {
   currentTime: number
   volume: number
   hasPlayed: boolean
+  setVideoId: (id: string | undefined) => void
   setHasPlayed: (hasPlayed: boolean) => void
   pause: undefined | (() => void)
   play: undefined | (() => void)
@@ -27,6 +29,7 @@ type PlayerStore = {
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
+  videoId: undefined,
   video: null,
   element: null,
   playerActions: playerKeyboardActions,
@@ -38,6 +41,7 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   play: undefined,
   togglePlayState: undefined,
   hasPlayed: false,
+  setVideoId: (videoId) => set({ videoId }),
   setHasPlayed: (hasPlayed) => set({ hasPlayed }),
   setVideo: (video) => set({ video }),
   setElement: (element) => set({ element }),

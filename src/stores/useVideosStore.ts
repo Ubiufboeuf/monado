@@ -14,6 +14,8 @@ interface VideosStore {
   setVideos: (ctx: VideosContext, videos: Video[]) => void
   addVideos: (ctx: VideosContext, newVideos: Video[]) => void
   setCursor: (ctx: VideosContext, cursor: string | undefined) => void
+  clearVideos: (ctx: VideosContext) => void
+  clearCursor: (ctx: VideosContext) => void
 }
 
 export const useVideosStore = create<VideosStore>((set) => ({
@@ -56,6 +58,30 @@ export const useVideosStore = create<VideosStore>((set) => ({
         [ctx]: {
           ...videosByContext[ctx],
           cursor
+        }
+      }
+    }))
+  },
+
+  clearVideos (ctx) {
+    set(({ videosByContext }) => ({
+      videosByContext: {
+        ...videosByContext,
+        [ctx]: {
+          ...videosByContext[ctx],
+          videos: []
+        }
+      }
+    }))
+  },
+
+  clearCursor (ctx) {
+    set(({ videosByContext }) => ({
+      videosByContext: {
+        ...videosByContext,
+        [ctx]: {
+          ...videosByContext[ctx],
+          cursor: undefined
         }
       }
     }))

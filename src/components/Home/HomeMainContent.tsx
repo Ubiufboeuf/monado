@@ -16,6 +16,8 @@ export function HomeMainContent () {
   const { videos } = useVideosStore((state) => state.videosByContext.home)
   const addVideos = useVideosStore((state) => state.addVideos)
   const setCursor = useVideosStore((state) => state.setCursor)
+  const clearVideos = useVideosStore((state) => state.clearVideos)
+  const clearCursor = useVideosStore((state) => state.clearCursor)
   const user = { hasSearched: true }
 
   async function loadVideos () {
@@ -35,6 +37,12 @@ export function HomeMainContent () {
     }
 
     loadVideos()
+
+    return () => {
+      clearVideos('suggested')
+      clearCursor('suggested')
+      setIsComponentReady(false)
+    }
   }, [])
 
   useEffect(() => {
