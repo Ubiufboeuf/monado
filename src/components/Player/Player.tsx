@@ -4,6 +4,7 @@ import { AUTO_PLAY, SHOW_PLAYER_POSTER } from '@/lib/constants'
 import { PlayerPosterButton } from './PlayerPosterButton'
 import { Controls } from './Controls'
 import { useState } from 'preact/hooks'
+import { TouchableControls } from './TouchableControls'
 
 interface PlayerProps {
   videoId: string
@@ -47,8 +48,8 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
         videoRef={videoRef}
         hidden={SHOW_PLAYER_POSTER ? !playbackStarted : undefined}
       />
+      <TouchableControls />
       <PlayerPosterButton hasPlayed={hasPlayed} togglePlayState={togglePlayState} />
-      {/* <TouchableControls /> */}
     </div>
   )
 }

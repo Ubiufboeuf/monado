@@ -44,7 +44,7 @@ export function Controls ({ videoRef, hidden }: ControlsProps) {
   
   return (
     <div
-      class={`${controlsVisible ? '' : ''} absolute left-0 top-0 flex flex-col justify-between h-full w-full [.hide]:opacity-0 transition-opacity`}
+      class={`${controlsVisible ? '' : ''} pointer-coarse:hidden absolute left-0 top-0 flex flex-col justify-between h-full w-full [.hide]:opacity-0 transition-opacity`}
       onContextMenu={handleContextMenu}
       hidden={hidden}
     >
