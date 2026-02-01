@@ -2,7 +2,7 @@
 import Layout from '@/layouts/Layout.astro'
 import { Watch as WatchCentralizedComponent } from '@/components/Watch/Watch'
 import { Player } from '@/components/Player/Player'
-import { AUTO_PLAY } from '@/lib/constants'
+import { AUTO_PLAY, SHOW_PLAYER_POSTER } from '@/lib/constants'
 import { Menu } from '@/components/Menu/Menu'
 import { getPoster } from '@/services/videoService'
 
@@ -15,7 +15,10 @@ if (!id) {
 ---
 
 <Layout tabBar useTransitions links={[
-  { rel: 'preload', as: 'image', href: getPoster(id), fetchpriority: 'high', ['data-link-id']: 'custom-link' }
+  { ...( SHOW_PLAYER_POSTER
+    ? { rel: 'preload', as: 'image', href: getPoster(id), fetchpriority: 'high', ['data-link-id']: 'custom-link' }
+    : {}
+  ) }
 ]}>
   <Menu client:load transition:persist />
   <WatchCentralizedComponent id={id} client:load>
