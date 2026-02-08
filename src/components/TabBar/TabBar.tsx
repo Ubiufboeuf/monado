@@ -3,9 +3,10 @@ import type { TabBarItem } from '@/types/env'
 import { IconLibrary, IconHome, IconSearch, IconShorts, IconSubscriptions } from '../Icons'
 import { TabBarLink } from '../TabBar/TabBarLink'
 import { TabBarButton } from '../TabBar/TabBarButton'
-import { useState } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import type { TargetedMouseEvent } from 'preact'
 import { useSearchStore } from '@/stores/useSearchStore'
+import { useHydrationStore } from '@/stores/useHydrationStore'
 
 const defaultLinks: TabBarItem[] = [
   { id: 'home', name: 'Inicio', type: 'link', path: '/', Icon: ({ active = false }) => <IconHome active={active} /> },
@@ -19,6 +20,7 @@ export function TabBar ({ pathname, hidden }: { pathname: string, hidden?: boole
   const [barLinks] = useState(defaultLinks)
   const isMobileSearching = useSearchStore((state) => state.isMobileSearching)
   const setIsMobileSearching = useSearchStore((state) => state.setIsMobileSearching)
+  const isMenuOpen = useHydrationStore((state) => state.isMenuOpen)
 
   function handleClickSearch () {
     setIsMobileSearching(!isMobileSearching)
@@ -31,11 +33,17 @@ export function TabBar ({ pathname, hidden }: { pathname: string, hidden?: boole
 
     if (!path) return
 
-    if (isMainEvent && !isModifiedEvent && pathname === path) {
-      event.preventDefault()
+    if (isMainEvent && !isModifiedEvent) {
       setIsMobileSearching(false)
+      if (pathname === path) event.preventDefault()
     }
   }
+
+  useEffect(() => {
+    if (isMenuOpen) {
+      setIsMobileSearching(false)
+    }
+  }, [isMenuOpen])
 
   return (
     <nav
