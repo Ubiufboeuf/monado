@@ -25,7 +25,7 @@ export default defineConfig([
       '@stylistic/eol-last': ['error', 'always'],
       '@typescript-eslint/consistent-type-imports': 'error',
       'space-before-function-paren': ['error', 'always'],
-      'react/no-unknown-property': ['error', { ignore: ['class'] }]
+      'react/no-unknown-property': ['error', { ignore: ['class', 'onDblClick'] }]
     }
   }
 ])
