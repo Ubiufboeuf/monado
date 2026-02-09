@@ -64,11 +64,15 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
       full-screen:cinema:not-lg:[grid-template-areas:"player""detalles""sugeridos"] full-screen:cinema:not-lg:grid-rows-[unset]
     '>
       <div class='[grid-area:player] overflow-hidden bg-black
-        w-full h-fit min-h-fit max-h-full
-        lg:max-h-100 xs:rounded-xl
+        w-full h-max max-h-full
+        xs:rounded-xl
         mobile:max-h-dvw mobile:lg:max-h-[calc(9*100dvw/16)]
         cinema:max-h-full cinema:h-full cinema:w-full cinema:rounded-none
         full-screen:rounded-none
+
+        sticky top-14 z-99
+        cinema:static cinema:z-[initial]
+        not-lg:not-mobile:static not-lg:not-mobile:z-[initial]
       '>
         {children}
       </div>
