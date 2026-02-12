@@ -19,9 +19,9 @@ export function usePlayer () {
   type DashJS = typeof import('/home/mango/Dev/monado/node_modules/dashjs/index')
   
   const [dashjs, setDashjs] = useState<DashJS>()
-  const [player, setPlayer] = useState<MediaPlayerClass>()
   const [isPlayerInitialized, setIsPlayerInitialized] = useState(false)
   
+  const playerRef = useRef<MediaPlayerClass>()
   const videoRef = useRef<HTMLVideoElement>(null)
   const isTogglePlayStoredRef = useRef(false)
   const isPauseStoredRef = useRef(false)
@@ -47,7 +47,7 @@ export function usePlayer () {
   }
 
   async function createPlayer () {
-    let newPlayer = player
+    let newPlayer = playerRef.current
     if (newPlayer) return newPlayer
 
     if (!dashjs) {
@@ -57,7 +57,7 @@ export function usePlayer () {
     
     newPlayer = dashjs?.MediaPlayer().create()
     if (newPlayer) {
-      setPlayer(newPlayer)
+      playerRef.current = newPlayer
       return newPlayer
     }
 
@@ -88,6 +88,13 @@ export function usePlayer () {
     } catch (err) {
       errorHandler(err, 'Error inicializando el reproductor')
     }
+  }
+
+  function destroyPlayer () {
+    const player = playerRef.current
+    if (!player) return
+    player.destroy()
+    playerRef.current = undefined
   }
 
   function play () {
@@ -174,6 +181,10 @@ export function usePlayer () {
     
     createPlayer()
       .then(initPlayer)
+
+    return () => {
+      destroyPlayer()
+    }
   }, [dashjs, video])
 
   useEffect(() => {
