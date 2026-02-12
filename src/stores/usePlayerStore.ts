@@ -12,6 +12,8 @@ type PlayerStore = {
   currentTime: number
   volume: number
   hasPlayed: boolean
+  inFullScreen: boolean
+  setInFullScreen: (inFullScreen: boolean) => void
   setVideoId: (id: string | undefined) => void
   setHasPlayed: (hasPlayed: boolean) => void
   pause: undefined | (() => void)
@@ -41,6 +43,8 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   play: undefined,
   togglePlayState: undefined,
   hasPlayed: false,
+  inFullScreen: false,
+  setInFullScreen: (inFullScreen) => set({ inFullScreen }),
   setVideoId: (videoId) => set({ videoId }),
   setHasPlayed: (hasPlayed) => set({ hasPlayed }),
   setVideo: (video) => set({ video }),
