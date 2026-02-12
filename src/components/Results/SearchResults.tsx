@@ -27,9 +27,10 @@ export function SearchResults () {
   
   return (
     <section class='absolute top-17 right-0 flex flex-col gap-4 h-[calc(100%-112px)] min-h-fit w-full sm:w-[calc(100%-72px)] ml:menu-open:w-navbar pb-6 px-6 [transition:width_250ms_ease]'>
-      { results.map((v) => (
-        <ResultCard key={`search-result-card:${v.id}`} video={v} />
-      )) }
+      { results.length
+        ? results.map((v) => <ResultCard key={`search-result-card:${v.id}`} video={v} />)
+        : 'No se encontraron resultados para la búsqueda'
+      }
     </section>
   )
 }
