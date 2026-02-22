@@ -27,3 +27,5 @@ export type MenuSubItem = {
   name: string
   link: string
 }
+
+export type Resolution = 'audio' | '18p' | '144p' | '240p' | '360p' | '480p' | '720p' | 'hd' | 'fhd' | 'qhd' | '4k'
