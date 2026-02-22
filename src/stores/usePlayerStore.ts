@@ -1,8 +1,11 @@
 import type { playerKeyboardActions } from '@/lib/keyboardActions'
 import type { Video } from '@/types/videoTypes'
+import type { MediaPlayerClass } from 'dashjs'
 import { create } from 'zustand'
 
 type PlayerMethod = (() => void) | undefined
+type PanelContent = 'resolutions'
+type Player = MediaPlayerClass
 
 interface PlayerStore {
   // - Resource Identification -
@@ -11,6 +14,9 @@ interface PlayerStore {
 
   video: Video | null
   setVideo: (video: Video) => void
+
+  player: Player | undefined
+  setPlayer: (player: Player) => void
 
   // - DOM References -
   element: HTMLVideoElement | null
@@ -29,6 +35,15 @@ interface PlayerStore {
 
   volume: number
   setVolume: (volume: number) => void
+
+  currentResolution: string | undefined
+  setCurrentResolution: (currentResolution: string | undefined) => void
+
+  isPanelVisible: boolean
+  setIsPanelVisible: (isVisible: boolean) => void
+
+  panelContent: PanelContent | undefined
+  setPanelContent: (panelContent: PanelContent | undefined) => void
 
   // - Appearance -
   controlsVisible: boolean
@@ -63,6 +78,9 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   video: null,
   setVideo: (video: Video) => set({ video }),
 
+  player: undefined,
+  setPlayer: (player: Player) => set({ player }),
+
   // - DOM References -,
   element: null,
   setElement: (element: HTMLVideoElement) => set({ element }),
@@ -80,6 +98,15 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
 
   volume: 0,
   setVolume: (volume: number) => set({ volume }),
+
+  currentResolution: undefined,
+  setCurrentResolution: (currentResolution) => set({ currentResolution }),
+  
+  isPanelVisible: true,
+  setIsPanelVisible: (isPanelVisible: boolean) => set({ isPanelVisible: isPanelVisible }),
+
+  panelContent: 'resolutions',
+  setPanelContent: (panelContent) => set({ panelContent }),
 
   // - Appearance -,
   controlsVisible: false,

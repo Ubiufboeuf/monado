@@ -1,22 +1,23 @@
 import { usePlayerStore } from '@/stores/usePlayerStore'
-import { CustomRange as Timeline } from './CustomRange'
+import { Timeline } from './Timeline'
 import type { RefObject } from 'preact'
 import { ControlsTopArea } from './ControlsTopArea'
 import { BottomLeftControls } from './BottomLeftControls'
 import { BottomRightControls } from './BottomRightControls'
+import { PlayerSettingsPanel } from './SettingsPanel/PlayerPanel'
+import { useEffect, useRef } from 'preact/hooks'
+import { SHOW_PLAYER_POSTER } from '@/lib/constants'
 
 interface ControlsProps {
   videoRef: RefObject<HTMLVideoElement>
-  hidden?: boolean
 }
 
-export function Controls ({ videoRef, hidden }: ControlsProps) {
-  const video = usePlayerStore((state) => state.video)
-  const controlsVisible = usePlayerStore((state) => state.controlsVisible)
+export function Controls ({ videoRef }: ControlsProps) {
+  // const hasPlayed = usePlayerStore((state) => state.hasPlayed)
   // const isPlaying = usePlayerStore((state) => state.isPlaying)
-  const currentTime = usePlayerStore((state) => state.currentTime)
-  const pause = usePlayerStore((state) => state.pause)
-  const play = usePlayerStore((state) => state.play)
+
+  // const startingPlaybackRef = useRef(false)<
+  // const playbackStarted = startingPlaybackRef.current || (hasPlayed && isPlaying)
 
   function handleContextMenu (event: MouseEvent) {
     const controls = event.currentTarget as HTMLElement
@@ -38,32 +39,22 @@ export function Controls ({ videoRef, hidden }: ControlsProps) {
     document.addEventListener('click', restore, { once: true })
   }
 
-  function handleTimeUpdate (time: number) {
-    if (videoRef.current) videoRef.current.currentTime = time
-  }
+  useEffect(() => {
+    console.log('<Controls /> effect[]')
+  }, [])
+  
+  console.log('<Controls />')
   
   return (
     <div
-      class={`${controlsVisible ? '' : ''} pointer-coarse:hidden absolute left-0 top-0 flex flex-col justify-between h-full w-full [.hide]:opacity-0 transition-opacity`}
+      class='pointer-coarse:hidden absolute left-0 top-0 flex flex-col justify-between h-full w-full [.hide]:opacity-0 transition-opacity'
       onContextMenu={handleContextMenu}
-      hidden={hidden}
+      // hidden={SHOW_PLAYER_POSTER ? !playbackStarted : undefined}
     >
-      <ControlsTopArea /> 
-      <section
-        class='relative bottom-0 w-full h-fit px-2'
-      >
-        <Timeline
-          id='timeline'
-          maxValue={video?.duration ?? 100}
-          listenForProgress={currentTime}
-          onValueUpdate={handleTimeUpdate}
-          onMouseDown={pause}
-          onMouseUp={play}
-          rangeClass='group absolute bottom-14.5 left-1/2 translate-y-1/2 -translate-x-1/2 flex items-center h-5 w-[calc(100%-24px)] cursor-pointer'
-          trackClass='absolute flex items-center h-1 group-hover:h-1.5 w-full cursor-pointer rounded-full transition-all duration-300 bg-gray-900/60'
-          progressClass='absolute h-1 group-hover:h-1.5 rounded-full transition-[height] duration-300 [background:var(--color-gradient)]'
-          thumbClass='absolute left-0 top-1/2 -translate-1/2 size-3 group-hover:size-5 rounded-full transition-[height,width] duration-300 [background:var(--color-gradient)] shadow-2xl'
-        />
+      <ControlsTopArea />
+      <PlayerSettingsPanel />
+      <section class='relative bottom-0 w-full h-fit px-2'>
+        <Timeline videoRef={videoRef} />
         <div class='flex h-13 justify-between px-1 gap-2'>
           <BottomLeftControls videoRef={videoRef} />
           <BottomRightControls />
