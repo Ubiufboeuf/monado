@@ -52,13 +52,14 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
   }, [])
 
   return (
-    <section id='watch' class='absolute top-14 right-0 grid gap-4 h-fit min-h-[calc(100%-14px*4)] w-full xs:px-6 [transition:width_250ms_ease] [scrollbar-width:none] bg-base-dark
-      ml:menu-open:w-navbar
+  <section id='watch' class='absolute top-14 right-0 grid gap-4 h-fit min-h-[calc(100%-14px*4)] w-full xs:px-6 [transition:width_250ms_ease] [scrollbar-width:none] bg-base-dark
       lg:[grid-template-areas:"player_sugeridos""detalles_sugeridos"] lg:grid-cols-[1fr_400px] lg:grid-rows-[auto_1fr]
+      lg:not-xl:menu-open:[grid-template-areas:"player""detalles""sugeridos"] lg:not-xl:menu-open:grid-cols-[unset] lg:not-xl:menu-open:grid-rows-[auto_1fr]
       2xl:max-w-screen-2xl 2xl:left-1/2 2xl:right-[unset] 2xl:-translate-x-1/2
       [grid-template-areas:"player""detalles""sugeridos"] grid-rows-[min(100dvw,80%,1fr)_1fr_1fr]
       cinema:[grid-template-areas:"player_player""detalles_sugeridos"] cinema:grid-rows-[auto_1fr] cinema:px-0
       cinema:not-lg:[grid-template-areas:"player""detalles""sugeridos"] cinema:not-lg:grid-rows-[unset]
+      
       full-screen:[grid-template-areas:"player_player""detalles_sugeridos"] full-screen:grid-rows-[100dvh_1fr] full-screen:w-screen full-screen:h-dvh full-screen:overflow-y-scroll full-screen:px-0
       full-screen:cinema:[grid-template-areas:"player_player""detalles_sugeridos"] full-screen:cinema:grid-rows-[100dvh_1fr]
       full-screen:cinema:not-lg:[grid-template-areas:"player""detalles""sugeridos"] full-screen:cinema:not-lg:grid-rows-[unset]
@@ -70,7 +71,7 @@ export function Watch ({ id, children }: { id: string, children: ReactNode }) {
         cinema:max-h-full cinema:h-full cinema:w-full cinema:rounded-none
         full-screen:rounded-none
 
-        sticky top-14 z-99
+        lg:not-full-screen:not-cinema:not-menu-open:sticky top-14 z-99
         cinema:static cinema:z-[initial]
         not-lg:not-mobile:static not-lg:not-mobile:z-[initial]
       '>
