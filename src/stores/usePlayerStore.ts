@@ -1,59 +1,103 @@
-import { playerKeyboardActions } from '@/lib/keyboardActions'
+import type { playerKeyboardActions } from '@/lib/keyboardActions'
 import type { Video } from '@/types/videoTypes'
 import { create } from 'zustand'
 
-type PlayerStore = {
+type PlayerMethod = (() => void) | undefined
+
+interface PlayerStore {
+  // - Resource Identification -
   videoId: string | undefined
+  setVideoId: (videoId: string) => void
+
   video: Video | null
+  setVideo: (video: Video) => void
+
+  // - DOM References -
   element: HTMLVideoElement | null
-  playerActions: typeof playerKeyboardActions
+  setElement: (element: HTMLVideoElement) => void
+
+  // - Playback Status -
   isPlaying: boolean
-  controlsVisible: boolean
-  currentTime: number
-  volume: number
+  setIsPlaying: (isPlaying: boolean) => void
+
   hasPlayed: boolean
+  setHasPlayed: (hasPlayed: boolean) => void
+
+  // - Playback Control -
+  currentTime: number
+  setCurrentTime: (time: number) => void
+
+  volume: number
+  setVolume: (volume: number) => void
+
+  // - Appearance -
+  controlsVisible: boolean
+  setControlsVisible: (controlsVisible: boolean) => void
+
   inFullScreen: boolean
   setInFullScreen: (inFullScreen: boolean) => void
-  setVideoId: (id: string | undefined) => void
-  setHasPlayed: (hasPlayed: boolean) => void
-  pause: undefined | (() => void)
-  play: undefined | (() => void)
-  togglePlayState: undefined | (() => void)
-  setVideo: (video: Video) => void
-  setElement: (element: HTMLVideoElement) => void
-  setIsPlaying: (isPlaying: boolean) => void
-  setControlsVisible: (controlsVisible: boolean) => void
-  setCurrentTime: (time: number) => void
-  setVolume: (volume: number) => void
-  setPause: (fn: undefined | (() => void)) => void
-  setPlay: (fn: undefined | (() => void)) => void
-  setTogglePlayState: (fn: undefined | (() => void)) => void
+  
+  // - Actions -
+  playerActions: typeof playerKeyboardActions
+
+  // - Methods Syncronization -
+  pause: PlayerMethod
+  setPause: (fn: PlayerMethod) => void
+
+  play: PlayerMethod
+  setPlay: (fn: PlayerMethod) => void
+  
+  togglePlayState: PlayerMethod
+  setTogglePlayState: (fn: PlayerMethod) => void
 }
 
+
+
+// === Store Declaration ===
+
 export const usePlayerStore = create<PlayerStore>((set) => ({
+    // - Resource Identification -
   videoId: undefined,
-  video: null,
-  element: null,
-  playerActions: playerKeyboardActions,
-  isPlaying: false,
-  controlsVisible: false,
-  currentTime: 0,
-  volume: 0,
-  pause: undefined,
-  play: undefined,
-  togglePlayState: undefined,
-  hasPlayed: false,
-  inFullScreen: false,
-  setInFullScreen: (inFullScreen) => set({ inFullScreen }),
   setVideoId: (videoId) => set({ videoId }),
-  setHasPlayed: (hasPlayed) => set({ hasPlayed }),
-  setVideo: (video) => set({ video }),
-  setElement: (element) => set({ element }),
-  setIsPlaying: (isPlaying) => set({ isPlaying }),
-  setControlsVisible: (controlsVisible) => set({ controlsVisible }),
-  setCurrentTime: (currentTime) => set({ currentTime }),
-  setVolume: (volume) => set({ volume }),
-  setPause: (pause) => set({ pause }),
-  setPlay: (play) => set({ play }),
-  setTogglePlayState: (togglePlayState) => set({ togglePlayState })
+
+  video: null,
+  setVideo: (video: Video) => set({ video }),
+
+  // - DOM References -,
+  element: null,
+  setElement: (element: HTMLVideoElement) => set({ element }),
+
+  // - Playback Status -,
+  isPlaying: false,
+  setIsPlaying: (isPlaying: boolean) => set({ isPlaying }),
+
+  hasPlayed: false,
+  setHasPlayed: (hasPlayed: boolean) => set({ hasPlayed }),
+
+  // - Playback Control -
+  currentTime: 0,
+  setCurrentTime: (time: number) => set({ currentTime: time }),
+
+  volume: 0,
+  setVolume: (volume: number) => set({ volume }),
+
+  // - Appearance -,
+  controlsVisible: false,
+  setControlsVisible: (controlsVisible: boolean) => set({ controlsVisible }),
+
+  inFullScreen: false,
+  setInFullScreen: (inFullScreen: boolean) => set({ inFullScreen }),
+  
+  // - Actions -,
+  playerActions: [],
+
+  // - Methods Syncronization -
+  pause: undefined,
+  setPause: (fn: PlayerMethod) => set({ pause: fn }),
+
+  play: undefined,
+  setPlay: (fn: PlayerMethod) => set({ play: fn }),
+  
+  togglePlayState: undefined,
+  setTogglePlayState: (fn: PlayerMethod) => set({ togglePlayState: fn })
 }))
