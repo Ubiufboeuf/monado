@@ -1,7 +1,7 @@
 import { EMPTY, ENDPOINTS } from '@/lib/constants'
 import { errorHandler } from '@/lib/errors'
 import { responseHandler } from '@/lib/handlers'
-import type { ResolutionsById, Thumbnail, ThumbnailsById, Video } from '@/types/videoTypes'
+import type { ResolutionMetadata, ResolutionsById, Thumbnail, ThumbnailsById, Video } from '@/types/videoTypes'
 import type { ServerResponse, VideoFromServer } from '../types/serverTypes'
 import { isValidVideo } from '@/lib/validations'
 import { getMax, getMin } from '@/lib/utils'
@@ -130,8 +130,11 @@ function parseVideoFromServer (v: VideoFromServer): Video | undefined {
     resolutionsById[res.id] = res
   }
 
-  const min_resolution = getMin(v.videos, 'last').id
-  const max_resolution = getMax(v.videos, 'last').id
+  const min = getMin(v.videos.map((r) => r.height), 'last')
+  const min_resolution = `${min}p`
+
+  const max = getMax(v.videos.map((r) => r.height), 'last')
+  const max_resolution = `${max}p`
 
   const thumbnails: Thumbnail[] = []
 
@@ -147,6 +150,8 @@ function parseVideoFromServer (v: VideoFromServer): Video | undefined {
   for (const t of thumbnails) {
     thumbnailsById[t.id] = t 
   }
+
+  const resolutions: ResolutionMetadata[] = v.videos.sort((a, b) => a.height - b.height)
   
   return {
     id: v.id,
@@ -162,7 +167,7 @@ function parseVideoFromServer (v: VideoFromServer): Video | undefined {
     mixed_size: v.mixed_size ?? -1,
     aspect_ratio: v.aspect_ratio ?? '-1:-1',
     audios: [v.audio],
-    resolutions: v.videos,
+    resolutions,
     resolutionsById,
     min_resolution,
     max_resolution,

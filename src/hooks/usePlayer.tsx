@@ -28,8 +28,7 @@ export function usePlayer () {
   const isPlayStoredRef = useRef(false)
   
   const video = usePlayerStore((state) => state.video)
-  const isPlaying = usePlayerStore((state) => state.isPlaying)
-  const hasPlayed = usePlayerStore((state) => state.hasPlayed)
+  const setPlayer = usePlayerStore((state) => state.setPlayer)
   const setHasPlayed = usePlayerStore((state) => state.setHasPlayed)
   const setElement = usePlayerStore((state) => state.setElement)
   const setIsPlaying = usePlayerStore((state) => state.setIsPlaying)
@@ -85,6 +84,7 @@ export function usePlayer () {
     try {
       player.initialize(videoElement, mpdPath, false, timeSeen)
       setIsPlayerInitialized(true)
+      setPlayer(player)
     } catch (err) {
       errorHandler(err, 'Error inicializando el reproductor')
     }
@@ -113,10 +113,6 @@ export function usePlayer () {
     video.play()
       .then(handlePlaySuccess)
       .catch(handlePlayError)
-  }
-
-  function handlePlayVideo () {
-    setHasPlayed(true)
   }
 
   function pause () {
@@ -204,10 +200,6 @@ export function usePlayer () {
 
   return {
     videoRef,
-    hasPlayed,
-    isPlaying,
-    togglePlayState,
-    handlePlayVideo,
     handleTimeUpdate
   }
 }

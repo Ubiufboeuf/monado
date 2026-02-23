@@ -2,12 +2,16 @@ import type { TargetedEvent } from 'preact'
 import { IconPlay } from '../Icons'
 import { Icon } from '../Icon'
 import { SHOW_PLAYER_POSTER } from '@/lib/constants'
+import { usePlayerStore } from '@/stores/usePlayerStore'
 
-export function PlayerPosterButton ({ hasPlayed, togglePlayState }: { hasPlayed: boolean, togglePlayState: () => unknown }) {
+export function PlayerPosterButton () {
+  const hasPlayed = usePlayerStore((state) => state.hasPlayed)
+  const togglePlayState = usePlayerStore((state) => state.togglePlayState)
+
   function firstPlayVideo (event: TargetedEvent<HTMLButtonElement>) {
     const button = event.currentTarget
     button.hidden = true
-    togglePlayState()
+    togglePlayState?.()
   }
   
   return (
