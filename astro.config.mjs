@@ -10,10 +10,14 @@ import cloudflare from '@astrojs/cloudflare'
 import { readFileSync } from 'node:fs'
 import { HMR_HOST, HMR_PORT } from './src/lib/constants'
 
-const cert = readFileSync('.cert/server.crt')
-const key = readFileSync('.cert/server.key')
-
 const isCloudflare = checkIsCloudflare()
+console.log({ isCloudflare })
+
+let cert, key
+if (!isCloudflare) {
+  cert = readFileSync('.cert/server.crt')
+  key = readFileSync('.cert/server.key')
+}
 
 function checkIsCloudflare () {
   let CF = false
@@ -31,8 +35,6 @@ function checkIsCloudflare () {
 
   return CF
 }
-
-console.log({ isCloudflare })
 
 const devConfig = {
   integrations: [preact()],
