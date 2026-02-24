@@ -9,10 +9,9 @@ import { usePlayerStore } from '@/stores/usePlayerStore'
 interface PlayerProps {
   videoId: string
   autoplay?: boolean
-  class?: string
 }
 
-export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: PlayerProps) {
+export function Player ({ videoId, autoplay = AUTO_PLAY }: PlayerProps) {
   const {
     videoRef,
     handleTimeUpdate
@@ -27,7 +26,7 @@ export function Player ({ videoId, autoplay = AUTO_PLAY, class: className }: Pla
   console.log('Player')
   
   return (
-    <div class={`${className} relative`}>
+    <div class='relative flex justify-center w-full h-fit cinema:h-full max-w-full max-h-full select-none'>
       <video
         ref={videoRef}
         class='w-full h-auto cinema:h-[70dvh] cinema:max-h-[calc(100cqw/(var(--aspectRatio)))] cinema:w-auto aspect-(--aspectRatio) lg:aspect-video cinema:full-screen:h-full'
