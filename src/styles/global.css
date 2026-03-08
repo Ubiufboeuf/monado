@@ -62,13 +62,19 @@
 }
 
 @custom-variant full-screen {
-  &:where([data-is-full-screen] *) {
+  &:where([data-in-full-screen='true'] *) {
     @slot;
   }
 }
 
 @custom-variant cinema {
   &:where([data-in-cinema-mode='true'] *) {
+    @slot;
+  }
+}
+
+@custom-variant cf {
+  &:where([data-in-cinema-mode='true'][data-in-full-screen='true'] *) {
     @slot;
   }
 }
@@ -97,7 +103,7 @@ html {
   scrollbar-color: darkgray transparent;
   scrollbar-gutter: stable;
 
-  &[data-is-full-screen] {
+  &[data-in-full-screen] {
     scrollbar-gutter: auto;
   }
 }
