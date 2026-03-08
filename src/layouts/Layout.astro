@@ -3,7 +3,6 @@ import '../styles/global.css'
 import Header from '@/components/Header/Header.astro'
 import { TabBar } from '@/components/TabBar/TabBar'
 import { useHydrationStore } from '@/stores/useHydrationStore'
-import { usePlayerStore } from '@/stores/usePlayerStore'
 import { ClientRouter } from 'astro:transitions'
 
 interface Props {
@@ -52,14 +51,11 @@ const deviceType = devices[deviceCode!] || detectedType
 // #region - syncInitialState
 const isMenuOpen = cookies.get('monado-is-menu-open')?.value === 'true'
 const inCinemaMode = cookies.get('monado-in-cinema-mode')?.value === 'true'
-const videoId = searchParams.get('v') ?? undefined
 
 const { setCurrentPathname, setIsMenuOpen } = useHydrationStore.getState()
-const { setVideoId } = usePlayerStore.getState()
 
 setCurrentPathname(pathname)
 setIsMenuOpen(isMenuOpen)
-setVideoId(videoId)
 // #endregion
 ---
 
@@ -128,10 +124,8 @@ setVideoId(videoId)
 			// - Update states on page change
 
 			import { useHydrationStore } from '@/stores/useHydrationStore'
-			import { usePlayerStore } from '@/stores/usePlayerStore'
 
 			const { setIsMenuOpen, setCurrentPathname } = useHydrationStore.getState()
-			const { setVideoId } = usePlayerStore.getState()
 
 			function getCookie (cookie: string) {
 				return document.cookie
@@ -164,11 +158,6 @@ setVideoId(videoId)
 				const inCinemaMode = getCookie('monado-in-cinema-mode') === 'true'
 				if (inCinemaMode) dataset.inCinemaMode = 'true'
 				else delete dataset.inCinemaMode	
-
-				// videoId
-				const searchParams = new URLSearchParams(window.location.search)
-				const id = searchParams.get('v') ?? undefined
-				setVideoId(id)
 			}
 
 			// - Cambios en página -
