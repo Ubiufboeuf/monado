@@ -1,1 +1,31 @@
-a
+---
+import { Menu } from '@/components/Menu/Menu'
+import { Player } from '@/components/Player/Player'
+import Layout from '@/layouts/Layout.astro'
+import { KeyboardActions } from '@/components/KeyboardActions'
+
+const ar = 16 / 9
+---
+
+<Layout tabBar>
+  <Menu client:idle transition:persist />
+  <KeyboardActions client:idle />
+
+  <section id='watch' class={`
+    absolute top-14 w-full h-fit min-h-[calc(100%-56px)] tabbar:pb-tbh
+    grid [grid-template-areas:'p''d''s'] grid-cols-1 grid-rows-[auto_1fr] gap-4
+    desktop:not-cinema:px-6
+    desktop:lg:[grid-template-areas:'p_s''d_s'] desktop:lg:grid-cols-[1fr_400px]
+    desktop:cinema:lg:[grid-template-areas:'p_p''d_s']
+  `}>
+    <div style={`aspect-ratio: ${ar}`} class='[grid-area:p] relative w-full max-h-[70dvh] desktop:not-cinema:xs:rounded-xl overflow-hidden bg-black'>
+      <Player client:load />
+    </div>
+    <div class='[grid-area:d] w-full h-full not-desktop:px-4 cinema:px-4'>
+      detalles
+    </div>
+    <div class='[grid-area:s] w-full h-[2000px] not-desktop:px-4 cinema:px-4'>
+      recomendaciones
+    </div>
+  </section>
+</Layout>
