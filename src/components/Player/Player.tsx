@@ -1,16 +1,8 @@
-import { useEffect, useRef, useState } from 'preact/hooks'
-import { MobileControls } from './MobileControls/MobileControls'
-import { Controls } from './Controls/Controls'
-import { useUIStore } from '@/stores/useUIStore'
+import { useRef } from 'preact/hooks'
+import { Controls } from './Controls'
 
 export function Player () {  
   const containerRef = useRef<HTMLDivElement>(null)
-  const isDesktop = useUIStore((state) => state.deviceType === 'desktop')
-  const [hydrated, setHydrated] = useState<boolean | undefined>(undefined)
-
-  useEffect(() => {
-    if (hydrated === undefined) setHydrated(true)
-  }, [hydrated])
   
   return (
     <div
@@ -21,10 +13,7 @@ export function Player () {
       <video
         class='absolute -z-1 h-full w-full'
       />
-      { (hydrated === undefined) ? undefined : isDesktop
-        ? <Controls />
-        : <MobileControls />
-      }
+      <Controls />
     </div>
   )
 }

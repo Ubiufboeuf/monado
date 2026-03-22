@@ -4,7 +4,7 @@ import { FloatingButton } from './FloatingButton'
 import { IconChat, IconCinema, IconFullScreen, IconNext, IconPip, IconPlayerState, IconResolution, IconSettings, IconSubtitles, IconVolume } from '@/components/Icons'
 import { toggleFullScreen } from '@/lib/playerActions'
 
-export function Controls () {
+export function DesktopControls () {
   const [isPlaying] = useState(true)
 
   return (
