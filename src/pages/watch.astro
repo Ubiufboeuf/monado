@@ -3,6 +3,7 @@ import { Menu } from '@/components/Menu/Menu'
 import { Player } from '@/components/Player/Player'
 import Layout from '@/layouts/Layout.astro'
 import { KeyboardActions } from '@/components/KeyboardActions'
+import { Description } from '@/components/Watch/Description'
 
 const ar = 16 / 9
 ---
@@ -22,7 +23,7 @@ const ar = 16 / 9
       <Player client:load />
     </div>
     <div class='[grid-area:d] w-full h-56'>
-      detalles
+      <Description client:visible />
     </div>
     <div class='[grid-area:s] w-full h-auto'>
       recomendaciones
