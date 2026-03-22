@@ -4,6 +4,7 @@ import { Player } from '@/components/Player/Player'
 import Layout from '@/layouts/Layout.astro'
 import { KeyboardActions } from '@/components/KeyboardActions'
 import { Description } from '@/components/Watch/Description'
+import { Recomendations } from '@/components/Watch/Recomendations'
 
 const ar = 16 / 9
 ---
@@ -26,7 +27,7 @@ const ar = 16 / 9
       <Description client:visible />
     </div>
     <div class='[grid-area:s] w-full h-auto'>
-      recomendaciones
+      <Recomendations client:idle />
     </div>
   </section>
 </Layout>
