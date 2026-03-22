@@ -8,7 +8,7 @@ export function Player () {
     <div
       id='player-container'
       ref={containerRef}
-      class='w-full h-full'
+      class='relative w-full h-full desktop:not-cinema:xs:rounded-xl overflow-hidden bg-black'
     >
       <video
         class='absolute -z-1 h-full w-full'
