@@ -9,7 +9,10 @@ export function Controls () {
 
   return (
     <div class='relative h-full w-full'>
-      <div class='absolute left-3 bottom-3 h-fit w-fit flex items-center gap-2'>
+      <div class='absolute bottom-13 left-0 w-full h-1 px-3'>
+        <div class='h-1 w-full rounded-full bg-neutral-700' />
+      </div>
+      <div class='absolute left-3 bottom-2 h-fit w-fit flex items-center gap-2'>
         <FloatingButton class='static size-9'>
           <Icon class='size-7'>
             <IconPlayerState isPlaying={isPlaying} />
@@ -26,7 +29,7 @@ export function Controls () {
           </Icon>
         </FloatingButton>
       </div>
-      <div class='absolute right-3 bottom-3 h-fit w-fit flex items-center gap-2'>
+      <div class='absolute right-3 bottom-2 h-fit w-fit flex items-center gap-2'>
         <FloatingButton class='static size-9'>
           <Icon class='size-7'>
             <IconSubtitles />
