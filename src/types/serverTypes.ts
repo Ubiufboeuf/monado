@@ -67,3 +67,13 @@ export interface Thumbnail {
 }
 
 export type SearchResults = VideoFromServer[] 
+
+export interface DescriptionFromServer {
+	id: string
+	title: string
+	description: string
+	creatorId: string
+	likes: number
+	type: 'video' | 'live' | 'short'
+	publicationTimestamp: number
+}
