@@ -15,7 +15,7 @@ export function Description () {
   }
   
   return (
-    <section class='h-full w-full not-desktop:*:px-4 cinema:*:px-4'>
+    <section class='h-full w-full not-desktop:*:px-4 cinema:*:px-4 not-xs:*:px-4'>
       <button class='flex' onClick={toggleDescription}>
         <h1 class='text-lg font-semibold text-start text-wrap! line-clamp-2 md:line-clamp-1'>{title}</h1>
         <Icon class='size-7 shrink-0'>
@@ -23,7 +23,7 @@ export function Description () {
         </Icon>
       </button>
       <button class='h-10 flex items-center' onClick={toggleDescription}>
-        <span class='line-clamp-1 text-sm text-neutral-400'>{description}</span>
+        <span class='line-clamp-1 text-start text-sm text-neutral-400'>{description}</span>
       </button>
       <div class='flex items-center gap-6'>
         <div class='flex items-center gap-1.5 text-neutral-400'>
