@@ -3,6 +3,7 @@ import { Menu } from '@/components/Menu/Menu'
 import { Player } from '@/components/Player/Player'
 import Layout from '@/layouts/Layout.astro'
 import { KeyboardActions } from '@/components/KeyboardActions'
+import { LoadVideo } from '@/components/Watch/LoadVideo'
 import { Description } from '@/components/Watch/Description'
 import { Recomendations } from '@/components/Watch/Recomendations'
 
@@ -12,6 +13,7 @@ const ar = 16 / 9
 <Layout tabBar>
   <Menu client:idle transition:persist />
   <KeyboardActions client:idle />
+  <LoadVideo client:load />
 
   <section id='watch' class={`
     absolute top-14 w-full h-fit min-h-[calc(100%-56px)] tabbar:pb-tbh
