@@ -1,19 +1,19 @@
 import { Icon } from '@/components/Icon'
 import { IconCast, IconChevronDown, IconFullScreen, IconNext, IconPlayerState, IconResolution, IconSettings, IconSubtitles } from '@/components/Icons'
 import { FloatingButton } from './FloatingButton'
-import { toggleFullScreen } from '@/lib/playerActions'
+import { toggleFullScreen, togglePlayState } from '@/lib/playerActions'
 import { navigate } from 'astro:transitions/client'
-import { useState } from 'preact/hooks'
+import { usePlayerStore } from '@/stores/usePlayerStore'
 
 export function MobileControls () {
-  const [isPlaying] = useState(true)
+  const isPlaying = usePlayerStore((state) => state.isPlaying)
 
   function navigateToHome () {
     navigate('/')
   }
-  
+
   return (
-    <div class='relative h-full w-full'>
+    <div class='relative h-full w-full bg-black/50'>
       <FloatingButton class='left-3 top-3 size-9' onClick={navigateToHome}>
         <Icon class='size-7'>
           <IconChevronDown />
@@ -49,7 +49,7 @@ export function MobileControls () {
             <IconNext />
           </Icon>
         </FloatingButton>
-        <FloatingButton class='static size-12'>
+        <FloatingButton class='static size-12' onClick={togglePlayState}>
           <Icon class='size-10'>
             <IconPlayerState isPlaying={isPlaying} />
           </Icon>

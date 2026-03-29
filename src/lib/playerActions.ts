@@ -1,12 +1,29 @@
+import { usePlayerStore } from '@/stores/usePlayerStore'
+
+export async function togglePlayState () {
+  const { element: video, setIsPlaying } = usePlayerStore.getState()
+  if (!video) return
+
+  const isPaused = video.paused === true
+  if (isPaused) await video.play()
+  else video.pause()
+
+  const isNowPaused = video.paused
+  setIsPlaying(!isNowPaused)
+}
+
 export function toggleCinemaMode () {
   exitFullScreen()
   
+  const { setInCinemaMode } = usePlayerStore.getState()
+
   const { dataset } = document.documentElement
   const inCinemaMode = dataset.inCinemaMode === 'true'
   const newState = !inCinemaMode
 
   dataset.inCinemaMode = `${Boolean(newState)}`
   document.cookie = `monado-in-cinema-mode=${newState}; path=/; Secure; SameSite=Strict`
+  setInCinemaMode(newState)
 }
 
 export function toggleFullScreen () {

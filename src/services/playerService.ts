@@ -1,4 +1,5 @@
 import { playerSettings } from '@/lib/player/playerSettings'
+import { usePlayerStore } from '@/stores/usePlayerStore'
 import type { MediaPlayerClass } from 'dashjs'
 
 export function destroyPlayer (player?: MediaPlayerClass) {
@@ -16,5 +17,10 @@ export function initPlayer (
 ) {
   updatePlayerSettings(player)
 
-  player.initialize(videoElement, source, true, 0)
+  player.initialize(videoElement, source, false, 0)
+
+  usePlayerStore.setState({
+    element: videoElement,
+    isPlaying: videoElement.paused === false
+  })
 }
