@@ -1,12 +1,13 @@
 import { useRef } from 'preact/hooks'
 import { Controls } from './Controls'
 import { usePlayer } from '@/hooks/usePlayer'
+import { checkPlayState } from '@/lib/playerActions'
 
 export function Player () {  
   const containerRef = useRef<HTMLDivElement>(null)
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  usePlayer({ containerRef, videoRef })
+  const { updateCurrentTime } = usePlayer({ containerRef, videoRef })
   
   return (
     <div
@@ -17,6 +18,8 @@ export function Player () {
       <video
         ref={videoRef}
         class='absolute h-full w-full'
+        onPlaying={checkPlayState}
+        onTimeUpdate={updateCurrentTime}
       />
       <Controls />
     </div>

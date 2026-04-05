@@ -11,8 +11,20 @@ interface PlayerStore {
   isPlaying: boolean
   setIsPlaying: (isPlaying: boolean) => void
 
+  firstPlay: boolean
+  setFirstPlay: (firstPlay: boolean) => void
+
+  currentTime: number | undefined
+  setCurrentTime: (time: number | undefined) => void
+
+  duration: number | undefined
+  setDuration: (duration: number | undefined) => void
+
   inCinemaMode: boolean
   setInCinemaMode: (inCinemaMode: boolean) => void
+
+  areControlsVisible: boolean
+  setAreControlsVisible: (areControlsVisible: boolean) => void
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
@@ -25,6 +37,18 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   isPlaying: false,
   setIsPlaying: (isPlaying) => set({ isPlaying }),
 
+  firstPlay: true,
+  setFirstPlay: (firstPlay) => set({ firstPlay }),
+
+  currentTime: undefined,
+  setCurrentTime: (currentTime) => set({ currentTime }),
+
+  duration: undefined,
+  setDuration: (duration) => set({ duration }),
+
   inCinemaMode: false,
-  setInCinemaMode: (inCinemaMode) => set({ inCinemaMode })
+  setInCinemaMode: (inCinemaMode) => set({ inCinemaMode }),
+
+  areControlsVisible: false,
+  setAreControlsVisible: (areControlsVisible) => set({ areControlsVisible })
 }))

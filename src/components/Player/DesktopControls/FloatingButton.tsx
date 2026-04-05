@@ -1,3 +1,4 @@
+import { showControlsAndScheduleHide } from '@/services/playerService'
 import type { TargetedEvent } from 'preact'
 import type { ReactNode } from 'preact/compat'
 
@@ -14,12 +15,13 @@ export function FloatingButton ({ class: className, onClick, stopPropagation = t
       event.stopPropagation()
     }
 
+    showControlsAndScheduleHide()
     onClick?.(event)
   }
 
   return (
     <button
-      class={`${className} absolute flex items-center justify-center rounded-full cursor-pointer transition-colors shr:bg-neutral-700/70`}
+      class={`${className} absolute flex items-center justify-center rounded-full cursor-pointer transition-colors shr:bg-neutral-400/30`}
       onClick={handleClick}
     >
       {children}

@@ -1,4 +1,6 @@
 import { usePlayerStore } from '@/stores/usePlayerStore'
+import { TIME_TO_HIDE_CONTROLS } from './constants'
+import { debounce } from './utils'
 
 export async function togglePlayState () {
   const { element: video, setIsPlaying } = usePlayerStore.getState()
@@ -10,6 +12,18 @@ export async function togglePlayState () {
 
   const isNowPaused = video.paused
   setIsPlaying(!isNowPaused)
+}
+
+export function checkPlayState () {
+  const { element, firstPlay, setFirstPlay, isPlaying, setIsPlaying, duration, setDuration } = usePlayerStore.getState()
+  if (!element || !firstPlay || isPlaying === !element.paused) return
+  setIsPlaying(!element.paused)
+  setFirstPlay(false)
+  showControlsAndScheduleHide()
+
+  if (duration !== element.duration) {
+    setDuration(element.duration)
+  }
 }
 
 export function toggleCinemaMode () {
@@ -70,4 +84,53 @@ async function changeOrientation () {
   try {
     await orientation.lock('landscape')
   } catch {/* empty */}
+}
+
+export function backwardTime () {
+  const { element } = usePlayerStore.getState()
+  if (!element) return
+
+  element.currentTime -= 5
+}
+
+export function forwardTime () {
+  const { element } = usePlayerStore.getState()
+  if (!element) return
+
+  element.currentTime += 5
+}
+
+export function updateCurrentTime () {
+  const { element: video } = usePlayerStore.getState()
+  if (!video) return
+
+  usePlayerStore.setState({ currentTime: video.currentTime })
+}
+
+export function showControls () {
+  const { setAreControlsVisible } = usePlayerStore.getState()
+  setAreControlsVisible(true)
+}
+
+export function hideControls () {
+  const { setAreControlsVisible } = usePlayerStore.getState()
+  setAreControlsVisible(false)
+}
+
+export const debouncedHideControls = debounce(hideControls, TIME_TO_HIDE_CONTROLS)
+
+export function showControlsAndScheduleHide () {
+  showControls()
+  debouncedHideControls()
+}
+
+export function toggleControlsVisibility () {
+  const { areControlsVisible } = usePlayerStore.getState()
+  if (areControlsVisible) {
+    hideControls()
+    return
+  }
+
+  showControls()
+  debouncedHideControls()
 }

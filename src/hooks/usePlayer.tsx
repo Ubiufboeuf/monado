@@ -14,10 +14,14 @@ interface Props {
 
 export function usePlayer ({ videoRef }: Props) {
   const [dashjs, setDashjs] = useState<DashJS>()
-
   const playerRef = useRef<MediaPlayerClass>()
-
   const video = usePlayerStore((state) => state.video)
+  const element = usePlayerStore((state) => state.element)
+
+  function updateCurrentTime () {
+    if (!element) return
+    usePlayerStore.setState({ currentTime: element.currentTime })
+  }
 
   useEffect(() => {
     importDashjs()
@@ -34,4 +38,8 @@ export function usePlayer ({ videoRef }: Props) {
 
     initPlayer(player, videoRef.current, video.source)
   }, [dashjs, video])
+
+  return {
+    updateCurrentTime
+  }
 }
