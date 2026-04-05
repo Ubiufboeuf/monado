@@ -40,7 +40,7 @@ export function Description () {
         </div>
       </div>
       <div class='h-12 grid grid-cols-[1fr_auto] justify-between items-center pt-2 gap-2'>
-        <a class='flex items-center select-none gap-2 pr-3 rounded-full pointer-fine:hover:bg-neutral-700 pointer-coarse:active:bg-neutral-700'>
+        <a class='flex items-center select-none gap-2 pr-3 rounded-full transition-colors pointer-fine:hover:bg-neutral-700 pointer-coarse:active:bg-neutral-700'>
           <Icon class='size-9 shrink-0 rounded-full'>
             <img src='https://yt3.googleusercontent.com/7RTUWg2TtuePRG058YOwhFqeIDtb6uVAAMKLzh-b_uNfvMLPhfYcE2mRV2y2bv556370ZVMS=s120-c-k-c0x00ffffff-no-rj' />
           </Icon>
@@ -50,7 +50,10 @@ export function Description () {
           </Icon>
           <span class='text-xs shrink-0 text-neutral-400'>{formatCompactNumber(creator.subscribers)}</span>
         </a>
-        <button class='p-2 px-4 rounded-full font-semibold text-sm bg-linear-to-br from-gradient-start to-gradient-end'>Suscribirse</button>
+        <button class='group relative p-2 px-4 rounded-full font-semibold text-sm overflow-hidden bg-linear-to-br from-gradient-start to-gradient-end'>
+          <div class='absolute h-full w-full left-1/2 top-1/2 -translate-1/2 transition-colors bg-black/0 group-shr:bg-neutral-800/30' />
+          <span class='relative'>Suscribirse</span>
+        </button>
       </div>
       <div class='h-13 flex items-center w-full pt-2 *:shrink-0 gap-2 overflow-x-auto [scrollbar-width:none]'>
         <div class='flex items-center h-full'>
