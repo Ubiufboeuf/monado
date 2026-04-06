@@ -3,7 +3,7 @@ import { FloatingButton } from './FloatingButton'
 import { IconChat, IconCinema, IconFullScreen, IconNext, IconPip, IconPlayerState, IconResolution, IconSettings, IconSubtitles, IconVolume } from '@/components/Icons'
 import { toggleCinemaMode, toggleFullScreen, togglePlayState } from '@/lib/playerActions'
 import { usePlayerStore } from '@/stores/usePlayerStore'
-import { hideControls, showControlsAndScheduleHide } from '@/services/playerService'
+import { hideControls, showControlsAndScheduleHide } from '@/lib/playerActions'
 
 export function DesktopControls () {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
