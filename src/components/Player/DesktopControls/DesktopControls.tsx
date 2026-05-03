@@ -26,9 +26,10 @@ export function DesktopControls () {
   
   return (
     <div
-      class={`${areControlsVisible ? 'controls' : ''} relative h-full w-full transition-colors bg-linear-to-t to-20% from-transparent [.controls]:from-black/50 not-[.controls]:cursor-none`}
+      class={`${areControlsVisible ? 'controls' : ''} relative h-full w-full transition-colors bg-linear-to-t to-20% from-transparent [.controls]:from-black/90 not-[.controls]:cursor-none`}
       onClick={interactWithControls}
       onMouseMove={showControlsAndScheduleHide}
+      onMouseLeave={hideControls}
     >
       <div class={`${areControlsVisible ? '' : 'hide'} relative opacity-100 [.hide]:opacity-0 starting:opacity-0 [.hide]:hidden h-full w-full transition-all transition-discrete`}>
         <div class='absolute bottom-13 left-0 w-full h-1 px-3'>
