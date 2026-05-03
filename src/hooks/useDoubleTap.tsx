@@ -1,5 +1,6 @@
 import { DEFAULT_DOUBLE_TAP_DELAY } from '@/lib/constants'
 import { showControlsAndScheduleHide } from '@/lib/playerActions'
+import { usePlayerStore } from '@/stores/usePlayerStore'
 import type { TargetedEvent } from 'preact'
 import { useRef } from 'preact/hooks'
 
@@ -7,6 +8,7 @@ type TapFunction = ((event: TargetedEvent<HTMLElement>) => void) | undefined
 
 export function useDoubleTap (callback: TapFunction, fallback: TapFunction, delay = DEFAULT_DOUBLE_TAP_DELAY) {
   const lastTapRef = useRef(0)
+  const timeoutIdRef = useRef<NodeJS.Timeout>()
 
   if (delay <= 0) {
     throw new Error('El delay debe ser superior a 0')
@@ -24,12 +26,18 @@ export function useDoubleTap (callback: TapFunction, fallback: TapFunction, dela
     const isDoubleTap = timeSinceLastTap < delay
 
     if (isDoubleTap) {
-      // console.log('Doble')
+      clearTimeout(timeoutIdRef.current)
       showControlsAndScheduleHide()
       callback?.(event)
-    } else {
-      // console.log('Simple')
-      fallback?.(event)
+      return
     }
-  }  
+    
+    const { areControlsVisible } = usePlayerStore.getState()
+    if (!areControlsVisible) {
+      fallback?.(event)
+      return
+    }
+
+    timeoutIdRef.current = setTimeout(() => fallback?.(event), delay)
+  }
 }
