@@ -6,6 +6,7 @@ import { navigate } from 'astro:transitions/client'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { parseDuration } from '@/lib/parsers'
 import { useDoubleTap } from '@/hooks/useDoubleTap'
+import { DEFAULT_DOUBLE_TAP_DELAY } from '@/lib/constants'
 
 export function MobileControls () {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
@@ -13,8 +14,8 @@ export function MobileControls () {
   const currentTime = usePlayerStore((state) => state.currentTime)
   const videoDuration = usePlayerStore((state) => state.duration)
 
-  const handleBackward = useDoubleTap(backwardTime)
-  const handleForward = useDoubleTap(forwardTime)
+  const handleLeftTap = useDoubleTap(backwardTime, toggleControlsVisibility, DEFAULT_DOUBLE_TAP_DELAY)
+  const handleRightTap = useDoubleTap(forwardTime, toggleControlsVisibility, DEFAULT_DOUBLE_TAP_DELAY)
 
   function navigateToHome () {
     navigate('/')
@@ -25,10 +26,10 @@ export function MobileControls () {
       class={`${areControlsVisible ? 'controls' : ''} relative h-full w-full transition-colors [.controls]:bg-black/50`}
       onClick={toggleControlsVisibility}
     >
-      <div class='relative h-full w-full' hidden={!areControlsVisible}>
-        <FloatingButton class='left-0 top-0 h-full w-4/10 rounded-none bg-red-400/30 shr:bg-transparent' onClick={handleBackward} />
-        <FloatingButton class='right-0 top-0 h-full w-4/10 rounded-none bg-red-400/30 shr:bg-transparent' onClick={handleForward} />
-        
+      <FloatingButton class='left-0 top-0 h-full w-4/10 rounded-none border-none outline-none transition-none bg-transparent shr:bg-transparent' onClick={handleLeftTap} disableDefaultBehavior />
+      <FloatingButton class='right-0 top-0 h-full w-4/10 rounded-none border-none outline-none transition-none bg-transparent shr:bg-transparent' onClick={handleRightTap} disableDefaultBehavior />
+
+      <div class='relative h-full w-full pointer-events-none *:pointer-events-auto' hidden={!areControlsVisible}>
         <FloatingButton class='left-3 top-3 size-9' onClick={navigateToHome}>
           <Icon class='size-7'>
             <IconChevronDown />

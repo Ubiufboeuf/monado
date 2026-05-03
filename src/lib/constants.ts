@@ -28,3 +28,4 @@ export const EMPTY = '(Vacío)' as const
 export const VIDEOS_LIMIT_PER_REQUEST = 12
 export const AUTO_PLAY = false
 export const TIME_TO_HIDE_CONTROLS = 3 * 1000
+export const DEFAULT_DOUBLE_TAP_DELAY = 350

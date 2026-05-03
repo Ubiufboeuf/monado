@@ -1,20 +1,35 @@
+import { DEFAULT_DOUBLE_TAP_DELAY } from '@/lib/constants'
+import { showControlsAndScheduleHide } from '@/lib/playerActions'
 import type { TargetedEvent } from 'preact'
 import { useRef } from 'preact/hooks'
 
-export function useDoubleTap (callback: (event: TargetedEvent) => void, delay = 300) {
-  const lastClickRef = useRef(0)
+type TapFunction = ((event: TargetedEvent<HTMLElement>) => void) | undefined
 
-  return (event: TargetedEvent) => {
-    // Evitamos comportamientos extraños del navegador
-    const now = Date.now()
-    const timeSinceLastClick = now - lastClickRef.current
+export function useDoubleTap (callback: TapFunction, fallback: TapFunction, delay = DEFAULT_DOUBLE_TAP_DELAY) {
+  const lastTapRef = useRef(0)
 
-    if (timeSinceLastClick > 0 && timeSinceLastClick < delay) {
-      // Es un doble click (o triple, o cuádruple...)
-      callback(event)
-    }
-    
-    // Guardamos el momento de este click para el siguiente
-    lastClickRef.current = now
+  if (delay <= 0) {
+    throw new Error('El delay debe ser superior a 0')
   }
+  
+  return (event: TargetedEvent<HTMLElement>) => {
+    // console.log('- tapFunction -')
+    event.stopPropagation()
+
+    const now = Date.now()
+    const timeSinceLastTap = now - lastTapRef.current
+    lastTapRef.current = now
+    // console.log(timeSinceLastTap)
+
+    const isDoubleTap = timeSinceLastTap < delay
+
+    if (isDoubleTap) {
+      // console.log('Doble')
+      showControlsAndScheduleHide()
+      callback?.(event)
+    } else {
+      // console.log('Simple')
+      fallback?.(event)
+    }
+  }  
 }

@@ -6,11 +6,17 @@ interface Props {
   class?: string
   onClick?: (event: TargetedEvent<HTMLButtonElement>) => void
   stopPropagation?: boolean
+  disableDefaultBehavior?: boolean
   children?: ReactNode
 }
 
-export function FloatingButton ({ class: className, onClick, stopPropagation = true, children }: Props) {
+export function FloatingButton ({ class: className, onClick, stopPropagation = true, disableDefaultBehavior = false, children }: Props) {
   function handleClick (event: TargetedEvent<HTMLButtonElement>) {
+    if (disableDefaultBehavior) {
+      onClick?.(event)
+      return
+    }
+    
     if (stopPropagation) {
       event.stopPropagation()
     }
