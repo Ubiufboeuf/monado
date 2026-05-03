@@ -19,6 +19,7 @@
     "store",
     "hook",
     "video",
-    "watch"
+    "watch",
+    "player-actions"
   ]
 }
