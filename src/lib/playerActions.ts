@@ -131,6 +131,5 @@ export function toggleControlsVisibility () {
     return
   }
 
-  showControls()
-  debouncedHideControls()
+  showControlsAndScheduleHide()
 }
