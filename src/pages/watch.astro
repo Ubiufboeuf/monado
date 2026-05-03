@@ -22,7 +22,7 @@ const ar = 16 / 9
     desktop:lg:[grid-template-areas:'p_s''d_s'] desktop:lg:grid-cols-[1fr_400px] desktop:lg:grid-rows-[auto_1fr]
     desktop:cinema:lg:[grid-template-areas:'p_p''d_s']
   `}>
-    <div style={`aspect-ratio: ${ar}`} class='[grid-area:p] w-full max-h-[70dvh]'>
+    <div style={`aspect-ratio: ${ar}`} class='[grid-area:p] w-full cinema:max-h-[70dvh]'>
       <Player client:load transition:persist />
     </div>
     <div class='[grid-area:d] w-full h-56'>
