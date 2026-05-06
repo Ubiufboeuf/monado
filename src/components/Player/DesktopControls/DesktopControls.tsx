@@ -5,6 +5,7 @@ import { toggleCinemaMode, toggleFullScreen, togglePlayState } from '@/lib/playe
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { hideControls, showControlsAndScheduleHide } from '@/lib/playerActions'
 import { MenuPanel } from './ModalMenuPanel'
+import type { TargetedEvent } from 'preact'
 
 export function DesktopControls () {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
@@ -12,6 +13,7 @@ export function DesktopControls () {
   const areControlsVisible = usePlayerStore((state) => state.areControlsVisible)
   const firstPlay = usePlayerStore((state) => state.firstPlay)
   const setFirstPlay = usePlayerStore((state) => state.setFirstPlay)
+  const setCurrentMenu = usePlayerStore((state) => state.setCurrentMenu)
   
   function interactWithControls () {
     togglePlayState()
@@ -23,6 +25,20 @@ export function DesktopControls () {
     }
     
     showControlsAndScheduleHide()
+  }
+
+  function changeMenu (event: TargetedEvent) {
+    const button = event.currentTarget
+    if (!(button instanceof HTMLButtonElement)) return
+
+    const { currentMenu } = usePlayerStore.getState()
+    let { menuId } = button.dataset
+    
+    if (menuId === currentMenu) {
+      menuId = undefined
+    }
+
+    setCurrentMenu(menuId)
   }
   
   return (
@@ -61,12 +77,12 @@ export function DesktopControls () {
               <IconSubtitles />
             </Icon>
           </FloatingButton>
-          <FloatingButton class='static size-9'>
+          <FloatingButton class='static size-9' onClick={changeMenu} menuId='quality'>
             <Icon class='size-7'>
               <IconResolution resolution='hd' />
             </Icon>
           </FloatingButton>
-          <FloatingButton class='static size-9'>
+          <FloatingButton class='static size-9'  onClick={changeMenu} menuId='settings'>
             <Icon class='size-7'>
               <IconSettings />
             </Icon>

@@ -6,10 +6,11 @@ interface Props {
   class?: string
   onClick?: (event: TargetedEvent<HTMLButtonElement>) => void
   stopPropagation?: boolean
+  menuId?: string
   children?: ReactNode
 }
 
-export function FloatingButton ({ class: className, onClick, stopPropagation = true, children }: Props) {
+export function FloatingButton ({ class: className, onClick, stopPropagation = true, menuId, children }: Props) {
   function handleClick (event: TargetedEvent<HTMLButtonElement>) {
     if (stopPropagation) {
       event.stopPropagation()
@@ -23,6 +24,7 @@ export function FloatingButton ({ class: className, onClick, stopPropagation = t
     <button
       class={`${className} absolute flex items-center justify-center rounded-full cursor-pointer transition-colors shr:bg-neutral-400/30`}
       onClick={handleClick}
+      data-menu-id={menuId}
     >
       {children}
     </button>
