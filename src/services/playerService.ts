@@ -7,6 +7,7 @@ import type { MediaPlayerClass } from 'dashjs'
 export function destroyPlayer (player?: MediaPlayerClass) {
   player?.destroy()
   usePlayerStore.setState({
+    player: undefined,
     firstPlay: true,
     isPlaying: undefined
   })
@@ -27,6 +28,7 @@ export function initPlayer (
   player.on('streamInitialized', () => usePlayerStore.setState({ duration: videoElement.duration }))
 
   usePlayerStore.setState({
+    player,
     element: videoElement,
     isPlaying: videoElement.paused === false,
     areControlsVisible: true

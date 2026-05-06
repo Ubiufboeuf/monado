@@ -26,6 +26,8 @@ export function usePlayer ({ videoRef }: Props) {
   useEffect(() => {
     importDashjs()
       .then(setDashjs)
+
+    return () => destroyPlayer(playerRef.current)
   }, [])
   
   useEffect(() => {

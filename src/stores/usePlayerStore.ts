@@ -1,4 +1,5 @@
 import type { Video } from '@/types/videoTypes'
+import type { MediaPlayerClass } from 'dashjs'
 import { create } from 'zustand'
 
 interface PlayerStore {
@@ -7,6 +8,9 @@ interface PlayerStore {
   
   video: Video | undefined
   setVideo: (video: Video | undefined) => void
+
+  player: MediaPlayerClass | undefined
+  setPlayer: (player: MediaPlayerClass | undefined) => void
 
   isPlaying: boolean
   setIsPlaying: (isPlaying: boolean) => void
@@ -36,6 +40,9 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   
   video: undefined,
   setVideo: (video) => set({ video }),
+
+  player: undefined,
+  setPlayer: (player) => set({ player }),
 
   isPlaying: false,
   setIsPlaying: (isPlaying) => set({ isPlaying }),
