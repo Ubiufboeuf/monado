@@ -1,5 +1,6 @@
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { useEffect, useState, type ReactNode } from 'preact/compat'
+import { QualityMenu } from '../Menus/QualityMenu'
 
 interface Menu {
   id: string
@@ -7,7 +8,7 @@ interface Menu {
 }
 
 const menus: Menu[] = [
-  { id: 'quality', content: 'resoluciones' },
+  { id: 'quality', content: QualityMenu },
   { id: 'settings', content: 'ajustes' }
 ]
 

@@ -133,3 +133,18 @@ export function toggleControlsVisibility () {
 
   showControlsAndScheduleHide()
 }
+
+export function changeQuality (quality: string | undefined) {
+  const { player, setCurrentQuality } = usePlayerStore.getState()
+  if (!player) return
+
+  const representations = player.getRepresentationsByType('video')
+  const representation = representations.find((rep) => rep.id === `${quality}/${quality}`)
+
+  if (!representation) {
+    throw new Error(`No se encontró la resolución ${quality}`)
+  }
+
+  setCurrentQuality(quality)
+  player.setRepresentationForTypeById('video', representation.id, true)
+}

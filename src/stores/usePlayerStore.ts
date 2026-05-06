@@ -32,6 +32,9 @@ interface PlayerStore {
 
   currentMenu: string | undefined
   setCurrentMenu: (currentMenu: string | undefined) => void
+
+  currentQuality: string | undefined
+  setCurrentQuality: (quality: string | undefined) => void
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
@@ -64,4 +67,7 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
 
   currentMenu: undefined,
   setCurrentMenu: (currentMenu) => set({ currentMenu }),
+
+  currentQuality: undefined,
+  setCurrentQuality: (currentQuality) => set({ currentQuality })
 }))
