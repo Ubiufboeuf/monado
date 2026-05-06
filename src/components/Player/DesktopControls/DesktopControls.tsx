@@ -4,6 +4,7 @@ import { IconChat, IconCinema, IconFullScreen, IconNext, IconPip, IconPlayerStat
 import { toggleCinemaMode, toggleFullScreen, togglePlayState } from '@/lib/playerActions'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { hideControls, showControlsAndScheduleHide } from '@/lib/playerActions'
+import { MenuPanel } from './ModalMenuPanel'
 
 export function DesktopControls () {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
@@ -91,6 +92,8 @@ export function DesktopControls () {
             </Icon>
           </FloatingButton>
         </div>
+
+        <MenuPanel />
       </div>
     </div>
   )

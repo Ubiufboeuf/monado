@@ -25,6 +25,9 @@ interface PlayerStore {
 
   areControlsVisible: boolean
   setAreControlsVisible: (areControlsVisible: boolean) => void
+
+  currentMenu: string | undefined
+  setCurrentMenu: (currentMenu: string | undefined) => void
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
@@ -50,5 +53,8 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   setInCinemaMode: (inCinemaMode) => set({ inCinemaMode }),
 
   areControlsVisible: false,
-  setAreControlsVisible: (areControlsVisible) => set({ areControlsVisible })
+  setAreControlsVisible: (areControlsVisible) => set({ areControlsVisible }),
+
+  currentMenu: undefined,
+  setCurrentMenu: (currentMenu) => set({ currentMenu }),
 }))
