@@ -2,6 +2,7 @@ import { usePlayerStore } from '@/stores/usePlayerStore'
 import { TIME_TO_HIDE_CONTROLS } from '../constants'
 import { debounce } from '../utils'
 import { isAnySliderInUse, isTryingToPlay, setIsAnySliderInUse, setIsTryingToPlay, setPausedBySlider } from '@/stores/miniStore'
+import { updateTimeline } from './sliderActions'
 
 export async function togglePlayState () {
   const { element: video, setIsPlaying, setCanHideControls } = usePlayerStore.getState()
@@ -46,7 +47,7 @@ export function checkPlayState () {
 }
 
 export function toggleCinemaMode () {
-  exitFullScreen()
+  exitFullScreen(true)
   
   const { setInCinemaMode } = usePlayerStore.getState()
 
@@ -57,43 +58,55 @@ export function toggleCinemaMode () {
   dataset.inCinemaMode = `${Boolean(newState)}`
   document.cookie = `monado-in-cinema-mode=${newState}; path=/; Secure; SameSite=Strict`
   setInCinemaMode(newState)
+  updateTimeline()
 }
 
-export function toggleFullScreen () {
+export async function toggleFullScreen () {
   const container = document.querySelector('#player-container')
   const { fullscreenEnabled } = document
 
   if (!container || !fullscreenEnabled) return
   
   const inFullScreen = Boolean(document.fullscreenElement)
-  if (inFullScreen) exitFullScreen()
-  else enterFullScreen(container)
+  try {
+    if (inFullScreen) exitFullScreen()
+    else enterFullScreen(container)
+  } catch {/* empty */}
 }
 
-async function exitFullScreen () {
-  try {
+export async function exitFullScreen (mute = false) {
+  if (mute) {
+    try { await document.exitFullscreen() }
+    catch {/* muted */}
+  } else {
     await document.exitFullscreen()
-  } catch {/* empty */}
-  
-  const newState = `${Boolean(document.fullscreenElement)}`
-  document.documentElement.dataset.inFullScreen = newState
-  const themeColor = document.querySelector('meta[name="theme-color"]')
-  if (themeColor) themeColor.setAttribute('content', 'default')
-  // setInFullScreen(newState)
+  }
+
+  updateFullScreen()
 }
 
-async function enterFullScreen (element: Element) {
-  try {
+export async function enterFullScreen (element: HTMLElement | Element, mute = false) {
+  if (mute) {
+    try { await element.requestFullscreen() }
+    catch {/* muted */}
+  } else {
     await element.requestFullscreen()
-    changeOrientation()
-  } catch {/* empty */}
+  }
 
-  const newState = `${Boolean(document.fullscreenElement)}`
-  document.documentElement.dataset.inFullScreen = newState
-  // <meta name="theme-color" content="default" />
+  changeOrientation()
+  updateFullScreen()
+}
+
+export async function updateFullScreen () {
+  const isNowInFullScreen = Boolean(document.fullscreenElement)
+  document.documentElement.dataset.inFullScreen = `${isNowInFullScreen}`
+
   const themeColor = document.querySelector('meta[name="theme-color"]')
-  if (themeColor) themeColor.setAttribute('content', 'black')
-  // setInFullScreen(newState)
+  if (themeColor) {
+    themeColor.setAttribute('content', isNowInFullScreen ? 'black' : 'default')
+  }
+  
+  updateTimeline()
 }
 
 async function changeOrientation () {
