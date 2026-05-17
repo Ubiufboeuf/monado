@@ -7,7 +7,9 @@ import { hideControls, showControlsAndScheduleHide } from '@/lib/playerActions'
 import { MenuPanel } from './ModalMenuPanel'
 import type { TargetedEvent } from 'preact'
 import { Slider } from '../Slider'
+import { parseDuration } from '@/lib/parsers'
 import { draggedBySlider, mouseDownTarget } from '@/stores/miniStore'
+import { useState } from 'preact/hooks'
 
 export function DesktopControls () {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
@@ -16,6 +18,9 @@ export function DesktopControls () {
   const firstPlay = usePlayerStore((state) => state.firstPlay)
   const setFirstPlay = usePlayerStore((state) => state.setFirstPlay)
   const setCurrentMenu = usePlayerStore((state) => state.setCurrentMenu)
+  const currentTime = usePlayerStore((state) => state.currentTime)
+  const duration = usePlayerStore((state) => state.duration)
+  const [showingCurrentTime, setShowingCurrentTime] = useState(true)
   
   function interactWithControls () {
     if (draggedBySlider && mouseDownTarget?.closest('[data-slider-id$=slider]')) return
@@ -44,6 +49,10 @@ export function DesktopControls () {
 
     setCurrentMenu(menuId)
   }
+
+  function toggleCurrentTimeMode () {
+    setShowingCurrentTime((showingCurrentTime) => !showingCurrentTime)
+  }
   
   return (
     <div
@@ -70,6 +79,14 @@ export function DesktopControls () {
             <Icon class='size-7'>
               <IconVolume />
             </Icon>
+          </FloatingButton>
+          <FloatingButton class='static size-10 w-fit px-4' onClick={toggleCurrentTimeMode}>
+            { showingCurrentTime
+              ? <span>{parseDuration(currentTime ?? 0)}</span>
+              : <span>-{parseDuration((duration ?? 0) - (currentTime ?? 0))}</span>
+            }
+            &nbsp;/&nbsp;
+            <span>{parseDuration(duration ?? 0)}</span>
           </FloatingButton>
         </div>
 
