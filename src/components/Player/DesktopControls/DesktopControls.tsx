@@ -55,56 +55,56 @@ export function DesktopControls () {
       <div class={`${areControlsVisible ? '' : 'hide'} relative opacity-100 [.hide]:opacity-0 starting:opacity-0 [.hide]:hidden h-full w-full transition-all transition-discrete`}>
         <Slider id='timeline' class='absolute bottom-13 left-0 px-4' />
 
-        <div class='absolute left-3 bottom-2 h-fit w-fit flex items-center gap-2'>
-          <FloatingButton class='static size-9' onClick={togglePlayState}>
+        <div class='absolute left-3 bottom-2 h-fit w-fit flex items-center gap-1'>
+          <FloatingButton class='static size-10' onClick={togglePlayState}>
             <Icon class='size-7'>
               <IconPlayerState isPlaying={isPlaying} />
             </Icon>
           </FloatingButton>
-          <FloatingButton class='static size-9'>
+          <FloatingButton class='static size-10'>
             <Icon class='size-7'>
               <IconNext />
             </Icon>
           </FloatingButton>
-          <FloatingButton class='static size-9'>
+          <FloatingButton class='static size-10'>
             <Icon class='size-7'>
               <IconVolume />
             </Icon>
           </FloatingButton>
         </div>
 
-        <div class='absolute right-3 bottom-2 h-fit w-fit flex items-center gap-2'>
-          <FloatingButton class='static size-9'>
+        <div class='absolute right-3 bottom-2 h-fit w-fit flex items-center gap-1'>
+          <FloatingButton class='static size-10'>
             <Icon class='size-7'>
               <IconSubtitles />
             </Icon>
           </FloatingButton>
-          <FloatingButton class='static size-9' onClick={changeMenu} menuId='quality'>
+          <FloatingButton class='static size-10' onClick={changeMenu} menuId='quality'>
             <Icon class='size-7'>
               <IconResolution resolution='hd' />
             </Icon>
           </FloatingButton>
-          <FloatingButton class='static size-9'  onClick={changeMenu} menuId='settings'>
+          <FloatingButton class='static size-10'  onClick={changeMenu} menuId='settings'>
             <Icon class='size-7'>
               <IconSettings />
             </Icon>
           </FloatingButton>
-          <FloatingButton class='static size-9'>
+          <FloatingButton class='static size-10'>
             <Icon class='size-7'>
               <IconChat />
             </Icon>
           </FloatingButton>
-          <FloatingButton class='static size-9'>
+          <FloatingButton class='static size-10'>
             <Icon class='size-7'>
               <IconPip />
             </Icon>
           </FloatingButton>
-          <FloatingButton class='static size-9' onClick={toggleCinemaMode}>
+          <FloatingButton class='static size-10' onClick={toggleCinemaMode}>
             <Icon class='size-7'>
               <IconCinema active={inCinemaMode} />
             </Icon>
           </FloatingButton>
-          <FloatingButton class='static size-9' onClick={toggleFullScreen}>
+          <FloatingButton class='static size-10' onClick={toggleFullScreen}>
             <Icon class='size-7'>
               <IconFullScreen />
             </Icon>
