@@ -1,4 +1,4 @@
-import { setCurrentTime, togglePlayState } from '@/lib/playerActions'
+import { setCurrentTime, togglePlayState } from '@/lib/player/playerActions'
 import { alreadyPaused, draggedBySlider, isAnySliderInUse, mouseDownTarget, pausedBySlider, setAlreadyPaused, setDraggedBySlider, setIsAnySliderInUse, setPausedBySlider } from '@/stores/miniStore'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import type { RefObject } from 'preact'

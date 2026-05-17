@@ -1,6 +1,6 @@
 import { usePlayerStore } from '@/stores/usePlayerStore'
-import { TIME_TO_HIDE_CONTROLS } from './constants'
-import { debounce } from './utils'
+import { TIME_TO_HIDE_CONTROLS } from '../constants'
+import { debounce } from '../utils'
 import { isAnySliderInUse, isTryingToPlay, setIsAnySliderInUse, setIsTryingToPlay, setPausedBySlider } from '@/stores/miniStore'
 
 export async function togglePlayState () {

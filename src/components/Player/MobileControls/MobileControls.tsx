@@ -1,7 +1,7 @@
 import { Icon } from '@/components/Icon'
 import { IconCast, IconChevronDown, IconFullScreen, IconNext, IconPlayerState, IconResolution, IconSettings, IconSubtitles } from '@/components/Icons'
 import { FloatingButton } from './FloatingButton'
-import { backwardTime, forwardTime, toggleControlsVisibility, toggleFullScreen, togglePlayState } from '@/lib/playerActions'
+import { backwardTime, forwardTime, toggleControlsVisibility, toggleFullScreen, togglePlayState } from '@/lib/player/playerActions'
 import { navigate } from 'astro:transitions/client'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { parseDuration } from '@/lib/parsers'

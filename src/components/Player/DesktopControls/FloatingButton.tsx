@@ -1,4 +1,4 @@
-import { showControlsAndScheduleHide } from '@/lib/playerActions'
+import { showControlsAndScheduleHide } from '@/lib/player/playerActions'
 import type { TargetedEvent } from 'preact'
 import type { ReactNode } from 'preact/compat'
 

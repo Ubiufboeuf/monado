@@ -1,7 +1,7 @@
 import { useRef } from 'preact/hooks'
 import { Controls } from './Controls'
 import { usePlayer } from '@/hooks/usePlayer'
-import { checkPlayState } from '@/lib/playerActions'
+import { checkPlayState } from '@/lib/player/playerActions'
 
 export function Player () {  
   const containerRef = useRef<HTMLDivElement>(null)

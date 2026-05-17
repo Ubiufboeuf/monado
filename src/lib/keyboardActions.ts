@@ -1,4 +1,4 @@
-import { backwardTime, forwardTime, showControlsAndScheduleHide, toggleCinemaMode, toggleFullScreen, togglePlayState } from './playerActions'
+import { backwardTime, forwardTime, showControlsAndScheduleHide, toggleCinemaMode, toggleFullScreen, togglePlayState } from './player/playerActions'
 import { throttle } from './utils'
 
 const TIMEOUT = 60

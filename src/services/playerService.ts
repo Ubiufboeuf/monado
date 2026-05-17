@@ -1,6 +1,6 @@
 import { AUTO_PLAY } from '@/lib/constants'
 import { playerSettings } from '@/lib/player/playerSettings'
-import { checkPlayState, showControls } from '@/lib/playerActions'
+import { checkPlayState, showControls } from '@/lib/player/playerActions'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import type { MediaPlayerClass } from 'dashjs'
 

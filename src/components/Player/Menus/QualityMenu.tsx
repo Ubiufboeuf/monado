@@ -1,6 +1,6 @@
 import { Icon } from '@/components/Icon'
 import { IconCheck } from '@/components/Icons'
-import { changeQuality } from '@/lib/playerActions'
+import { changeQuality } from '@/lib/player/playerActions'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { useState } from 'preact/hooks'
 
