@@ -6,6 +6,8 @@ import { usePlayerStore } from '@/stores/usePlayerStore'
 import { hideControls, showControlsAndScheduleHide } from '@/lib/playerActions'
 import { MenuPanel } from './ModalMenuPanel'
 import type { TargetedEvent } from 'preact'
+import { Slider } from '../Slider'
+import { draggedBySlider, mouseDownTarget } from '@/stores/miniStore'
 
 export function DesktopControls () {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
@@ -16,6 +18,8 @@ export function DesktopControls () {
   const setCurrentMenu = usePlayerStore((state) => state.setCurrentMenu)
   
   function interactWithControls () {
+    if (draggedBySlider && mouseDownTarget?.closest('[data-slider-id$=slider]')) return
+    
     togglePlayState()
 
     if (firstPlay) {
@@ -49,9 +53,7 @@ export function DesktopControls () {
       onMouseLeave={hideControls}
     >
       <div class={`${areControlsVisible ? '' : 'hide'} relative opacity-100 [.hide]:opacity-0 starting:opacity-0 [.hide]:hidden h-full w-full transition-all transition-discrete`}>
-        <div class='absolute bottom-13 left-0 w-full h-1 px-3'>
-          <div class='h-1 w-full rounded-full bg-neutral-700' />
-        </div>
+        <Slider id='timeline' class='absolute bottom-13 left-0 px-4' />
 
         <div class='absolute left-3 bottom-2 h-fit w-fit flex items-center gap-2'>
           <FloatingButton class='static size-9' onClick={togglePlayState}>

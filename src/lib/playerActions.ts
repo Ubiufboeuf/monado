@@ -1,14 +1,33 @@
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { TIME_TO_HIDE_CONTROLS } from './constants'
 import { debounce } from './utils'
+import { isAnySliderInUse, isTryingToPlay, setIsAnySliderInUse, setIsTryingToPlay, setPausedBySlider } from '@/stores/miniStore'
 
 export async function togglePlayState () {
-  const { element: video, setIsPlaying } = usePlayerStore.getState()
+  const { element: video, setIsPlaying, setCanHideControls } = usePlayerStore.getState()
   if (!video) return
 
   const isPaused = video.paused === true
-  if (isPaused) await video.play()
-  else video.pause()
+
+  if (isPaused && isAnySliderInUse) {
+    setIsAnySliderInUse(false)
+    setCanHideControls(true)
+    debouncedHideControls()
+  }
+  
+  if (isPaused) {
+    try {
+      setIsTryingToPlay(true)
+      await video.play()
+    } catch (err) {
+      console.error('Error intentando reproducir:', err)
+    } finally {
+      setIsTryingToPlay(false)
+    }
+  } else if (!isTryingToPlay) {
+    video.pause()
+    setPausedBySlider(false)
+  }
 
   const isNowPaused = video.paused
   setIsPlaying(!isNowPaused)
@@ -107,13 +126,22 @@ export function updateCurrentTime () {
   usePlayerStore.setState({ currentTime: video.currentTime })
 }
 
+export function setCurrentTime (second: number) {
+  const { element } = usePlayerStore.getState()
+  if (!element) return
+
+  element.currentTime = second
+  usePlayerStore.setState({ currentTime: second })
+}
+
 export function showControls () {
   const { setAreControlsVisible } = usePlayerStore.getState()
   setAreControlsVisible(true)
 }
 
 export function hideControls () {
-  const { setAreControlsVisible } = usePlayerStore.getState()
+  const { canHideControls, setAreControlsVisible } = usePlayerStore.getState()
+  if (!canHideControls) return
   setAreControlsVisible(false)
 }
 
