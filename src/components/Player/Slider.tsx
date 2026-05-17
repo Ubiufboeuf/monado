@@ -36,7 +36,7 @@ export function Slider ({ id, class: className }: Props) {
         {/* thumb */}
         <div
           data-slider-id={`${id}:thumb`}
-          class='absolute -left-2 top-1/2 -translate-y-1/2 size-4 group-hover:transform-[scale(125%)] transition-[transform] rounded-full bg-gradient-start/30 shadow-[0px_0px_4px_0px_black]'
+          class='absolute -left-2 top-1/2 -translate-y-1/2 size-4 group-hover:transform-[scale(125%)] transition-[transform] rounded-full bg-gradient-start shadow-[0px_0px_4px_0px_black]'
         />
       </div>
     </div>
