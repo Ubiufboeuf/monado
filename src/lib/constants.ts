@@ -8,7 +8,8 @@ export const ENDPOINTS = {
   VIDEOS: `${SERVER_URL}/videos`,
   VIDEO: `${SERVER_URL}/video`,
   STREAMS: `${SERVER_URL}/streams`,
-  SEARCH: `${SERVER_URL}/search`
+  SEARCH: `${SERVER_URL}/search`,
+  CREATOR: `${SERVER_URL}/creators`
   // THUMBNAIL: `${SERVER_URL}/video/thumbnail`
 } as const
 

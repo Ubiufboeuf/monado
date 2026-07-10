@@ -53,3 +53,8 @@ export function parseReleaseTimestamp (timestamp: number) {
   else if (dif >= SECONDS_IN_MINUTE) return `${minute} ${minute === 1 ? 'minuto'  : 'minutos'}`
   else                               return `${dif}    ${dif    === 1 ? 'segundo' : 'segundos'}`
 }
+
+export function parseDescription (description: string | undefined): string {
+  if (!description) return ''
+  return description.replaceAll('\n', '<br>')
+}

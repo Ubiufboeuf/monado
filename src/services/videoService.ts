@@ -190,6 +190,11 @@ export function getPoster (videoId: string | undefined) {
   return `${ENDPOINTS.VIDEO}/${videoId}/poster`
 }
 
+export function getCreatorProfile (id: string | undefined) {
+  if (!id) return ''
+  return `${ENDPOINTS.CREATOR}/${id}`
+}
+
 export function getCurrentVideoId () {
   const canUseWindow = typeof window !== 'undefined'
   if (!canUseWindow) return
@@ -225,13 +230,18 @@ export async function getVideoDescription (id: string): Promise<VideoDescription
 }
 
 function formDescription (description: DescriptionFromServer): VideoDescription {
-  const id = description.creatorId || 'halacg'
+  console.log(description)
+  const id = description.creatorId || 'e'
   const creator: Creator = {
     id,
     channelUrl: `${BASE_URL}/channel/${id}`,
     name: 'HalaCG',
     subscribers: 288324,
-    verified: 'music'
+    verified: 'music',
+    assets: {
+      banner: '',
+      profile: getCreatorProfile(id)
+    }
   }
   
   return {
