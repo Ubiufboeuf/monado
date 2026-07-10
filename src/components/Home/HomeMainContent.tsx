@@ -39,8 +39,8 @@ export function HomeMainContent () {
     loadVideos()
 
     return () => {
-      clearVideos('suggested')
-      clearCursor('suggested')
+      clearVideos('home')
+      clearCursor('home')
       setIsComponentReady(false)
     }
   }, [])
