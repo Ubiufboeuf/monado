@@ -4,7 +4,7 @@ import { IconAddToPlaylist, IconCalendar, IconChevronDown, IconComments, IconDis
 import { Icon } from '../Icon'
 import { DescriptionFallback } from '@/components/Watch/DescriptionFallback'
 
-export function Description () {
+export function DescriptionDesktop () {
   const videoDescription = useDescription()
   if (!videoDescription) return <DescriptionFallback />
   

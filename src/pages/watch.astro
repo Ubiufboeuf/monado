@@ -4,7 +4,8 @@ import { Player } from '@/components/Player/Player'
 import Layout from '@/layouts/Layout.astro'
 import { KeyboardActions } from '@/components/KeyboardActions'
 import { LoadVideo } from '@/components/Watch/LoadVideo'
-import { Description } from '@/components/Watch/Description'
+import { DescriptionMobile } from '@/components/Watch/DescriptionMobile'
+import { DescriptionDesktop } from '@/components/Watch/DescriptionDesktop'
 import { Recomendations } from '@/components/Watch/Recomendations'
 
 const ar = 16 / 9
@@ -25,8 +26,11 @@ const ar = 16 / 9
     <div style={`aspect-ratio: ${ar}`} class='[grid-area:p] w-full cinema:max-h-[70dvh]'>
       <Player client:load transition:persist />
     </div>
-    <div class='[grid-area:d] w-full h-56'>
-      <Description client:visible />
+    <div class='[grid-area:d] w-full h-56 not-xs:hidden'>
+      <DescriptionDesktop client:media='(width >= 412px)' />
+    </div>
+    <div class='[grid-area:d] w-full h-56 xs:hidden'>
+      <DescriptionMobile client:media='(width < 412px)' />
     </div>
     <div class='[grid-area:s] w-full h-auto'>
       <Recomendations client:idle />
