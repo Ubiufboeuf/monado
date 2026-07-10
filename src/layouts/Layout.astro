@@ -175,6 +175,22 @@ setIsMenuOpen(isMenuOpen)
 				}
 			}
 		</script>
+		<script>
+			import { setMouseDownTarget, setDraggedBySlider } from '@/stores/miniStore'
+
+			window.addEventListener('mousedown', handleMouseDown)
+
+			function handleMouseDown (event: MouseEvent) {
+				const { target } = event
+				if (!(target instanceof HTMLElement) && target !== null) {
+					throw new Error('Target inválido')
+				}
+
+				// console.log('[layout] target:', target)
+				setMouseDownTarget(target)
+				setDraggedBySlider(false)
+			}
+		</script>
 		{ useTransitions && <ClientRouter /> }
 	</head>
 	<body class='flex flex-col bg-base-dark'>

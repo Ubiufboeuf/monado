@@ -1,4 +1,4 @@
-import type { VideoFromServer } from '@/types/serverTypes'
+import type { DescriptionFromServer, VideoFromServer } from '@/types/serverTypes'
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export function isValidVideo (data: any): data is VideoFromServer {
@@ -16,4 +16,10 @@ export function isValidVideo (data: any): data is VideoFromServer {
   const hasThumbnails = Array.isArray(data.thumbnails)
 
   return hasId && hasTitle && hasDuration && hasVideos && hasThumbnails
+}
+
+export function isValidDescription (description: any): description is DescriptionFromServer {
+  if (typeof description !== 'object' || description === null) return false
+
+  return true
 }

@@ -1,11 +1,12 @@
-import { EMPTY, ENDPOINTS } from '@/lib/constants'
+import { BASE_URL, EMPTY, ENDPOINTS } from '@/lib/constants'
 import { errorHandler } from '@/lib/errors'
 import { responseHandler } from '@/lib/handlers'
-import type { ResolutionMetadata, ResolutionsById, Thumbnail, ThumbnailsById, Video } from '@/types/videoTypes'
-import type { ServerResponse, VideoFromServer } from '../types/serverTypes'
-import { isValidVideo } from '@/lib/validations'
+import type { ResolutionMetadata, ResolutionsById, Thumbnail, ThumbnailsById, Video, VideoDescription } from '@/types/videoTypes'
+import type { DescriptionFromServer, ServerResponse, VideoFromServer } from '../types/serverTypes'
+import { isValidDescription, isValidVideo } from '@/lib/validations'
 import { getMax, getMin } from '@/lib/utils'
 import { parseServerResponse } from './serverService'
+import type { Creator } from '@/types/creatorTypes'
 
 interface GetVideosArgs {
   limit?: number
@@ -187,4 +188,54 @@ export function getThumbnail (videoId: string | undefined, thumbnailId: string |
 export function getPoster (videoId: string | undefined) {
   if (!videoId) return
   return `${ENDPOINTS.VIDEO}/${videoId}/poster`
+}
+
+export function getCurrentVideoId () {
+  const canUseWindow = typeof window !== 'undefined'
+  if (!canUseWindow) return
+
+  const url = new URL(location.href)
+  const id = url.searchParams.get('v')
+
+  return id
+}
+
+export async function getVideoDescription (id: string): Promise<VideoDescription | undefined> {
+  let response
+  try {
+    response = await fetch(`${ENDPOINTS.VIDEO}/${id}/description`)
+  } catch (err) {
+    console.error('Error consiguiendo los detalles del video:', err)
+  }
+
+  if (!response?.ok) return
+
+  let data
+  try {
+    data = await response.json()
+  } catch (err) {
+    console.error('Error convirtiendo la respuesta de los detalles a json:', err)
+  }
+
+  const description = data.description
+  
+  if (!isValidDescription(description)) return
+
+  return formDescription(description)
+}
+
+function formDescription (description: DescriptionFromServer): VideoDescription {
+  const id = description.creatorId || 'halacg'
+  const creator: Creator = {
+    id,
+    channelUrl: `${BASE_URL}/channel/${id}`,
+    name: 'HalaCG',
+    subscribers: 288324,
+    verified: 'music'
+  }
+  
+  return {
+    ...description,
+    creator
+  }
 }

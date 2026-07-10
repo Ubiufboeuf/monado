@@ -1,1 +1,35 @@
-a
+---
+import { Menu } from '@/components/Menu/Menu'
+import { Player } from '@/components/Player/Player'
+import Layout from '@/layouts/Layout.astro'
+import { KeyboardActions } from '@/components/KeyboardActions'
+import { LoadVideo } from '@/components/Watch/LoadVideo'
+import { Description } from '@/components/Watch/Description'
+import { Recomendations } from '@/components/Watch/Recomendations'
+
+const ar = 16 / 9
+---
+
+<Layout tabBar>
+  <Menu client:idle transition:persist />
+  <KeyboardActions client:idle />
+  <LoadVideo client:load />
+
+  <section id='watch' class={`
+    absolute top-14 w-full h-fit min-h-[calc(100%-56px)] tabbar:pb-tbh
+    grid [grid-template-areas:'p''d''s'] grid-cols-1 grid-rows-[auto_auto_auto] gap-4
+    desktop:not-cinema:xs:px-6 lg:not-cinema:px-4
+    desktop:lg:[grid-template-areas:'p_s''d_s'] desktop:lg:grid-cols-[1fr_400px] desktop:lg:grid-rows-[auto_1fr]
+    desktop:cinema:lg:[grid-template-areas:'p_p''d_s']
+  `}>
+    <div style={`aspect-ratio: ${ar}`} class='[grid-area:p] w-full cinema:max-h-[70dvh]'>
+      <Player client:load transition:persist />
+    </div>
+    <div class='[grid-area:d] w-full h-56'>
+      <Description client:visible />
+    </div>
+    <div class='[grid-area:s] w-full h-auto'>
+      <Recomendations client:idle />
+    </div>
+  </section>
+</Layout>

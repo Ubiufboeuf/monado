@@ -37,6 +37,19 @@
   --breakpoint-mtb: 355px; /* min (width) tab bar */
 }
 
+@custom-variant shr {
+  @media (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+  @media (pointer: coarse) {
+    &:active {
+      @slot;
+    }
+  }
+}
+
 @custom-variant menu-open {
   &:where(:has(#checkbox-menu-state:checked) *) {
     @slot;

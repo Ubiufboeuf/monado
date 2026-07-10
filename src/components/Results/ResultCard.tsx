@@ -1,4 +1,4 @@
-import { parseDuration, parseViews } from '@/lib/parsers'
+import { parseDuration, formatCompactNumber } from '@/lib/parsers'
 import type { Video } from '@/types/videoTypes'
 import type { TargetedEvent } from 'preact'
 
@@ -62,7 +62,7 @@ export function ResultCard ({ video }: { video: Video }) {
         <strong class='text-sm font-medium text-start line-clamp-2 pt-0.5 pr-3 text-neutral-100'>{title}</strong>
         <span class='text-xs text-start line-clamp-2 pt-0.5 text-neutral-400'>{uploader}</span>
         <div class='text-xs text-start line-clamp-2 pt-0.5 text-neutral-400'>
-          <span>{parseViews(309000)} vistas</span>
+          <span>{formatCompactNumber(309000)} vistas</span>
           &nbsp;<span>•</span>&nbsp;
           <span>hace 20 días</span>
         </div>

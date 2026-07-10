@@ -1,3 +1,5 @@
+import type { Creator } from './creatorTypes'
+
 export type Video = {
 	id: string
   source: string
@@ -57,4 +59,14 @@ export type Thumbnail = {
   height: number
   width: number
   url: string
+}
+
+export interface VideoDescription {
+	id: string
+	title: string
+	description: string
+	creator: Creator
+	likes: number
+	type: 'video' | 'live' | 'short'
+	publicationTimestamp: number
 }

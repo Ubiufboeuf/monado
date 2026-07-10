@@ -10,7 +10,7 @@ const query = searchParams.get('search')
 if (!query) return Astro.redirect('/')
 ---
 
-<Layout title={query}>
+<Layout title={query} tabBar>
   <Menu client:load transition:persist />
   <MenuMini pathname={pathname} client:load transition:persist />
   <SearchResults client:load />

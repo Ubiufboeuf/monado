@@ -1,4 +1,4 @@
-import { parseDuration, parseViews } from '@/lib/parsers'
+import { parseDuration, formatCompactNumber } from '@/lib/parsers'
 import type { Video } from '@/types/videoTypes'
 import type { TargetedEvent } from 'preact'
 import { useRef } from 'preact/hooks'
@@ -39,7 +39,7 @@ export function VideoListCard ({ video, class: className }: { video: Video, clas
   return (
     <a
       href={`/watch?v=${id}`}
-      class={`${className} videoListCard flex items-start justify-between gap-2 not-sm:h-24 h-36 lg:h-24 w-full`}
+      class={`${className} videoListCard flex items-start justify-between gap-2 not-sm:h-24 h-36 lg:h-24 w-full rounded-lg transition-colors hover:bg-neutral-700/70`}
       title={title}
     >
       <section class='relative flex items-end justify-center h-full aspect-video rounded-lg overflow-hidden'>
@@ -68,7 +68,7 @@ export function VideoListCard ({ video, class: className }: { video: Video, clas
         <strong class='text-sm font-medium text-start line-clamp-2 pt-0.5 pr-3 text-neutral-100'>{title}</strong>
         <span class='text-xs text-start line-clamp-2 pt-0.5 text-neutral-400'>{uploader}</span>
         <div class='text-xs text-start line-clamp-2 pt-0.5 text-neutral-400'>
-          <span>{parseViews(309000)} vistas</span>
+          <span>{formatCompactNumber(309000)} vistas</span>
           &nbsp;<span>•</span>&nbsp;
           <span>hace 20 días</span>
         </div>

@@ -17,6 +17,10 @@
     "router",
     "pwa",
     "store",
-    "hook"
+    "hook",
+    "video",
+    "watch",
+    "player-actions",
+    "player-controls"
   ]
 }

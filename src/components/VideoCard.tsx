@@ -1,7 +1,7 @@
 import type { Video } from '@/types/videoTypes'
 import type { TargetedEvent, TargetedMouseEvent } from 'preact'
 import { IconDots } from './Icons'
-import { parseDuration, parseReleaseTimestamp, parseViews } from '@/lib/parsers'
+import { parseDuration, parseReleaseTimestamp, formatCompactNumber } from '@/lib/parsers'
 import { navigate } from 'astro:transitions/client'
 
 export function VideoCard ({ video, class: className = '' }: { video: Video, class?: string }) {
@@ -104,7 +104,7 @@ export function VideoCard ({ video, class: className = '' }: { video: Video, cla
             <div class='text-[min(3.4vw,14px)] ms:block'>
               <span>mAngo</span>
               &nbsp;<span>•</span>&nbsp;
-              <span>{parseViews(0)} vistas</span>
+              <span>{formatCompactNumber(0)} vistas</span>
               &nbsp;<span>•</span>&nbsp;
               <span>hace {parseReleaseTimestamp(video.release_timestamp)}</span>
             </div>
