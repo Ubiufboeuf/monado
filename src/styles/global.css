@@ -99,15 +99,6 @@ body {
   margin: 0;
 }
 
-html {
-  scrollbar-color: darkgray transparent;
-  scrollbar-gutter: stable;
-
-  &[data-in-full-screen] {
-    scrollbar-gutter: auto;
-  }
-}
-
 h1 {
   text-wrap: balance;
 }
