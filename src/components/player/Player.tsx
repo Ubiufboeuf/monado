@@ -1,3 +1,4 @@
+import { getManifest } from '@/lib/api'
 import { useEffect, useRef } from 'preact/hooks'
 import shaka from 'shaka-player/dist/shaka-player.compiled.js'
 
@@ -7,6 +8,11 @@ export function Player () {
   useEffect(() => {
     const video = videoRef.current
     if (!video) return
+
+    const url = new URL(window.location.href)
+    const id = url.searchParams.get('v')
+
+    if (!id) return
 
     shaka.polyfill.installAll()
 
@@ -19,7 +25,7 @@ export function Player () {
       }
 
       await player.attach(video!)
-      await player.load('http://localhost:7002/video/798etN3reyk/manifest.mpd')
+      await player.load(getManifest(id!))
     }
 
     init().catch(console.error)
@@ -30,10 +36,12 @@ export function Player () {
   }, [])
 
   return (
+    <div class='relative h-full w-full desktop:tv:lg:rounded-xl overflow-hidden bg-black'>
     <video
       ref={videoRef}
       controls
-      class='w-full aspect-video'
-    />
+      class='absolute h-full w-full aspect-video bg-black'
+      />
+    </div>
   )
 }
