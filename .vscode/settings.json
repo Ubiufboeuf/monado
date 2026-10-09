@@ -2,6 +2,7 @@
   "conventionalCommits.scopes": [
     "ux",
     "config",
-    "ui"
+    "ui",
+    "player"
   ]
 }
