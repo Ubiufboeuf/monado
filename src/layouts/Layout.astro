@@ -1,9 +1,23 @@
 ---
 import '@/styles/global.css'
+
+
+// #region - detectDeviceType
+const savedType = Astro.cookies.get('monado-device-type')?.value
+const userAgent = Astro.request.headers.get('user-agent') || ''
+
+const mobileRegex = /(Mobi|Android(?!.*Nexus 7)|iPhone|iPod|Windows Phone|BlackBerry|Symbian|IEMobile|Opera Mini|Fennec|webOS|hpwos|avantgo|bada|blazer|compal|elaine|hiptop|kindle|lge|maemo|midp|mmp|netfront|palm|phone|plucker|pocket|psp|series60|treo|up\.browser|up\.link|vodafone|wap|windows ce|xda|xiino)/i
+const detectedType = mobileRegex.test(userAgent)
+	? 'mobile'
+	: 'desktop'
+// #endregion
 ---
 
 <!doctype html>
-<html lang='es'>
+<html
+	lang='es'
+	data-device-type={savedType ?? detectedType}
+>
 	<head>
 		<meta charset='utf-8' />
 		<meta name='viewport' content='width=device-width' />
