@@ -17,6 +17,7 @@ const detectedType = mobileRegex.test(userAgent)
 <html
 	lang='es'
 	data-device-type={savedType ?? detectedType}
+	data-player-layout='tv'
 >
 	<head>
 		<meta charset='utf-8' />
@@ -29,12 +30,3 @@ const detectedType = mobileRegex.test(userAgent)
 		<slot />
 	</body>
 </html>
-
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
-	}
-</style>
