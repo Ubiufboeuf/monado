@@ -3,3 +3,29 @@
 :root {
   color-scheme: dark;
 }
+
+@custom-variant shr {
+  @media (pointer: fine) {
+    &:hover {
+      @slot;
+    }
+  }
+  @media (pointer: coarse) {
+    &:active {
+      @slot;
+    }
+  }
+}
+
+@custom-variant not-shr {
+  @media (pointer: fine) {
+    &:not(:hover) {
+      @slot;
+    }
+  }
+  @media (pointer: coarse) {
+    &:not(:active) {
+      @slot;
+    }
+  }
+}
