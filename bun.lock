@@ -13,6 +13,7 @@
         "react-dom": "npm:@preact/compat@18.3.1",
         "shaka-player": "5.2.12",
         "tailwindcss": "4.3.3",
+        "zod": "4.6.5",
         "zustand": "5.0.15",
       },
       "devDependencies": {
