@@ -5,7 +5,7 @@ const Svg = ({
   children, id, viewBox = '0 0 24 24',
   class: className, hidden,
   width = '24', height = '24',
-  fill = 'transparent', stroke = 'currentColor', strokeWidth = '2', strokeLinecap = 'round', strokeLinejoin = 'round'
+  fill = 'transparent', stroke = 'currentColor', strokeWidth = '1', strokeLinecap = 'round', strokeLinejoin = 'round'
 }:
   SVGProps
 ) => (
@@ -48,5 +48,23 @@ export const IconPause = () => (
 export const IconPlayState = ({ isPlaying }: { isPlaying: boolean }) => (
   <Svg>
     { isPlaying ? <IconPause /> : <IconPlay /> }
+  </Svg>
+)
+
+export const IconMaximize = () => (
+  <Svg>
+    <path d='M3.5 20.5V15.7885H5V19H8.2115V20.5H3.5ZM15.798 20.5V19H19.0095V15.7885H20.5095V20.5H15.798ZM3.5 8.2115V3.5H8.2115V5H5V8.2115H3.5ZM19.0095 8.2115V5H15.798V3.5H20.5095V8.2115H19.0095Z' fill='white' />
+  </Svg>
+)
+
+export const IconMinimize = () => (
+  <Svg>
+    <path d='M6.7115 20.5V17.2885H3.5V15.7885H8.2115V20.5H6.7115ZM15.798 20.5V15.7885H20.5095V17.2885H17.298V20.5H15.798ZM3.5 8.2115V6.7115H6.7115V3.5H8.2115V8.2115H3.5ZM15.798 8.2115V3.5H17.298V6.7115H20.5095V8.2115H15.798Z' fill='white' />
+  </Svg>
+)
+
+export const IconFullScreen = ({ inFullScreen }: { inFullScreen?: boolean }) => (
+  <Svg>
+    { inFullScreen ? <IconMinimize /> : <IconMaximize /> }
   </Svg>
 )

@@ -10,6 +10,9 @@ interface PlayerStore {
 
   isPlaying: boolean
   setIsPlaying: (isPlaying: boolean) => void
+
+  inFullScreen: boolean
+  setInFullScreen: (inFullScreen: boolean) => void
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
@@ -20,5 +23,8 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   setPlayerLayout: (playerLayout) => set({ playerLayout }),
 
   isPlaying: false,
-  setIsPlaying: (isPlaying) => set({ isPlaying })
+  setIsPlaying: (isPlaying) => set({ isPlaying }),
+
+  inFullScreen: false,
+  setInFullScreen: (inFullScreen) => set({ inFullScreen })
 }))

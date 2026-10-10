@@ -24,11 +24,14 @@ export async function togglePlayState () {
 }
 
 export async function toggleFullScreen () {
-  const { element } = usePlayerStore.getState()
+  const { element, setInFullScreen } = usePlayerStore.getState()
   
   const inFullScreen = Boolean(document.fullscreenElement)
   try {
     if (inFullScreen) await document.exitFullscreen()
     else element?.requestFullscreen()
   } catch {/* empty */}
+
+  const isNowInFullScreen = Boolean(document.fullscreenElement)
+  setInFullScreen(isNowInFullScreen)
 }
