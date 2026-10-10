@@ -4,6 +4,7 @@
     "config",
     "ui",
     "player",
-    "schema"
+    "schema",
+    "dx"
   ]
 }
