@@ -1,5 +1,6 @@
 ---
 import '@/styles/global.css'
+import { ClientRouter } from 'astro:transitions'
 
 
 // #region - detectDeviceType
@@ -25,6 +26,7 @@ const detectedType = mobileRegex.test(userAgent)
 		<link rel='icon' type='image/svg+xml' href='/favicon.svg' />
 		<link rel='icon' href='/favicon.ico' />
 		<title>Monado</title>
+		<ClientRouter />
 	</head>
 	<body>
 		<slot />
