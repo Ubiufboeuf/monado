@@ -3,6 +3,7 @@
     "ux",
     "config",
     "ui",
-    "player"
+    "player",
+    "schema"
   ]
 }
