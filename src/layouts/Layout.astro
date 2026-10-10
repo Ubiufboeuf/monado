@@ -1,7 +1,7 @@
 ---
 import '@/styles/global.css'
 import { ClientRouter } from 'astro:transitions'
-
+import { useUIStore } from '@/stores/useUIStore'
 
 // #region - detectDeviceType
 const savedType = Astro.cookies.get('monado-device-type')?.value
@@ -11,6 +11,9 @@ const mobileRegex = /(Mobi|Android(?!.*Nexus 7)|iPhone|iPod|Windows Phone|BlackB
 const detectedType = mobileRegex.test(userAgent)
 	? 'mobile'
 	: 'desktop'
+
+const setDeviceType = useUIStore((state) => state.setDeviceType)
+setDeviceType(detectedType)
 // #endregion
 ---
 
