@@ -1,11 +1,11 @@
 import { create } from 'zustand'
 
 interface UIStore {
-  deviceType: 'desktop' | 'mobile'
+  deviceType: undefined | 'desktop' | 'mobile'
   setDeviceType: (deviceType: 'desktop' | 'mobile') => void
 }
 
 export const useUIStore = create<UIStore>((set) => ({
-  deviceType: 'desktop',
+  deviceType: undefined,
   setDeviceType: (deviceType) => set({ deviceType })
 }))
