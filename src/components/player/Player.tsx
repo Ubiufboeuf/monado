@@ -4,6 +4,7 @@ import shaka from 'shaka-player/dist/shaka-player.compiled.js'
 import { Keybinds } from '../Keybinds'
 import { toggleCinemaMode, toggleFullScreen, togglePlayState } from '@/lib/player/playerActions'
 import { usePlayerStore } from '@/stores/usePlayerStore'
+import { Controls } from './Controls'
 
 export function Player () {
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -45,9 +46,10 @@ export function Player () {
     <div class='relative h-full w-full desktop:tv:lg:rounded-xl overflow-hidden bg-black'>
       <video
         ref={videoRef}
-        controls
         class='absolute h-full w-full aspect-video bg-black'
       />
+      <Controls />
+      
       <Keybinds keys='t' onBind={toggleCinemaMode} hidden />
       <Keybinds keys='space' onBind={togglePlayState} hidden />
       <Keybinds keys='f' onBind={toggleFullScreen} hidden />
