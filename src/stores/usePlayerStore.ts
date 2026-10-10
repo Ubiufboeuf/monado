@@ -7,6 +7,9 @@ interface PlayerStore {
   
   playerLayout: PlayerLayout
   setPlayerLayout: (playerLayout: PlayerLayout) => void
+
+  isPlaying: boolean
+  setIsPlaying: (isPlaying: boolean) => void
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
@@ -14,5 +17,8 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   setElement: (element) => set({ element }),
   
   playerLayout: 'tv',
-  setPlayerLayout: (playerLayout) => set({ playerLayout })
+  setPlayerLayout: (playerLayout) => set({ playerLayout }),
+
+  isPlaying: false,
+  setIsPlaying: (isPlaying) => set({ isPlaying })
 }))

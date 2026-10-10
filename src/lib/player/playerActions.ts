@@ -8,7 +8,7 @@ export function toggleCinemaMode () {
 }
 
 export async function togglePlayState () {
-  const { element } = usePlayerStore.getState()
+  const { element, setIsPlaying } = usePlayerStore.getState()
   if (!element) return
   
   const isPaused = element.paused
@@ -18,6 +18,9 @@ export async function togglePlayState () {
   } else {
     element.pause()
   }
+
+  const isNowPaused = element.paused
+  setIsPlaying(!isNowPaused)
 }
 
 export async function toggleFullScreen () {
