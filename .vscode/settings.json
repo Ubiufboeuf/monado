@@ -5,6 +5,7 @@
     "ui",
     "player",
     "schema",
-    "dx"
+    "dx",
+    "state"
   ]
 }
