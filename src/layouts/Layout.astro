@@ -12,7 +12,7 @@ const detectedType = mobileRegex.test(userAgent)
 	? 'mobile'
 	: 'desktop'
 
-const setDeviceType = useUIStore((state) => state.setDeviceType)
+const { setDeviceType } = useUIStore.getState()
 setDeviceType(detectedType)
 // #endregion
 ---
