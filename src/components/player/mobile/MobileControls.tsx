@@ -6,11 +6,15 @@ import type { Resolution } from '@/types/videoTypes'
 import { navigate } from 'astro:transitions/client'
 import { useDoubleTap } from '@/hooks/useDoubleTap'
 import { DEFAULT_DOUBLE_TAP_DELAY } from '@/constants/player'
+import { formatTime } from '@/lib/formatters'
 
 export function MobileControls () {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
   const inFullScreen = usePlayerStore((state) => state.inFullScreen)
   const areControlsVisible = usePlayerStore((state) => state.areControlsVisible)
+  const currentTime = formatTime(usePlayerStore((state) => state.currentTime))
+  const duration = formatTime(usePlayerStore((state) => state.duration))
+
   const resolution: Resolution = '4k'
 
   const handleLeftTap = useDoubleTap(() => { showControlsAndScheduleHide(); backwardTime() }, toggleControlsVisibility, DEFAULT_DOUBLE_TAP_DELAY)
@@ -46,7 +50,7 @@ export function MobileControls () {
         {/* Time */}
         <Button class='left-1.5 bottom-3.5 w-fit h-fit p-1.5 px-3'>
           <div class='flex items-center justify-center gap-1 text-sm font-medium text-neutral-400'>
-            <span class='text-neutral-50'>00:30</span> / <span>04:42</span>
+            <span class='text-neutral-50'>{currentTime}</span> / <span>{duration}</span>
           </div>
         </Button>
 

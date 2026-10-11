@@ -16,6 +16,12 @@ interface PlayerStore {
 
   areControlsVisible: boolean
   setAreControlsVisible: (areControlsVisible: boolean) => void
+
+  currentTime: number | undefined
+  setCurrentTime: (time: number | undefined) => void
+
+  duration: number | undefined
+  setDuration: (duration: number | undefined) => void
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
@@ -32,5 +38,11 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   setInFullScreen: (inFullScreen) => set({ inFullScreen }),
 
   areControlsVisible: false,
-  setAreControlsVisible: (areControlsVisible) => set({ areControlsVisible })
+  setAreControlsVisible: (areControlsVisible) => set({ areControlsVisible }),
+
+  currentTime: undefined,
+  setCurrentTime: (currentTime) => set({ currentTime }),
+
+  duration: undefined,
+  setDuration: (duration) => set({ duration })
 }))

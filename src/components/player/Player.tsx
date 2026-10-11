@@ -9,6 +9,8 @@ import { Controls } from './Controls'
 export function Player () {
   const videoRef = useRef<HTMLVideoElement>(null)
   const setElement = usePlayerStore((state) => state.setElement)
+  const setDuration = usePlayerStore((state) => state.setDuration)
+  const setCurrentTime = usePlayerStore((state) => state.setCurrentTime)
 
   useEffect(() => {
     const video = videoRef.current
@@ -47,6 +49,8 @@ export function Player () {
       <video
         ref={videoRef}
         class='absolute h-full w-full aspect-video bg-black'
+        onDurationChange={() => setDuration(videoRef.current?.duration)}
+        onTimeUpdate={() => setCurrentTime(videoRef.current?.currentTime)}
       />
       <Controls />
       
