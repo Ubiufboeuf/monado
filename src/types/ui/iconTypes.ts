@@ -1,19 +1,14 @@
-import type { SVGAttributes } from 'preact'
-import type { ReactNode } from 'preact/compat'
+import type { ComponentChildren, SVGAttributes } from 'preact'
 
 export interface SVGProps {
-  children: ReactNode
-  id?: string
+  children: ComponentChildren
   viewBox?: string
-  class?: string
   width?: string
   height?: string
-  fill?: string
+  gradient?: boolean
   stroke?: string
-  strokeWidth?: string | number
+  strokeWidth?: string
   strokeLinecap?: SVGAttributes<SVGSVGElement>['strokeLinecap']
   strokeLinejoin?: SVGAttributes<SVGSVGElement>['strokeLinejoin']
   hidden?: boolean
 }
-
-export type IconThickness = string | number
