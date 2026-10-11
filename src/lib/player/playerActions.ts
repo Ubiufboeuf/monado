@@ -1,4 +1,6 @@
 import { usePlayerStore } from '@/stores/usePlayerStore'
+import { debounce } from '../time'
+import { TIME_TO_HIDE_CONTROLS } from '@/constants/player'
 
 export function toggleCinemaMode () {
   const { playerLayout, setPlayerLayout } = usePlayerStore.getState()
@@ -34,4 +36,45 @@ export async function toggleFullScreen () {
 
   const isNowInFullScreen = Boolean(document.fullscreenElement)
   setInFullScreen(isNowInFullScreen)
+}
+
+export function backwardTime () {
+  const { element } = usePlayerStore.getState()
+  if (!element) return
+
+  element.currentTime -= 5
+}
+
+export function forwardTime () {
+  const { element } = usePlayerStore.getState()
+  if (!element) return
+
+  element.currentTime += 5
+}
+
+export function showControls () {
+  const { setAreControlsVisible } = usePlayerStore.getState()
+  setAreControlsVisible(true)
+}
+
+export function hideControls () {
+  const { setAreControlsVisible } = usePlayerStore.getState()
+  setAreControlsVisible(false)
+}
+
+export const debouncedHideControls = debounce(hideControls, TIME_TO_HIDE_CONTROLS)
+
+export function showControlsAndScheduleHide () {
+  showControls()
+  debouncedHideControls()
+}
+
+export function toggleControlsVisibility () {
+  const { areControlsVisible } = usePlayerStore.getState()
+  if (areControlsVisible) {
+    hideControls()
+    return
+  }
+
+  showControlsAndScheduleHide()
 }

@@ -1,0 +1,1 @@
+export const TIME_TO_HIDE_CONTROLS = 3000

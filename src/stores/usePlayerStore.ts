@@ -13,6 +13,9 @@ interface PlayerStore {
 
   inFullScreen: boolean
   setInFullScreen: (inFullScreen: boolean) => void
+
+  areControlsVisible: boolean
+  setAreControlsVisible: (areControlsVisible: boolean) => void
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
@@ -26,5 +29,8 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   setIsPlaying: (isPlaying) => set({ isPlaying }),
 
   inFullScreen: false,
-  setInFullScreen: (inFullScreen) => set({ inFullScreen })
+  setInFullScreen: (inFullScreen) => set({ inFullScreen }),
+
+  areControlsVisible: false,
+  setAreControlsVisible: (areControlsVisible) => set({ areControlsVisible })
 }))
