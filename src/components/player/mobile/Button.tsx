@@ -6,9 +6,10 @@ interface Props {
   icon?: () => ComponentChildren
   iconClass?: string
   onClick?: (event: TargetedEvent<HTMLButtonElement>) => void
+  children?: ComponentChildren
 }
 
-export function Button ({ class: className = '', icon: ButtonIcon, iconClass = '', onClick }: Props) {
+export function Button ({ class: className = '', icon: ButtonIcon, iconClass = '', onClick, children }: Props) {
   function handleClick (event: TargetedEvent<HTMLButtonElement>) {
     onClick?.(event)
   }
@@ -19,6 +20,7 @@ export function Button ({ class: className = '', icon: ButtonIcon, iconClass = '
       onClick={handleClick}
     >
       { ButtonIcon && <Icon class={iconClass}><ButtonIcon /></Icon> }
+      { children }
     </button>
   )
 }
