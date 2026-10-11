@@ -1,1 +1,2 @@
+export const DEFAULT_DOUBLE_TAP_DELAY = 350
 export const TIME_TO_HIDE_CONTROLS = 3000

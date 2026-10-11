@@ -1,4 +1,5 @@
 import { Icon } from '@/components/ui/Icon'
+import { showControlsAndScheduleHide } from '@/lib/player/playerActions'
 import type { ComponentChildren, TargetedEvent } from 'preact'
 
 interface Props {
@@ -6,11 +7,23 @@ interface Props {
   icon?: () => ComponentChildren
   iconClass?: string
   onClick?: (event: TargetedEvent<HTMLButtonElement>) => void
+  stopPropagation?: boolean
+  disableDefaultBehavior?: boolean
   children?: ComponentChildren
 }
 
-export function Button ({ class: className = '', icon: ButtonIcon, iconClass = '', onClick, children }: Props) {
+export function Button ({ class: className = '', icon: ButtonIcon, iconClass = '', onClick, stopPropagation = true, disableDefaultBehavior = false, children }: Props) {
   function handleClick (event: TargetedEvent<HTMLButtonElement>) {
+    if (disableDefaultBehavior) {
+      onClick?.(event)
+      return
+    }
+    
+    if (stopPropagation) {
+      event.stopPropagation()
+    }
+
+    showControlsAndScheduleHide()
     onClick?.(event)
   }
   
