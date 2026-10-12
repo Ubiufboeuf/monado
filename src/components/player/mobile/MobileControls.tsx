@@ -1,4 +1,4 @@
-import { IconCast, IconChevron, IconFullScreen, IconNext, IconPlayState, IconResolution, IconSettings, IconSubtitles } from '@/components/ui/Icons'
+import { IconChevron, IconFullScreen, IconNext, IconPlayState, IconResolution, IconSettings, IconSubtitles } from '@/components/ui/Icons'
 import { Button } from './Button'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { backwardTime, forwardTime, showControlsAndScheduleHide, toggleControlsVisibility, toggleFullScreen, togglePlayState } from '@/lib/player/playerActions'
@@ -7,6 +7,7 @@ import { navigate } from 'astro:transitions/client'
 import { useDoubleTap } from '@/hooks/useDoubleTap'
 import { DEFAULT_DOUBLE_TAP_DELAY } from '@/constants/player'
 import { formatTime } from '@/lib/formatters'
+import { CastButton } from '../Cast'
 
 export function MobileControls () {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
@@ -34,7 +35,7 @@ export function MobileControls () {
         
         {/* Options */}
         <div class='absolute right-2 top-2 flex items-center justify-center gap-1'>
-          <Button class='static size-10' icon={IconCast} iconClass='size-6' />
+          <CastButton title='Prueba de Monado' poster='/poster.jpg' />
           <Button class='static size-10' icon={() => <IconResolution resolution={resolution} />} iconClass='size-6' />
           <Button class='static size-10' icon={IconSubtitles} iconClass='size-6' />
           <Button class='static size-10' icon={IconSettings} iconClass='size-6' />
