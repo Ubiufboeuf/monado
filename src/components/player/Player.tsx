@@ -44,6 +44,20 @@ export function Player () {
     }
   }, [])
 
+  useEffect(() => {
+    navigator.mediaSession.metadata = new MediaMetadata({
+      title: 'mercy (jing yuan)',
+      artist: 'HalaCG',
+      artwork: [
+        {
+          src: new URL('/poster.jpg', location.origin).href,
+          sizes: '512x512',
+          type: 'image/jpeg'
+        }
+      ]
+    })
+  }, [])
+
   return (
     <div class='relative h-full w-full desktop:tv:lg:rounded-xl overflow-hidden bg-black'>
       <video
