@@ -42,9 +42,9 @@ export function MobileControls () {
         
         {/* Playback */}
         <div class='absolute left-1/2 top-1/2 -translate-1/2 flex items-center justify-center gap-4'>
-          <Button class='static size-12' icon={() => <IconNext />} iconClass='size-8 rotate-180' />
+          <Button class='static size-12' icon={IconNext} iconClass='size-8 rotate-180' />
           <Button class='static size-14' icon={() => <IconPlayState isPlaying={isPlaying} />} iconClass='size-12' onClick={togglePlayState} />
-          <Button class='static size-12' icon={() => <IconNext />} iconClass='size-8' />
+          <Button class='static size-12' icon={IconNext} iconClass='size-8' />
         </div>
 
         {/* Time */}
