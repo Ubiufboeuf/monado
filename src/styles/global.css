@@ -123,3 +123,10 @@ p {
 ::view-transition-new(root) {
   animation: none; 
 }
+
+.backdrop {
+  opacity: calc(0.7 * (1 - var(--drawer-swipe-progress)));
+  transition-duration: 450ms;
+  transition-property: opacity;
+  transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
+}
