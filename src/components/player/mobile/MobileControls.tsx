@@ -8,6 +8,8 @@ import { useDoubleTap } from '@/hooks/useDoubleTap'
 import { DEFAULT_DOUBLE_TAP_DELAY } from '@/constants/player'
 import { formatTime } from '@/lib/formatters'
 import { CastButton } from '../Cast'
+import { QualityDrawer } from './QualityDrawer'
+import { useState } from 'preact/hooks'
 
 export function MobileControls () {
   const isPlaying = usePlayerStore((state) => state.isPlaying)
@@ -20,8 +22,12 @@ export function MobileControls () {
 
   const handleLeftTap = useDoubleTap(() => { showControlsAndScheduleHide(); backwardTime() }, toggleControlsVisibility, DEFAULT_DOUBLE_TAP_DELAY)
   const handleRightTap = useDoubleTap(() => { showControlsAndScheduleHide(); forwardTime() }, toggleControlsVisibility, DEFAULT_DOUBLE_TAP_DELAY)
+
+  const [isQualityOpen, setIsQualityOpen] = useState(false)
   
-  return (
+  return <>
+    <QualityDrawer isOpen={isQualityOpen} setIsOpen={setIsQualityOpen} />
+  
     <div
       class={`${areControlsVisible ? 'controls' : ''} relative z-1 h-full w-full transition-colors [.controls]:bg-black/50`}
       onClick={toggleControlsVisibility}
@@ -36,7 +42,7 @@ export function MobileControls () {
         {/* Options */}
         <div class='absolute right-2 top-2 flex items-center justify-center gap-1'>
           <CastButton title='Prueba de Monado' poster='/poster.jpg' />
-          <Button class='static size-10' icon={() => <IconResolution resolution={resolution} />} iconClass='size-6' />
+          <Button class='static size-10' icon={() => <IconResolution resolution={resolution} />} iconClass='size-6' onClick={() => setIsQualityOpen((prev) => !prev)} />
           <Button class='static size-10' icon={IconSubtitles} iconClass='size-6' />
           <Button class='static size-10' icon={IconSettings} iconClass='size-6' />
         </div>
@@ -58,5 +64,5 @@ export function MobileControls () {
         <Button class='size-12 right-1.5 bottom-1.5' icon={() => <IconFullScreen inFullScreen={inFullScreen} />} iconClass='size-6' onClick={toggleFullScreen} />
       </div>
     </div>
-  )
+  </>
 }
