@@ -1,4 +1,5 @@
 import type { PlayerLayout } from '@/types/playerTypes'
+import type shaka from 'shaka-player'
 import { create } from 'zustand'
 
 interface PlayerStore {
@@ -22,6 +23,9 @@ interface PlayerStore {
 
   duration: number | undefined
   setDuration: (duration: number | undefined) => void
+
+  player: shaka.Player | undefined
+  setPlayer: (qualities: shaka.Player | undefined) => void
 }
 
 export const usePlayerStore = create<PlayerStore>((set) => ({
@@ -44,5 +48,8 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   setCurrentTime: (currentTime) => set({ currentTime }),
 
   duration: undefined,
-  setDuration: (duration) => set({ duration })
+  setDuration: (duration) => set({ duration }),
+
+  player: undefined,
+  setPlayer: (player) => set({ player })
 }))

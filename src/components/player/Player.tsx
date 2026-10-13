@@ -11,6 +11,7 @@ export function Player () {
   const setElement = usePlayerStore((state) => state.setElement)
   const setDuration = usePlayerStore((state) => state.setDuration)
   const setCurrentTime = usePlayerStore((state) => state.setCurrentTime)
+  const setPlayer = usePlayerStore((state) => state.setPlayer)
 
   useEffect(() => {
     const video = videoRef.current
@@ -26,6 +27,7 @@ export function Player () {
     shaka.polyfill.installAll()
 
     const player = new shaka.Player()
+    setPlayer(player)
 
     async function init () {
       if (!shaka.Player.isBrowserSupported()) {
