@@ -130,3 +130,29 @@ p {
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.32, 0.72, 0, 1);
 }
+
+.popup {
+  --bleed: 3rem;
+  width: 100%;
+  max-height: calc(80vh + var(--bleed));
+  margin-bottom: calc(-1 * var(--bleed));
+  padding-bottom: calc(0.5rem + env(safe-area-inset-bottom, 0px) + var(--bleed));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  transition: transform 450ms cubic-bezier(0.32, 0.72, 0, 1);
+  will-change: transform;
+  transform: translateY(var(--drawer-swipe-movement-y));
+
+  @media (prefers-color-scheme: dark) {
+    box-shadow: none;
+  }
+
+  &[data-starting-style],
+  &[data-ending-style] {
+    transform: translateY(calc(100% - var(--bleed) + 2px));
+  }
+
+  &[data-ending-style] {
+    transition-duration: calc(var(--drawer-swipe-strength) * 400ms);
+  }
+}

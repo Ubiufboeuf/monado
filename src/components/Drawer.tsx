@@ -22,7 +22,7 @@ export function BaseDrawer ({ isOpen, setIsOpen, trigger, triggerClass, title, t
       <Drawer.Portal>
         <Drawer.Backdrop class='z-100 fixed inset-0 min-h-dvh w-full bg-black backdrop' />
         <Drawer.Viewport class='z-100 fixed inset-0 w-full flex items-end justify-center'>
-          <Drawer.Popup class='w-full max-h-[80dvh] h-fit flex flex-col items-center justify-end gap-4 pt-4 rounded-t-xl bg-neutral-900'>
+          <Drawer.Popup class='w-full max-h-[80dvh] h-fit flex flex-col items-center justify-end gap-4 pt-4 rounded-t-xl bg-neutral-900 outline-0 popup'>
             <div class='w-2/10 h-1 bg-neutral-700' />
             <Drawer.Content class='w-full h-full'>
               { title && <Drawer.Title class={`${titleClass} w-full h-fit text-center font-bold text-lg`}>{title}</Drawer.Title> }
