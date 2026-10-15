@@ -2,7 +2,7 @@ import { getManifest } from '@/lib/api'
 import { useEffect, useRef } from 'preact/hooks'
 import shaka from 'shaka-player/dist/shaka-player.compiled.js'
 import { Keybinds } from '../Keybinds'
-import { toggleCinemaMode, toggleFullScreen, togglePlayState } from '@/lib/player/playerActions'
+import { backwardSeconds, backwardTime, forwardSeconds, forwardTime, toggleCinemaMode, toggleFullScreen, togglePlayState } from '@/lib/player/playerActions'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { Controls } from './Controls'
 
@@ -73,6 +73,11 @@ export function Player () {
       <Keybinds keys='t' onBind={toggleCinemaMode} hidden />
       <Keybinds keys='space' onBind={togglePlayState} hidden />
       <Keybinds keys='f' onBind={toggleFullScreen} hidden />
+      <Keybinds keys='j' onBind={backwardSeconds(10)} hidden />
+      <Keybinds keys='k' onBind={togglePlayState} hidden />
+      <Keybinds keys='l' onBind={forwardSeconds(10)} hidden />
+      <Keybinds keys='arrowleft' onBind={backwardTime} hidden />
+      <Keybinds keys='arrowright' onBind={forwardTime} hidden />
     </div>
   )
 }
