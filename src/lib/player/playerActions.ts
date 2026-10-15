@@ -52,6 +52,20 @@ export function forwardTime () {
   element.currentTime += 5
 }
 
+export const backwardSeconds = (time = 5) => () => {
+  const { element } = usePlayerStore.getState()
+  if (!element) return
+
+  element.currentTime -= time
+}
+
+export const forwardSeconds = (time = 5) => () => {
+  const { element } = usePlayerStore.getState()
+  if (!element) return
+
+  element.currentTime += time
+}
+
 export function showControls () {
   const { setAreControlsVisible } = usePlayerStore.getState()
   setAreControlsVisible(true)
@@ -77,4 +91,10 @@ export function toggleControlsVisibility () {
   }
 
   showControlsAndScheduleHide()
+}
+
+export function togglePictureInPicture () {
+  const { element } = usePlayerStore.getState()
+  if (document.pictureInPictureElement) document.exitPictureInPicture()
+  else element?.requestPictureInPicture()
 }
