@@ -29,7 +29,7 @@ export function Button ({ class: className = '', icon: ButtonIcon, iconClass = '
   
   return (
     <button
-      class={`${className} absolute flex items-center justify-center rounded-full outline-0 transition-colors shr:bg-neutral-400/30 focus-visible:border-2 focus-visible:border-blue-500`}
+      class={`${className} absolute flex items-center justify-center rounded-full outline-0 cursor-pointer transition-colors shr:bg-neutral-400/30 border-2 border-transparent focus-visible:border-blue-500`}
       onClick={handleClick}
     >
       { ButtonIcon && <Icon class={iconClass}><ButtonIcon /></Icon> }
