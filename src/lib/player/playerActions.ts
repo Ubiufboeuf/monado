@@ -98,3 +98,10 @@ export function togglePictureInPicture () {
   if (document.pictureInPictureElement) document.exitPictureInPicture()
   else element?.requestPictureInPicture()
 }
+
+export const moveToVideoFraction = (fraction: number) => () => {
+  const { element } = usePlayerStore.getState()
+  if (!element) return
+  const part = element.duration / 10 * fraction
+  element.currentTime = part
+}

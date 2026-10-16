@@ -2,7 +2,7 @@ import { getManifest } from '@/lib/api'
 import { useEffect, useRef } from 'preact/hooks'
 import shaka from 'shaka-player/dist/shaka-player.compiled.js'
 import { Keybinds } from '../Keybinds'
-import { backwardSeconds, backwardTime, forwardSeconds, forwardTime, toggleCinemaMode, toggleFullScreen, togglePlayState } from '@/lib/player/playerActions'
+import { backwardSeconds, backwardTime, forwardSeconds, forwardTime, moveToVideoFraction, toggleCinemaMode, toggleFullScreen, togglePlayState } from '@/lib/player/playerActions'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { Controls } from './Controls'
 
@@ -78,6 +78,17 @@ export function Player () {
       <Keybinds keys='l' onBind={forwardSeconds(10)} hidden />
       <Keybinds keys='arrowleft' onBind={backwardTime} hidden />
       <Keybinds keys='arrowright' onBind={forwardTime} hidden />
+
+      <Keybinds keys='1' onBind={moveToVideoFraction(1)} hidden />
+      <Keybinds keys='2' onBind={moveToVideoFraction(2)} hidden />
+      <Keybinds keys='3' onBind={moveToVideoFraction(3)} hidden />
+      <Keybinds keys='4' onBind={moveToVideoFraction(4)} hidden />
+      <Keybinds keys='5' onBind={moveToVideoFraction(5)} hidden />
+      <Keybinds keys='6' onBind={moveToVideoFraction(6)} hidden />
+      <Keybinds keys='7' onBind={moveToVideoFraction(7)} hidden />
+      <Keybinds keys='8' onBind={moveToVideoFraction(8)} hidden />
+      <Keybinds keys='9' onBind={moveToVideoFraction(9)} hidden />
+      <Keybinds keys='0' onBind={moveToVideoFraction(0)} hidden />
     </div>
   )
 }
