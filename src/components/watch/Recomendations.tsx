@@ -13,7 +13,7 @@ export function Recomendations ({ id }: { id: string }) {
   }
 
   return (
-    <section class='flex flex-col gap-2'>
+    <section class='flex flex-col gap-6 xs:gap-2'>
       { recomendations.map((recomendation) => (
         <VideoCard
           key={`video-card-${recomendation.id}`}
