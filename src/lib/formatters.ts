@@ -10,3 +10,11 @@ export function formatTime (duration: number = 0) {
     secondsDisplay: 'always'
   }).format({ hours, minutes, seconds })
 }
+
+export function formatCompact (value: number = 0) {
+  return new Intl.NumberFormat('en', {
+    notation: 'compact',
+    compactDisplay: 'short',
+    maximumFractionDigits: 1
+  }).format(value)
+}
