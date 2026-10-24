@@ -1,4 +1,5 @@
 import type { PlayerLayout } from '@/types/playerTypes'
+import type { Video } from '@/types/videoTypes'
 import type shaka from 'shaka-player'
 import { create } from 'zustand'
 
@@ -8,6 +9,9 @@ interface PlayerStore {
   
   playerLayout: PlayerLayout
   setPlayerLayout: (playerLayout: PlayerLayout) => void
+
+  metadata: Video | undefined
+  setMetadata: (metadata: Video | undefined) => void
 
   isPlaying: boolean
   setIsPlaying: (isPlaying: boolean) => void
@@ -34,6 +38,9 @@ export const usePlayerStore = create<PlayerStore>((set) => ({
   
   playerLayout: 'tv',
   setPlayerLayout: (playerLayout) => set({ playerLayout }),
+
+  metadata: undefined,
+  setMetadata: (metadata) => set({ metadata }),
 
   isPlaying: false,
   setIsPlaying: (isPlaying) => set({ isPlaying }),
