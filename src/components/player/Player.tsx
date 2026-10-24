@@ -1,17 +1,23 @@
 import { getManifest } from '@/lib/api'
-import { useEffect, useRef } from 'preact/hooks'
+import { useEffect, useRef, useState } from 'preact/hooks'
 import shaka from 'shaka-player/dist/shaka-player.compiled.js'
 import { Keybinds } from '../Keybinds'
 import { backwardSeconds, backwardTime, forwardSeconds, forwardTime, moveToVideoFraction, toggleCinemaMode, toggleFullScreen, togglePlayState } from '@/lib/player/playerActions'
 import { usePlayerStore } from '@/stores/usePlayerStore'
 import { Controls } from './Controls'
+import { useMetadata } from '@/hooks/useMetadata'
 
 export function Player () {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const metadata = usePlayerStore((state) => state.metadata)
   const setElement = usePlayerStore((state) => state.setElement)
   const setDuration = usePlayerStore((state) => state.setDuration)
   const setCurrentTime = usePlayerStore((state) => state.setCurrentTime)
   const setPlayer = usePlayerStore((state) => state.setPlayer)
+
+  const [id, setId] = useState<string>()
+
+  useMetadata(id)
 
   useEffect(() => {
     const video = videoRef.current
@@ -23,6 +29,7 @@ export function Player () {
     const id = url.searchParams.get('v')
 
     if (!id) return
+    setId(id)
 
     shaka.polyfill.installAll()
 
@@ -47,18 +54,24 @@ export function Player () {
   }, [])
 
   useEffect(() => {
+    if (!metadata) return
+
+    const title = metadata.title ?? 'unknown_title'
+    const artist = metadata.creator.name ?? 'unknown_artist'
+    const src = metadata.thumbnail ?? 'unknown_thumbnail'
+
     navigator.mediaSession.metadata = new MediaMetadata({
-      title: 'mercy (jing yuan)',
-      artist: 'HalaCG',
+      title,
+      artist,
       artwork: [
         {
-          src: new URL('/poster.jpg', location.origin).href,
+          src,
           sizes: '512x512',
           type: 'image/jpeg'
         }
       ]
     })
-  }, [])
+  }, [metadata])
 
   return (
     <div class='relative h-full w-full desktop:tv:lg:rounded-xl overflow-hidden bg-black'>
